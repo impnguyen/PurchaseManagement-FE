@@ -1,0 +1,42 @@
+<core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified"
+		controllerName="mpn.PM.controller.split" xmlns:html="http://www.w3.org/1999/xhtml">
+
+	<SplitApp xmlns="sap.m"
+		id="pmSplitApp"
+		busy="false"
+		busyIndicatorDelay="0"
+		visible="true"
+		fieldGroupIds=""
+		defaultTransitionNameDetail="slide"
+		defaultTransitionNameMaster="slide"
+		mode="StretchCompressMode"
+		masterButtonText=""
+		backgroundColor=""
+		backgroundImage=""
+		backgroundRepeat="false"
+		backgroundOpacity="1"
+		homeIcon=""
+		initialDetail=""
+		initialMaster="masterView"
+		validateFieldGroup=""
+		masterNavigate=""
+		afterMasterNavigate=""
+		masterButton=""
+		beforeMasterOpen=""
+		afterMasterOpen=""
+		beforeMasterClose=""
+		afterMasterClose=""
+		detailNavigate=""
+		afterDetailNavigate=""
+		orientationChange="">
+			<tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
+			<dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
+			<masterPages>
+				<mvc:XMLView viewName="mpn.PM.views.menu" id="masterView"/> 	
+			</masterPages> <!-- sap.ui.core.Control -->
+			<detailPages>
+				<mvc:XMLView viewName="mpn.PM.views.shop" id="shopView"/> 
+			</detailPages> <!-- sap.ui.core.Control -->
+	</SplitApp>
+
+</core:View>

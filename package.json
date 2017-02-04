@@ -1,0 +1,30 @@
+{
+  "name": "purchasemanagement",
+  "version": "1.0.0",
+  "description": "a little purchase management tool with ui5",
+  "main": "WebContent/index.html",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-openui5": "^0.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/impnguyen/PurchaseManagement.git"
+  },
+  "keywords": [
+    "management",
+    "purchase",
+    "ui5"
+  ],
+  "author": "Manh Phuoc Nguyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/impnguyen/PurchaseManagement/issues"
+  },
+  "homepage": "https://github.com/impnguyen/PurchaseManagement#readme"
+}

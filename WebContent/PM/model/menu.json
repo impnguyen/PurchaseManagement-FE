@@ -1,0 +1,22 @@
+{
+    "meta": {
+
+    }, 
+    "menuItems": [
+        {
+            "title": "Einkauf pflegen",
+            "description": "Hier kannst du einen Einkauf eintragen", 
+            "viewName": ""
+        }, 
+        {
+            "title": "Übersicht", 
+            "description": "Hier erhälst du eine Übersicht über deine Einkäufe", 
+            "viewName": ""
+        }, 
+        {
+            "title": "Geschäfte pflegen", 
+            "description": "Hier kannst du Geschäfte pflegen", 
+            "viewName": ""
+        }
+    ]
+}

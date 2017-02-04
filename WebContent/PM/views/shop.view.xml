@@ -1,0 +1,41 @@
+<core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified"
+		controllerName="mpn.PM.controller.menu" xmlns:html="http://www.w3.org/1999/xhtml">
+
+	<Page xmlns="sap.m"
+		id="shopPage"
+		busy="false"
+		busyIndicatorDelay="1000"
+		visible="true"
+		fieldGroupIds=""
+		title="Geschäfte pflegen"
+		titleLevel="Auto"
+		showNavButton="false"
+		showHeader="true"
+		showSubHeader="true"
+		navButtonText=""
+		navButtonTooltip=""
+		enableScrolling="true"
+		icon=""
+		backgroundDesign="Standard"
+		navButtonType="Back"
+		showFooter="true"
+		contentOnlyBusy="false"
+		floatingFooter="false"
+		validateFieldGroup=""
+		navButtonTap=""
+		navButtonPress="">
+			<tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
+			<dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
+			<content>
+            
+                
+            
+            </content> <!-- sap.ui.core.Control -->
+			<customHeader></customHeader> <!-- sap.m.IBar -->
+			<footer></footer> <!-- sap.m.IBar -->
+			<subHeader></subHeader> <!-- sap.m.IBar -->
+			<headerContent></headerContent> <!-- sap.ui.core.Control -->
+			<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
+	</Page>
+
+</core:View>
