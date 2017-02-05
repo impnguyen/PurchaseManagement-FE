@@ -11,7 +11,7 @@ module.exports = function (grunt) {
             dist: 'build'
         },
 
-        clean: ['<%= dir.dist %>', '<%= dir.src %>/<%= dir.bower_components %>/signature_pad/*'],
+        clean: ['<%= dir.dist %>'],
 
         copy: {
             general: {
@@ -74,8 +74,19 @@ module.exports = function (grunt) {
             },
             src: {
                 options: {
-                    appresources: '<%= dir.src %>'
+                    appresources: '<%= dir.src %>'//'<%= dir.dist %>/<%= dir.src %>'
                 }
+            }
+        },
+        'ftp-deploy': {
+            build: {
+                auth: {
+                    host: '192.168.20.20',
+                    port: 21,
+                },
+                src: '<%= dir.dist %>',
+                dest: './pm',
+                exclusions: []
             }
         }
 
@@ -84,12 +95,17 @@ module.exports = function (grunt) {
     // tasks.
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-openui5');
-    // grunt.loadNpmTasks('grunt-contrib-copy');
-    // grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-ftp-deploy');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
     // Default task(s).
-    //grunt.registerTask('build', ['clean', 'copy']);
-    grunt.registerTask('libs', ['clean', 'copy:lib'])
-    grunt.registerTask('deploy', ['openui5_connect']);
+    grunt.registerTask('build', ['clean', 'copy:general']);
+    //grunt.registerTask('libs', ['clean', 'copy:lib'])
+    grunt.registerTask('local', ['openui5_connect']);
+    grunt.registerTask('ftp', ['ftp-deploy']);
+
+    grunt.registerTask('dev', ['local']);
+
 
 };

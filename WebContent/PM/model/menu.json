@@ -4,19 +4,22 @@
     }, 
     "menuItems": [
         {
-            "title": "Einkauf pflegen",
+            "title": "Einkauf hinzufügen",
             "description": "Hier kannst du einen Einkauf eintragen", 
-            "viewName": ""
+            "pageId": "purchaseView", 
+            "icon": "sap-icon://cart"
         }, 
         {
-            "title": "Übersicht", 
-            "description": "Hier erhälst du eine Übersicht über deine Einkäufe", 
-            "viewName": ""
+            "title": "Einkaufsübersicht", 
+            "description": "Hier erhälst du eine Übersicht", 
+            "pageId": "overviewView",
+            "icon": "sap-icon://line-chart"
         }, 
         {
-            "title": "Geschäfte pflegen", 
+            "title": "Geschäfte verwalten", 
             "description": "Hier kannst du Geschäfte pflegen", 
-            "viewName": ""
+            "pageId": "shopView",
+            "icon": "sap-icon://addresses"
         }
     ]
 }

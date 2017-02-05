@@ -1,13 +1,13 @@
 <core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified" 
-		controllerName="mpn.PM.controller.shop" xmlns:html="http://www.w3.org/1999/xhtml">
+		controllerName="mpn.PM.controller.overview" xmlns:html="http://www.w3.org/1999/xhtml">
 
 	<Page xmlns="sap.m"
-		id="shopPage"
+		id="overviewPage"
 		busy="false"
 		busyIndicatorDelay="1000"
 		visible="true"
 		fieldGroupIds=""
-		title="Geschäfte verwalten"
+		title="Übersicht"
 		titleLevel="Auto"
 		showNavButton="{device>/system/phone}"
 		showHeader="true"
@@ -27,7 +27,7 @@
 			<content>
         
 				<List xmlns="sap.m"
-					id="shopList"
+					id="overviewList"
 					busy="false"
 					busyIndicatorDelay="1000"
 					visible="true"
@@ -95,26 +95,32 @@
 							<Column
 								minScreenWidth="Phone"
 								demandPopin="true" hAlign="Right">
-								<Text text="Name" />
+								<Text text="Geschäft" />
 							</Column>
 							<Column
 								minScreenWidth="Phone"
 								demandPopin="true"
 								hAlign="Right">
-								<Text text="Stadt" />
+								<Text text="Datum" />
 							</Column>
 							<Column
 								minScreenWidth="Phone"
 								demandPopin="true"
 								hAlign="Right">
-								<Text text="Besuche" />
+								<Text text="Zahler" />
+							</Column>
+							<Column
+								minScreenWidth="Phone"
+								demandPopin="true"
+								hAlign="Right">
+								<Text text="Wert" />
 							</Column>
 					</columns>
 				</List>
 
             </content>
 			<dependents>
-				<core:Fragment fragmentName="mpn.PM.fragments.addShop" type="XML"/>
+				<core:Fragment fragmentName="mpn.PM.fragments.calendar" type="XML"/>
 			</dependents>
 			<customHeader></customHeader> <!-- sap.m.IBar -->
 			<footer>
@@ -128,20 +134,18 @@
 						design="Auto"
 						press="">
 							<content>
+								<Label xmlns="sap.m" id="userMani" text="Mani: 45 €" />
 								<ToolbarSpacer xmlns="sap.m"></ToolbarSpacer>
-								<Button xmlns="sap.m"
-									text="hinzufügen"
-									type="Default"
-									width=""
-									enabled="true"
-									icon=""
-									press="onAddLocation">
-								</Button>
+								<Label xmlns="sap.m" id="userNici" text="Nicole: 30 €" />
 							</content>
 					</OverflowToolbar>
 			</footer> <!-- sap.m.IBar -->
 			<subHeader></subHeader> <!-- sap.m.IBar -->
-			<headerContent></headerContent> <!-- sap.ui.core.Control -->
+			<headerContent>
+				<Button
+					icon="sap-icon://calendar"
+					press="onCal" />
+			</headerContent> <!-- sap.ui.core.Control -->
 			<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
 	</Page>
 

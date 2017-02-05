@@ -12,6 +12,19 @@ sap.ui.define([
     },
 
     onAfterRendering: function () {
+
+    }, 
+
+    /**
+     * menu press
+     */
+    onMenuPress: function(oEvent){
+      var sPath = oEvent.oSource.oBindingContexts.menu.sPath;
+      var oMenuModel = this.getView().getModel("menu");
+      var sPageId = oMenuModel.getProperty(sPath).pageId;
+
+      this.getView().oParent.oParent.toDetail(sPageId);
+      this.getView().oParent.oParent.hideMaster();
     }
 
   });
