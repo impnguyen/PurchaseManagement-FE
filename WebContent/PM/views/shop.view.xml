@@ -93,6 +93,12 @@
 								<Text text="Besuche" />
 							</Column>
 					</columns>
+					<swipeContent>
+						<Button
+							text="Löschen"
+							type="Reject"
+							press="onDeleteShop" />
+					</swipeContent> 
 				</List>
 
             </content>
@@ -124,7 +130,9 @@
 					</OverflowToolbar>
 			</footer> <!-- sap.m.IBar -->
 			<subHeader></subHeader> <!-- sap.m.IBar -->
-			<headerContent></headerContent> <!-- sap.ui.core.Control -->
+			<headerContent>
+				<Button icon="sap-icon://refresh" press="onRefreshGeschaefte" />
+			</headerContent>
 			<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
 	</Page>
 

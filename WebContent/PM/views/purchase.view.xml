@@ -58,8 +58,8 @@
 					validateFieldGroup="">
 						<form:content>
 							<Label xmlns="sap.m" text="Geschäft" />
-							<ComboBox xmlns="sap.m" required="true">
-								<!--<core:Item key="{ProductId}" text="{Name}" />-->
+							<ComboBox xmlns="sap.m" required="true" items="{Geschaefte>/results}" id="geschaefteCb">
+								<core:Item key="{Geschaefte>ges_id}" text="({Geschaefte>ges_besuche}) {Geschaefte>ges_name}" />
 							</ComboBox>
 
 							<Label xmlns="sap.m" text="Datum" />

@@ -37,6 +37,7 @@ sap.ui.define([
         "ges_stadt": this.getView().byId("cityNameInput").getValue(),
         "ges_besuche": 0
       };
+      this.getView().setBusy(true);
 
       $.ajax({
         dataType: "json",
@@ -47,7 +48,7 @@ sap.ui.define([
       })
         .done(function (data, textStatus, jqXHR) {
           oThat.getView().getModel("Geschaefte").oData.results.push(data.result);
-          oThat.getView().getModel("Geschaefte").refresh(true);
+          oThat.getView().getModel("Geschaefte").refresh();
           MessageToast.show("Das Geschäft wurde erfolgreich angelegt.");
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
@@ -55,7 +56,46 @@ sap.ui.define([
         })
         .always(function () {
           oThat.getView().byId("addShopDialog").close();
+          oThat.getView().setBusy(false);
         });
+    },
+
+    /**
+     * delete selected shop
+     */
+    onDeleteShop: function (oEvent) {
+      var oList = oEvent.getSource().getParent();
+      var oSwipedItem = oList.getSwipedItem();
+      var sId = this.getView().getModel("Geschaefte").getProperty(oList.getSwipedItem().oBindingContexts.Geschaefte.sPath).ges_id;
+      var oThat = this;
+      this.getView().setBusy(true);
+
+      $.ajax({
+        method: "DELETE",
+        url: "http://192.168.20.20:3000/GeschaeftEntity/" + sId
+      })
+        .done(function (data, textStatus, jqXHR) {
+          oList.removeAggregation("items", oList.getSwipedItem());
+          oList.swipeOut();
+          oThat.getView().getModel("Geschaefte").refresh();
+
+          MessageToast.show("Das Geschäft wurde erfolgreich gelöscht.");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+          MessageToast.show("Fehler. Probiere es später aus.");
+        })
+        .always(function () {
+          oThat.getView().byId("addShopDialog").close();
+          oThat.getView().setBusy(false);
+        });
+
+    },
+
+    /**
+     * refresh geschaeft
+     */
+    onRefreshGeschaefte: function(){
+      this.getGeschaeftEntitySet();
     },
 
     onCancelShop: function (oEvent) {
@@ -67,6 +107,7 @@ sap.ui.define([
     },
 
     getGeschaeftEntitySet: function (callback) {
+      this.getView().setBusy(true);
       var oThat = this;
 
       $.ajax("http://192.168.20.20:3000/GeschaeftEntitySet")
@@ -76,7 +117,10 @@ sap.ui.define([
           oThat.getView().setModel(oModel, "Geschaefte");
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-          debugger
+          MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
+        })
+        .always(function(){
+          oThat.getView().setBusy(false);
         });
 
     }
