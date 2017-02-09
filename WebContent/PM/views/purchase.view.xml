@@ -88,8 +88,8 @@
 								</DatePicker>
 
 								<Label xmlns="sap.m" text="Zahler" />
-								<ComboBox xmlns="sap.m" required="true">
-									<!--<core:Item key="{ProductId}" text="{Name}" />-->
+								<ComboBox xmlns="sap.m" required="true" items="{Zahler>/results}" id="zahlerCb">
+									<core:Item key="{Zahler>zah_id}" text="{Zahler>zah_alias}" />
 								</ComboBox>
 
 								<Label xmlns="sap.m" text="Einkaufswert" />

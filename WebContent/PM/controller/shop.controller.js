@@ -49,6 +49,10 @@ sap.ui.define([
         .done(function (data, textStatus, jqXHR) {
           oThat.getView().getModel("Geschaefte").oData.results.push(data.result);
           oThat.getView().getModel("Geschaefte").refresh();
+
+          oThat.getView().byId("storeNameInput").setValue();
+          oThat.getView().byId("cityNameInput").setValue();
+
           MessageToast.show("Das Geschäft wurde erfolgreich angelegt.");
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
@@ -94,7 +98,7 @@ sap.ui.define([
     /**
      * refresh geschaeft
      */
-    onRefreshGeschaefte: function(){
+    onRefreshGeschaefte: function () {
       this.getGeschaeftEntitySet();
     },
 
@@ -119,7 +123,7 @@ sap.ui.define([
         .fail(function (jqXHR, textStatus, errorThrown) {
           MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
         })
-        .always(function(){
+        .always(function () {
           oThat.getView().setBusy(false);
         });
 
