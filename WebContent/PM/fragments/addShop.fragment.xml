@@ -39,10 +39,10 @@
                 validateFieldGroup="">
                     <form:content>
                         <Label xmlns="sap.m" text="Geschäft" />
-                        <Input xmlns="sap.m" ></Input>
+                        <Input xmlns="sap.m" id="storeNameInput"></Input>
 
                         <Label xmlns="sap.m" text="Stadt" />
-                        <Input xmlns="sap.m" ></Input>
+                        <Input xmlns="sap.m" id="cityNameInput"></Input>
                     </form:content>
             </form:SimpleForm>
                 <buttons> <!-- sap.m.Button, since 1.21.1 -->
