@@ -92,8 +92,8 @@
 									<core:Item key="{Zahler>zah_id}" text="{Zahler>zah_alias}" />
 								</ComboBox>
 
-								<Label xmlns="sap.m" text="Einkaufswert" />
-								<Input xmlns="sap.m" required="true" type="Number"></Input>
+								<Label xmlns="sap.m" text="Einkaufswert"  />
+								<Input xmlns="sap.m" required="true" type="Number" id="purchaseValInput"></Input>
 
 							<Label xmlns="sap.m" text="" />
 							<Button xmlns="sap.m"

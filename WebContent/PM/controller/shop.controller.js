@@ -47,8 +47,8 @@ sap.ui.define([
         data: JSON.stringify(oRequestBody)
       })
         .done(function (data, textStatus, jqXHR) {
-          oThat.getView().getModel("Geschaefte").oData.results.push(data.result);
-          oThat.getView().getModel("Geschaefte").refresh();
+          //oThat.getView().getModel("Geschaefte").oData.results.push(data.result);
+          oThat.onRefreshGeschaefte();
 
           oThat.getView().byId("storeNameInput").setValue();
           oThat.getView().byId("cityNameInput").setValue();
@@ -79,9 +79,9 @@ sap.ui.define([
         url: "http://192.168.20.20:3000/GeschaeftEntity/" + sId
       })
         .done(function (data, textStatus, jqXHR) {
-          oList.removeAggregation("items", oList.getSwipedItem());
-          oList.swipeOut();
-          oThat.getView().getModel("Geschaefte").refresh();
+          // oList.removeAggregation("items", oList.getSwipedItem());
+          // oList.swipeOut();
+          oThat.onRefreshGeschaefte();
 
           MessageToast.show("Das Geschäft wurde erfolgreich gelöscht.");
         })
@@ -99,6 +99,7 @@ sap.ui.define([
      * refresh geschaeft
      */
     onRefreshGeschaefte: function () {
+      this.getView().getModel("Geschaefte").refresh(true, true);
       this.getGeschaeftEntitySet();
     },
 

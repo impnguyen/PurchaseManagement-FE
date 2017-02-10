@@ -70,6 +70,52 @@ sap.ui.define([
           oThat.getView().setBusy(false);
         });
 
+    },
+
+    /**
+     * add purchase
+     */
+    onAddLocation: function () {
+
+      if (this.getView().byId("purchaseDate").mProperties.dateValue === null ||
+        this.getView().byId("geschaefteCb").getSelectedKey() === "" ||
+        this.getView().byId("zahlerCb").getSelectedKey() === "" ||
+        this.getView().byId("purchaseValInput").getValue() === "") {
+
+        MessageToast.show("Bitte alle Felder ausfüllen!");
+      } else {
+        var oRequestBody = {
+          "eink_id": 0,
+          "eink_datum": new Date(this.getView().byId("purchaseDate").mProperties.dateValue.setDate(this.getView().byId("purchaseDate").mProperties.dateValue.getDate() + 1)).toISOString(),
+          "eink_wert": parseInt(this.getView().byId("purchaseValInput").getValue()),
+          "ges_id": parseInt(this.getView().byId("geschaefteCb").getSelectedKey()),
+          "zah_id": parseInt(this.getView().byId("zahlerCb").getSelectedKey())
+        }
+        this.getView().setBusy(true);
+        var oThat = this;
+
+        $.ajax({
+          dataType: "json",
+          contentType: "application/json",
+          method: "POST",
+          url: "http://192.168.20.20:3000/EinkaufEntity",
+          data: JSON.stringify(oRequestBody)
+        })
+          .done(function (data, textStatus, jqXHR) {
+            MessageToast.show("Erfolgreich angelegt");
+          })
+          .fail(function (jqXHR, textStatus, errorThrown) {
+            MessageToast.show("Fehler. Probiere es später aus.");
+          })
+          .always(function () {
+            //reset input fields
+            oThat.getView().byId("purchaseDate").setValue();
+            oThat.getView().byId("purchaseValInput").setValue();
+            oThat.getView().setBusy(false);
+          });
+      }
+
+
     }
 
   });
