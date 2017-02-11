@@ -68,7 +68,7 @@
 						<items>
 							<ColumnListItem>
 								<cells>
-									<Text text="{Einkaeufe>ges_id}" />
+									<Text text="{Einkaeufe>ges_name}" />
 									<Text text="{
 													path: 'Einkaeufe>eink_datum',
 													formatter: '.formatter.overviewPurchaseDateFormatter'

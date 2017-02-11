@@ -163,40 +163,101 @@ sap.ui.define([
      */
     setUpTableModelByDate: function (dSelMonth) {
       var oEinkaeufe = this.getView().getModel("raw").oData.einkauf;
-      var oZahler    = this.getView().getModel("raw").oData.zahler;
+      var oZahler = this.getView().getModel("raw").oData.zahler;
+      var oGeschaeft = this.getView().getModel("raw").oData.geschaeft;
       var oModel = new JSONModel();
       var oTmpModel = { results: [] };
       var dStartDate = this.getView().byId("overviewCalendar").getStartDate();
-      var dEndDate   = this.getLastDayOfMonth(dStartDate.getFullYear(), dStartDate.getMonth() + 1);
+      var dEndDate = this.getLastDayOfMonth(dStartDate.getFullYear(), dStartDate.getMonth() + 1);
 
-      console.log(this.getView().getModel("raw").oData);
-      
+      //set title
+      this.setPageTitle(dStartDate.getMonth());
+
       //build temp einkaeufe model
       for (var i = 0; i < oEinkaeufe.length; i++) {
-        if(new Date(oEinkaeufe[i].eink_datum) >= dStartDate && new Date(oEinkaeufe[i].eink_datum) <= dEndDate){
+        if (new Date(oEinkaeufe[i].eink_datum) >= dStartDate && new Date(oEinkaeufe[i].eink_datum) <= dEndDate) {
           oTmpModel.results.push(oEinkaeufe[i]);
         }
       }
 
-      //set zahler to temp einkaeufe model
-      for(var i = 0; i < oTmpModel.results.length; i++ ){
-        for(var j = 0; j <oZahler.length; j++){
-          if (oTmpModel.results[i].zah_id === oZahler[j].zah_id){
-            //add zah_alias to oTmpModel
+      //add zahler and geschaeft  to temp einkaeufe model
+      for (var i = 0; i < oTmpModel.results.length; i++) {
+        //add zah_alias to oTmpModel
+        for (var j = 0; j < oZahler.length; j++) {
+          if (oTmpModel.results[i].zah_id === oZahler[j].zah_id) {
             oTmpModel.results[i].zah_alias = oZahler[j].zah_alias;
+          }
+        }
+
+        //add ges_name to oTmpModel
+        for (var k = 0; k < oGeschaeft.length; k++) {
+          if (oTmpModel.results[i].ges_id === oGeschaeft[k].ges_id) {
+            oTmpModel.results[i].ges_name = oGeschaeft[k].ges_name;
           }
         }
       }
 
       oModel.setData(oTmpModel),
       this.getView().setModel(oModel, "Einkaeufe");
+
+      //set footer summary
+      this.setPageFooter();
     },
 
     /**
      * get last date of month
      */
-     getLastDayOfMonth: function(Year, Month) {
+    getLastDayOfMonth: function (Year, Month) {
       return new Date((new Date(Year, Month, 1)) - 1);
+    },
+
+    /**
+     * set view title
+     */
+    setPageTitle: function (iMonth) {
+      var month = new Array();
+      month[0] = "Januar";
+      month[1] = "Februar";
+      month[2] = "März";
+      month[3] = "April";
+      month[4] = "Mai";
+      month[5] = "Juni";
+      month[6] = "Juli";
+      month[7] = "August";
+      month[8] = "September";
+      month[9] = "Oktober";
+      month[10] = "November";
+      month[11] = "Dezember";
+      var sMonth = month[iMonth];
+
+      this.getView().byId("overviewPage").setTitle("Einkäufe: " + sMonth);
+    }, 
+
+    /**
+     * set view footer with summary
+     */
+    setPageFooter: function(){
+      var oEinkaeufe = this.getView().getModel("Einkaeufe").oData.results;
+      var oZahlerExt =  jQuery.extend(true, [], this.getView().getModel("raw").oData.zahler); 
+      var oZah1Count = 0.0;
+      var oZah2Count = 0.0;
+
+      for(var i = 0; i < oEinkaeufe.length; i++){
+        for(var j = 0; j < this.getView().getModel("raw").oData.zahler.length; j++){
+          if(oEinkaeufe[i].zah_id === this.getView().getModel("raw").oData.zahler[j].zah_id){
+            //ext zahler model with count
+            for(var k = 0; k < oZahlerExt.length; k++){
+              if (oZahlerExt[k].zah_id === oEinkaeufe[i].zah_id){
+                oZahlerExt[k].zah_count = 0;
+                oZahlerExt[k].zah_count = parseFloat(oZahlerExt[k].zah_count) + parseFloat(oEinkaeufe[i].eink_wert);
+              }
+            }
+          }
+        }
+      }
+
+      this.getView().byId("userMani").setText("Mani: "+oZahlerExt[0].zah_count);
+      this.getView().byId("userNici").setText("Nici: "+oZahlerExt[1].zah_count);
     }
 
   });
