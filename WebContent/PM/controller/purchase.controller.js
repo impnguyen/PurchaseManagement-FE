@@ -16,8 +16,15 @@ sap.ui.define([
 
       //set geschaefte
       this.getGeschaeftEntitySet();
+      
       //set zahler
       this.getZahlerEntitySet();
+
+      //globals
+      var oGlobal = {
+        newEink_id: 0
+      };
+      this.getView().setModel(oGlobal, 'PurchaseTemp');
     },
 
     onAfterRendering: function () {
@@ -53,7 +60,7 @@ sap.ui.define([
     /**
      * get zahler entity setModel
      */
-    getZahlerEntitySet: function (callback) {
+    getZahlerEntitySet: function () {
       this.getView().setBusy(true);
       var oThat = this;
 
@@ -102,7 +109,8 @@ sap.ui.define([
           data: JSON.stringify(oRequestBody)
         })
           .done(function (data, textStatus, jqXHR) {
-            MessageToast.show("Erfolgreich angelegt");
+            oThat.getView().getModel("PurchaseTemp").newEink_id = data.result.eink_id;
+            oThat.getView().byId("successMs").setVisible(true);
           })
           .fail(function (jqXHR, textStatus, errorThrown) {
             MessageToast.show("Fehler. Probiere es später aus.");
@@ -114,8 +122,29 @@ sap.ui.define([
             oThat.getView().setBusy(false);
           });
       }
+    },
 
+    /**
+     * on delete new purchase
+     */
+    onDeleteNewPurchase: function () {
+      var oThat = this;
+      this.getView().setBusy(true);
 
+      $.ajax({
+        method: "DELETE",
+        url: "http://192.168.20.20:3000/EinkaufEntity/" + this.getView().getModel("PurchaseTemp").newEink_id
+      })
+        .done(function (data, textStatus, jqXHR) {
+          oThat.getView().byId("successMs").setVisible(false);
+          MessageToast.show("Der Einkauf wurde wieder gelöscht.");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+          MessageToast.show("Fehler. Probiere es später aus.");
+        })
+        .always(function () {
+          oThat.getView().setBusy(false);
+        });
     }
 
   });

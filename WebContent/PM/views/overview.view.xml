@@ -63,31 +63,18 @@
 					growingFinished=""
 					updateStarted=""
 					updateFinished=""
-					itemPress="">
+					itemPress=""
+					items="{Einkaeufe>/results}">
 						<items>
 							<ColumnListItem>
 								<cells>
-									<ObjectIdentifier
-										title="{Name}"
-										text="{ProductId}"/>
-									<Text
-										text="{SupplierName}" />
-									<Text
-										text="{Width} x {Depth} x {Height} {DimUnit}" />
-									<ObjectNumber
-										number="{WeightMeasure}"
-										unit="{WeightUnit}"
-										state="{
-											path: 'WeightMeasure',
-											formatter: 'sap.m.sample.Table.Formatter.weightState'
-										}" />
-									<ObjectNumber
-											number="{
-												parts:[{path:'Price'},{path:'CurrencyCode'}],
-												type: 'sap.ui.model.type.Currency',
-												formatOptions: {showMeasure: false}
-											}"
-											unit="{CurrencyCode}" />
+									<Text text="{Einkaeufe>ges_id}" />
+									<Text text="{
+													path: 'Einkaeufe>eink_datum',
+													formatter: '.formatter.overviewPurchaseDateFormatter'
+												}" />
+									<Text text="{Einkaeufe>zah_alias}" />
+									<Text text="{Einkaeufe>eink_wert}" />
 								</cells>
 							</ColumnListItem>
 						</items>

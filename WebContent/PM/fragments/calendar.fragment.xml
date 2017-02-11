@@ -33,7 +33,7 @@
                 <tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
                 <dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
                 <content>
-                    <u:Calendar id="calendar" select="handleCalendarSelect" />
+                    <u:Calendar id="overviewCalendar" select="onChangeCal" />
                 </content> <!-- sap.ui.core.Control -->
                 <customHeader></customHeader> <!-- sap.ui.core.Control -->
                 <subHeader></subHeader> <!-- sap.ui.core.Control, since 1.15.1 -->

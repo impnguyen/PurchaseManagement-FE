@@ -25,6 +25,20 @@
 		navButtonTap=""
 		navButtonPress="onNavBack">
 			<content>
+				<MessageStrip
+					id="successMs"
+					text="Der Einkauf wurde erfolgreich angelegt."
+					visible="false"
+					type="Success"
+					showIcon="true"
+					showCloseButton="true"
+					class="sapUiMediumMarginBottom">
+					<link>
+						<Link
+							text="Rückgängig machen"
+							press="onDeleteNewPurchase" />
+						</link>
+				</MessageStrip>
  				<form:SimpleForm xmlns="sap.ui.layout"
 					id="purchaseSf"
 					busy="false"
