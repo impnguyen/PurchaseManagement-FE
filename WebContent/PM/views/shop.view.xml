@@ -64,7 +64,11 @@
 					updateStarted=""
 					updateFinished=""
 					itemPress=""
-					items="{Geschaefte>/results}">
+					items="{path : 'Geschaefte>/results',
+							sorter : {
+								path : 'ges_besuche',
+								descending: true
+							}}">
 						<items>
 							<ColumnListItem>
 								<cells>

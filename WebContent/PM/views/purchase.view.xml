@@ -72,7 +72,12 @@
 					validateFieldGroup="">
 						<form:content>
 							<Label xmlns="sap.m" text="Geschäft" />
-							<ComboBox xmlns="sap.m" required="true" items="{Geschaefte>/results}" id="geschaefteCb">
+							<ComboBox xmlns="sap.m" required="true" items="{
+																			path : 'Geschaefte>/results',
+																			sorter : {
+																				path : 'ges_besuche',
+																				descending: true
+																			}}" id="geschaefteCb">
 								<core:Item key="{Geschaefte>ges_id}" text="({Geschaefte>ges_besuche}) {Geschaefte>ges_name}" />
 							</ComboBox>
 
@@ -116,7 +121,7 @@
 									width=""
 									enabled="true"
 									icon=""
-									press="onAddLocation">
+									press="onAddPurchase">
 								</Button>
 						</form:content>
 				</form:SimpleForm>

@@ -16,7 +16,7 @@ sap.ui.define([
 
       //set geschaefte
       this.getGeschaeftEntitySet();
-      
+
       //set zahler
       this.getZahlerEntitySet();
 
@@ -82,7 +82,7 @@ sap.ui.define([
     /**
      * add purchase
      */
-    onAddLocation: function () {
+    onAddPurchase: function () {
 
       if (this.getView().byId("purchaseDate").mProperties.dateValue === null ||
         this.getView().byId("geschaefteCb").getSelectedKey() === "" ||
@@ -94,7 +94,7 @@ sap.ui.define([
         var oRequestBody = {
           "eink_id": 0,
           "eink_datum": new Date(this.getView().byId("purchaseDate").mProperties.dateValue.setDate(this.getView().byId("purchaseDate").mProperties.dateValue.getDate() + 1)).toISOString(),
-          "eink_wert": parseInt(this.getView().byId("purchaseValInput").getValue()),
+          "eink_wert": parseFloat(this.getView().byId("purchaseValInput").getValue()),
           "ges_id": parseInt(this.getView().byId("geschaefteCb").getSelectedKey()),
           "zah_id": parseInt(this.getView().byId("zahlerCb").getSelectedKey())
         }
@@ -111,6 +111,8 @@ sap.ui.define([
           .done(function (data, textStatus, jqXHR) {
             oThat.getView().getModel("PurchaseTemp").newEink_id = data.result.eink_id;
             oThat.getView().byId("successMs").setVisible(true);
+            //reset geschaefte count
+            oThat.getGeschaeftEntitySet();
           })
           .fail(function (jqXHR, textStatus, errorThrown) {
             MessageToast.show("Fehler. Probiere es später aus.");

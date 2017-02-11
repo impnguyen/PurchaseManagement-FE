@@ -130,9 +130,12 @@
 			<subHeader></subHeader> <!-- sap.m.IBar -->
 			<headerContent>
 				<Button
+					icon="sap-icon://refresh"
+					press="setupOverview" />
+				<Button
 					icon="sap-icon://calendar"
 					press="onCal" />
-			</headerContent> <!-- sap.ui.core.Control -->
+			</headerContent> 
 			<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
 	</Page>
 

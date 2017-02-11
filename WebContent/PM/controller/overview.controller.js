@@ -20,7 +20,7 @@ sap.ui.define([
     },
 
     onAfterRendering: function () {
-
+      this.setupOverview();
     },
 
     onNavBack: function () {
@@ -161,7 +161,7 @@ sap.ui.define([
     /**
      * setup model for table by month
      */
-    setUpTableModelByDate: function (dSelMonth) {
+    setUpTableModelByDate: function () {
       var oEinkaeufe = this.getView().getModel("raw").oData.einkauf;
       var oZahler = this.getView().getModel("raw").oData.zahler;
       var oGeschaeft = this.getView().getModel("raw").oData.geschaeft;
@@ -198,7 +198,7 @@ sap.ui.define([
       }
 
       oModel.setData(oTmpModel),
-      this.getView().setModel(oModel, "Einkaeufe");
+        this.getView().setModel(oModel, "Einkaeufe");
 
       //set footer summary
       this.setPageFooter();
@@ -231,24 +231,28 @@ sap.ui.define([
       var sMonth = month[iMonth];
 
       this.getView().byId("overviewPage").setTitle("Einkäufe: " + sMonth);
-    }, 
+    },
 
     /**
      * set view footer with summary
      */
-    setPageFooter: function(){
+    setPageFooter: function () {
       var oEinkaeufe = this.getView().getModel("Einkaeufe").oData.results;
-      var oZahlerExt =  jQuery.extend(true, [], this.getView().getModel("raw").oData.zahler); 
+      var oZahlerExt = jQuery.extend(true, [], this.getView().getModel("raw").oData.zahler);
       var oZah1Count = 0.0;
       var oZah2Count = 0.0;
 
-      for(var i = 0; i < oEinkaeufe.length; i++){
-        for(var j = 0; j < this.getView().getModel("raw").oData.zahler.length; j++){
-          if(oEinkaeufe[i].zah_id === this.getView().getModel("raw").oData.zahler[j].zah_id){
+      for (var i = 0; i < oEinkaeufe.length; i++) {
+        for (var j = 0; j < this.getView().getModel("raw").oData.zahler.length; j++) {
+          if (oEinkaeufe[i].zah_id === this.getView().getModel("raw").oData.zahler[j].zah_id) {
             //ext zahler model with count
-            for(var k = 0; k < oZahlerExt.length; k++){
-              if (oZahlerExt[k].zah_id === oEinkaeufe[i].zah_id){
-                oZahlerExt[k].zah_count = 0;
+            for (var k = 0; k < oZahlerExt.length; k++) {
+              if (oZahlerExt[k].zah_id === oEinkaeufe[i].zah_id) {
+                
+                if(oZahlerExt[k].zah_count === undefined){
+                  oZahlerExt[k].zah_count = 0;
+                }
+                
                 oZahlerExt[k].zah_count = parseFloat(oZahlerExt[k].zah_count) + parseFloat(oEinkaeufe[i].eink_wert);
               }
             }
@@ -256,8 +260,15 @@ sap.ui.define([
         }
       }
 
-      this.getView().byId("userMani").setText("Mani: "+oZahlerExt[0].zah_count);
-      this.getView().byId("userNici").setText("Nici: "+oZahlerExt[1].zah_count);
+      this.getView().byId("userMani").setText("Mani: " + oZahlerExt[0].zah_count);
+      this.getView().byId("userNici").setText("Nici: " + oZahlerExt[1].zah_count);
+    },
+
+    /**
+     * on change calendar
+     */
+    onChangeCal: function () {
+      this.setUpTableModelByDate();
     }
 
   });
