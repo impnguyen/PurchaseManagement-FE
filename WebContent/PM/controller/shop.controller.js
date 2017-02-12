@@ -81,9 +81,16 @@ sap.ui.define([
         .done(function (data, textStatus, jqXHR) {
           // oList.removeAggregation("items", oList.getSwipedItem());
           // oList.swipeOut();
+
+          if (data === undefined || data.errorMessage === undefined) {
+            MessageToast.show("Das Geschäft wurde erfolgreich gelöscht.");
+          } else {
+            oList.swipeOut();
+            MessageToast.show(data.errorMessage);
+          }
           oThat.onRefreshGeschaefte();
 
-          MessageToast.show("Das Geschäft wurde erfolgreich gelöscht.");
+
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
           MessageToast.show("Fehler. Probiere es später aus.");

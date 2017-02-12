@@ -10,12 +10,20 @@ sap.ui.define([
 
 
     onInit: function () {
+      var oThat = this;
+
+      // on before show
+      this.getView().addDelegate({
+        onBeforeShow: function (oEvent) {
+          //set geschaefte
+          oThat.getGeschaeftEntitySet();
+        }
+      });
+
       // set device model
       var oDeviceModel = new JSONModel(Device);
       this.getView().setModel(oDeviceModel, "device");
 
-      //set geschaefte
-      this.getGeschaeftEntitySet();
 
       //set zahler
       this.getZahlerEntitySet();
