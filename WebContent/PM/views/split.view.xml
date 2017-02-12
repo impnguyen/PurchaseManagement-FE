@@ -12,7 +12,7 @@
 		backgroundImage=""
 		backgroundRepeat="false"
 		backgroundOpacity="1"
-		homeIcon=""
+		homeIcon="../img/pmIcon.jpg"
 		initialDetail="purchaseView"
 		initialMaster="menuListPage"
 		masterNavigate=""
