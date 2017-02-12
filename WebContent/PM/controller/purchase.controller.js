@@ -24,7 +24,6 @@ sap.ui.define([
       var oDeviceModel = new JSONModel(Device);
       this.getView().setModel(oDeviceModel, "device");
 
-
       //set zahler
       this.getZahlerEntitySet();
 
