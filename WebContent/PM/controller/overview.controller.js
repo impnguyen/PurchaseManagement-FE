@@ -3,8 +3,9 @@ sap.ui.define([
   "sap/m/MessageToast",
   "sap/ui/Device",
   "sap/ui/model/json/JSONModel",
-  "mpn/PM/js/formatter"
-], function (Controller, MessageToast, Device, JSONModel, formatter) {
+  "mpn/PM/js/formatter",
+  'sap/ui/unified/DateTypeRange'
+], function (Controller, MessageToast, Device, JSONModel, formatter, DateTypeRange) {
   "use strict";
 
   return Controller.extend("mpn.PM.controller.overview", {
@@ -197,8 +198,11 @@ sap.ui.define([
         }
       }
 
-      oModel.setData(oTmpModel),
-        this.getView().setModel(oModel, "Einkaeufe");
+      oModel.setData(oTmpModel);
+      this.getView().setModel(oModel, "Einkaeufe");
+
+      //setup calendar
+      this.setupCalendarSpecialDates();
 
       //set footer summary
       this.setPageFooter();
@@ -248,11 +252,11 @@ sap.ui.define([
             //ext zahler model with count
             for (var k = 0; k < oZahlerExt.length; k++) {
               if (oZahlerExt[k].zah_id === oEinkaeufe[i].zah_id) {
-                
-                if(oZahlerExt[k].zah_count === undefined){
+
+                if (oZahlerExt[k].zah_count === undefined) {
                   oZahlerExt[k].zah_count = 0;
                 }
-                
+
                 oZahlerExt[k].zah_count = parseFloat(oZahlerExt[k].zah_count) + parseFloat(oEinkaeufe[i].eink_wert);
               }
             }
@@ -269,6 +273,26 @@ sap.ui.define([
      */
     onChangeCal: function () {
       this.setUpTableModelByDate();
+      this.getView().byId("calendarPopover").close();
+    },
+
+    /**
+     * set special dates
+     */
+    setupCalendarSpecialDates: function () {
+
+      var oEinkaeufe = this.getView().getModel("raw").oData.einkauf;
+      var oCal = this.getView().byId("overviewCalendar");
+      oCal.destroySpecialDates();
+
+      for (var i = 0; i < oEinkaeufe.length; i++) {
+        //add special date to cal
+        oCal.addSpecialDate(new DateTypeRange({
+          startDate: new Date(oEinkaeufe[i].eink_datum),
+          type: 'Type10'
+        }));
+      }
+
     }
 
   });

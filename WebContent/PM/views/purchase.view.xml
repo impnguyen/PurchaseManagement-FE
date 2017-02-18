@@ -78,7 +78,7 @@
 																				path : 'ges_besuche',
 																				descending: true
 																			}}" id="geschaefteCb">
-								<core:Item key="{Geschaefte>ges_id}" text="({Geschaefte>ges_besuche}) {Geschaefte>ges_name}" />
+								<core:Item key="{Geschaefte>ges_id}" text="({Geschaefte>ges_besuche}) {Geschaefte>ges_name} - {Geschaefte>ges_stadt}" />
 							</ComboBox>
 
 							<Label xmlns="sap.m" text="Datum" />
