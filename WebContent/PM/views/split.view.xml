@@ -123,7 +123,8 @@
 			<detailPages>
 				<mvc:XMLView viewName="mpn.PM.views.purchase" id="purchaseView"/> 
 				<mvc:XMLView viewName="mpn.PM.views.overview" id="overviewView"/> 
-				<mvc:XMLView viewName="mpn.PM.views.shop" id="shopView"/> 				
+				<mvc:XMLView viewName="mpn.PM.views.shop" id="shopView"/> 	
+				<mvc:XMLView viewName="mpn.PM.views.stats" id="statsView"/> 				
 			</detailPages> <!-- sap.ui.core.Control -->
 	</SplitApp>
 

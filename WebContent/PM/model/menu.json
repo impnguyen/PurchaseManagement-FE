@@ -21,8 +21,8 @@
         },
         {
             "title": "Statistik",
-            "description": "noch in Arbeit",
-            "pageId": "",
+            "description": "Karte, Jahresübersicht, Gesamtzahlung",
+            "pageId": "statsView",
             "icon": "sap-icon://business-objects-experience"
         }
     ]

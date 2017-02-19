@@ -1,0 +1,138 @@
+<core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified"  xmlns:gmaps="openui5.googlemaps"
+		controllerName="mpn.PM.controller.stats" xmlns:html="http://www.w3.org/1999/xhtml">
+
+	<Page xmlns="sap.m"
+		id="statsPage"
+		busy="false"
+		busyIndicatorDelay="1000"
+		visible="true"
+		fieldGroupIds=""
+		title="Statistik"
+		titleLevel="Auto"
+		showNavButton="{device>/system/phone}"
+		showHeader="true"
+		showSubHeader="true"
+		navButtonText=""
+		navButtonTooltip=""
+		enableScrolling="true"
+		icon=""
+		backgroundDesign="Standard"
+		navButtonType="Back"
+		showFooter="true"
+		contentOnlyBusy="false"
+		floatingFooter="false"
+		validateFieldGroup=""
+		navButtonTap=""
+		navButtonPress="onNavBack">
+			<content>
+        
+				<IconTabBar xmlns="sap.m"
+					id="statsIconTabBar"
+					visible="true"
+					showSelection="true"
+					expandable="false"
+					expanded="true"
+					selectedKey="mapsFilter"
+					upperCase="false"
+					stretchContentHeight="true"
+					applyContentPadding="true"
+					backgroundDesign="Solid"
+					headerMode="Standard"
+					select=""
+					expand="">
+						<items>
+							<IconTabFilter xmlns="sap.m"
+								id="mapsFilter"
+								text=""
+								enabled="true"
+								key="mapsFilter"
+								icon="sap-icon://map-2"
+								iconColor="Default"
+								visible="true"
+								design="Vertical">
+									<content>
+										<gmaps:Map height="500px" zoom="12" lat="48.4205" lng="10.8728" markers="{Geschaefte>/results}">
+											<gmaps:markers>
+												<gmaps:Marker lat="{Geschaefte>ges_latitude}" lng="{Geschaefte>ges_longitude}" info="{Geschaefte>ges_name} -  {Geschaefte>ges_besuche} Besuch(e)" animation="4" />
+											</gmaps:markers>
+										</gmaps:Map>
+									</content>
+							</IconTabFilter>
+							<IconTabFilter xmlns="sap.m"
+								id="yearFilter"
+								text=""
+								enabled="true"
+								key="mapsFilter"
+								icon="sap-icon://appointment-2"
+								iconColor="Default"
+								visible="true"
+								design="Vertical">
+									<content>
+										<Label text="in Arbeit..."></Label>
+									</content>
+							</IconTabFilter>
+							<IconTabFilter xmlns="sap.m"
+								id="purchaseFilter"
+								text=""
+								enabled="true"
+								key="mapsFilter"
+								icon="sap-icon://simple-payment"
+								iconColor="Default"
+								visible="true"
+								design="Vertical">
+									<content>
+
+										<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Gessamteinkaufswert seit Beginn der Aufzeichnung"
+												frameType="TwoByOne" press="">
+												<tileContent>
+													<TileContent footer="in Euro">
+														<content>
+															<FeedContent contentText="Kumulation aller Einkäufe aus allen Geschäften. "
+																subheader="" value="{sum>/total}">
+															</FeedContent>
+														</content>
+													</TileContent>
+												</tileContent>
+											</GenericTile>
+
+											<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Mani's Einkaufsprofil" subheader="Anteil" press="">
+												<tileContent>
+													<TileContent unit="EUR" footer="">
+														<content>
+															<NumericContent scale="M" value="{mani>/total}"
+																valueColor="{mani>/valueColor}" indicator="{mani>/indicator}" />
+														</content>
+													</TileContent>
+												</tileContent>
+											</GenericTile>
+
+											<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Nici's Einkaufsprofil" subheader="Anteil" press="">
+												<tileContent>
+													<TileContent unit="EUR" footer="">
+														<content>
+															<NumericContent scale="M" value="{nici>/total}"
+																valueColor="{nici>/valueColor}" indicator="{nici>/indicator}" />
+														</content>
+													</TileContent>
+												</tileContent>
+											</GenericTile>
+
+									</content>
+							</IconTabFilter>
+						</items>
+				</IconTabBar>
+
+            </content>
+			<dependents>
+				<core:Fragment fragmentName="mpn.PM.fragments.addShop" type="XML"/>
+			</dependents>
+			<customHeader></customHeader> <!-- sap.m.IBar -->
+			<footer></footer> <!-- sap.m.IBar -->
+			<subHeader></subHeader> <!-- sap.m.IBar -->
+			<headerContent>
+				<Button icon="sap-icon://refresh" press="onRefreshStats" />
+			</headerContent>
+			<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
+	</Page>
+
+</core:View>
