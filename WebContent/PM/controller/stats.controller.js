@@ -1,4 +1,4 @@
-sap.ui.getCore().loadLibrary("openui5.googlemaps", "/PM/libs/googlemaps/");
+sap.ui.getCore().loadLibrary("openui5.googlemaps", "/Pm/PM/libs/googlemaps/");
 //../libs/googlemaps
 
 sap.ui.define([
@@ -7,7 +7,7 @@ sap.ui.define([
   "sap/ui/Device",
   "sap/ui/model/json/JSONModel"
 ], function (Controller, MessageToast, Device, JSONModel) {
-  "use strict";
+  "use strict"; 
 
   return Controller.extend("mpn.PM.controller.stats", {
 
