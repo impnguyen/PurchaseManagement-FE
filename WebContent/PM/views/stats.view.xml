@@ -51,7 +51,7 @@
 								visible="true"
 								design="Vertical">
 									<content>
-										<gmaps:Map height="500px" zoom="12" lat="48.4205" lng="10.8728" markers="{Geschaefte>/results}">
+										<gmaps:Map height="500px" zoom="12" lat="48.4205" lng="10.8728" markers="{Geschaefte>/results}" disableDefaultUI="false" panControl="true" zoomControl="true" mapTypeControl="true" streetViewControl="true" fitToMarkers="true">
 											<gmaps:markers>
 												<gmaps:Marker lat="{Geschaefte>ges_latitude}" lng="{Geschaefte>ges_longitude}" info="{Geschaefte>ges_name} -  {Geschaefte>ges_besuche} Besuch(e)" animation="4" />
 											</gmaps:markers>
