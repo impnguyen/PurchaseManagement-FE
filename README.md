@@ -2,6 +2,7 @@
 A light purchase managagement tool with ui5
 
 ## Screenshots
+<img src="https://github.com/impnguyen/PurchaseManagement-FE/blob/master/readme/1.png" width="480">
 ![alt text](https://github.com/impnguyen/PurchaseManagement-FE/blob/master/readme/1.png "screenshot1")
 ![alt text](https://github.com/impnguyen/PurchaseManagement-FE/blob/master/readme/2.png "screenshot2")
 ![alt text](https://github.com/impnguyen/PurchaseManagement-FE/blob/master/readme/3.png "screenshot3")
