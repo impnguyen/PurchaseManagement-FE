@@ -88,6 +88,24 @@ module.exports = function (grunt) {
                 dest: './pm',
                 exclusions: []
             }
+        },
+
+        wiredep: {
+            task: {
+
+                // Point to the files that should be updated when
+                // you run `grunt wiredep`
+                src: [
+                    '<%= dir.src %>/index.html'
+                ],
+
+                options: {
+                    // See wiredep's configuration documentation for the options
+                    // you may pass:
+
+                    // https://github.com/taptapship/wiredep#configuration
+                }
+            }
         }
 
     });
@@ -98,12 +116,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ftp-deploy');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-wiredep');
 
     // Default task(s).
     grunt.registerTask('build', ['clean', 'copy:general']);
     //grunt.registerTask('libs', ['clean', 'copy:lib'])
     grunt.registerTask('local', ['openui5_connect']);
     grunt.registerTask('ftp', ['ftp-deploy']);
+    //grunt.registerTask('wiredep', ['wiredep']) //dieser befehl bindet automatisch die bower_component bibliotheken in die html datei ein
 
     grunt.registerTask('dev', ['local']);
 

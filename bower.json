@@ -1,0 +1,26 @@
+{
+  "name": "purchasemanagement",
+  "description": "a little purchase management tool with ui5",
+  "main": "WebContent/index.html",
+  "authors": [
+    "Manh Phuoc Nguyen"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "management",
+    "purchase",
+    "ui5"
+  ],
+  "homepage": "https://github.com/impnguyen/PurchaseManagement-FE",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "openui5.simplecharts": "openui5-simplecharts#*"
+  }
+}

@@ -1,5 +1,6 @@
-sap.ui.getCore().loadLibrary("openui5.googlemaps", "/Pm/PM/libs/googlemaps/");
+sap.ui.getCore().loadLibrary("openui5.googlemaps", "/Pm/libs/googlemaps/");
 //../libs/googlemaps
+//"/Pm/libs/googlemaps/"
 
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
