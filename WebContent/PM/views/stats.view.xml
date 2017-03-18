@@ -99,7 +99,7 @@
 												<tileContent>
 													<TileContent unit="EUR" footer="">
 														<content>
-															<NumericContent scale="M" value="{mani>/total}"
+															<NumericContent scale="" value="{mani>/total}"
 																valueColor="{mani>/valueColor}" indicator="{mani>/indicator}" />
 														</content>
 													</TileContent>
@@ -110,8 +110,19 @@
 												<tileContent>
 													<TileContent unit="EUR" footer="">
 														<content>
-															<NumericContent scale="M" value="{nici>/total}"
+															<NumericContent scale="" value="{nici>/total}"
 																valueColor="{nici>/valueColor}" indicator="{nici>/indicator}" />
+														</content>
+													</TileContent>
+												</tileContent>
+											</GenericTile>
+
+											<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Geschäft mit dem höchsten Umsatz" subheader="{HighRevLoc>/ges_name} mit {HighRevLoc>/ges_count} Besuchen" press="">
+												<tileContent>
+													<TileContent unit="EUR" footer="">
+														<content>
+															<NumericContent scale="" value="{HighRevLoc>/eink_wert}"
+																valueColor="Neutral" indicator="None" />
 														</content>
 													</TileContent>
 												</tileContent>

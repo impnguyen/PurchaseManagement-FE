@@ -1,6 +1,7 @@
 sap.ui.getCore().loadLibrary("openui5.googlemaps", "/Pm/libs/googlemaps/");
-//../libs/googlemaps
-//"/Pm/libs/googlemaps/"
+//   "/Pm/libs/googlemaps/" -> local
+//   "/Pm/PM/libs/googlemaps/" -> remote
+//   "../libs/googlemaps" -> remote
 
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
@@ -8,7 +9,7 @@ sap.ui.define([
   "sap/ui/Device",
   "sap/ui/model/json/JSONModel"
 ], function (Controller, MessageToast, Device, JSONModel) {
-  "use strict"; 
+  "use strict";
 
   return Controller.extend("mpn.PM.controller.stats", {
 
@@ -29,18 +30,16 @@ sap.ui.define([
       this.getView().oParent.oParent.backToTopMaster();
     },
 
-    getGeschaeftEntitySet: function () {
+    getGeschaeftEntitySet: function (callback) {
       this.getView().setBusy(true);
       var oThat = this;
 
       $.ajax("http://192.168.20.20:3000/GeschaeftEntitySet")
         .done(function (data, textStatus, jqXHR) {
-          var oModel = new JSONModel();
-          oModel.setData(data);
-          oThat.getView().setModel(oModel, "Geschaefte");
+          callback(data, undefined);
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-          MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
+          callback(undefined, errorThrown);
         })
         .always(function () {
           oThat.getView().setBusy(false);
@@ -48,28 +47,81 @@ sap.ui.define([
 
     },
 
-    getEinkaufEntitySet: function () {
+    getEinkaufEntitySet: function (callback) {
       this.getView().setBusy(true);
       var oThat = this;
 
       $.ajax("http://192.168.20.20:3000/EinkaufEntitySet")
         .done(function (data, textStatus, jqXHR) {
-          var oModel = new JSONModel();
-          oModel.setData(data);
+          callback(data, undefined);
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+          callback(undefined, errorThrown);
+        })
+        .always(function () {
+          oThat.getView().setBusy(false);
+        });
+
+    },
+
+    onRefreshStats: function () {
+      var oThat = this;
+      var oDefGeschaeft = $.Deferred();
+      var oDefEinkauf = $.Deferred();
+
+      //init geschaefte entityset
+      this.getGeschaeftEntitySet.call(this, (function (oData, oError) {
+        if (oError === undefined) {
+          oDefGeschaeft.resolve(oData);
+        } else {
+          MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
+          console.log(oError);
+
+          oDefGeschaeft.reject();
+        }
+      }));
+
+
+      //init einkaeufe entityset
+      this.getEinkaufEntitySet(function (oData, oError) {
+        if (oError === undefined) {
+          oDefEinkauf.resolve(oData);
+        } else {
+          MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
+          console.log(oError);
+
+          oDefEinkauf.reject();
+        }
+      });
+
+      //set models
+      $.when(oDefGeschaeft, oDefEinkauf).done(function (oGeschaeft, oEinkauf) {
+        /**
+         * geschaeft
+         */
+         var oModel = new JSONModel();
+          oModel.setData(oGeschaeft);
+          oThat.getView().setModel(oModel, "Geschaefte");
+
+        /**
+         * einkauf
+         */
+        var oModel = new JSONModel();
+          oModel.setData(oEinkauf);
           oThat.getView().setModel(oModel, "Einkaeufe");
 
           //build purchase overview stats model
-          var aPurchases = data.results;
+          var aPurchases = oEinkauf.results;
           var aMani = []; // 1
           var aNici = []; // 2
-          var oSum = {total:0};
-          var oSumMani = {total: 0, indicator: "", valueColor: ""};
-          var oSumNici = {total: 0, indicator: "", valueColor: ""};
+          var oSum = { total: 0 };
+          var oSumMani = { total: 0, indicator: "", valueColor: "" };
+          var oSumNici = { total: 0, indicator: "", valueColor: "" };
 
-          for(var i = 0; i < aPurchases.length; i++){
-            if(aPurchases[i].zah_id === 1){
+          for (var i = 0; i < aPurchases.length; i++) {
+            if (aPurchases[i].zah_id === 1) {
               aMani.push(aPurchases[i]);
-            }else{
+            } else {
               aNici.push(aPurchases[i]);
             }
 
@@ -82,25 +134,26 @@ sap.ui.define([
           oThat.getView().setModel(oSumModel, 'sum');
 
           // mani model
-          for(var i = 0; i < aMani.length; i++){
+          for (var i = 0; i < aMani.length; i++) {
             oSumMani.total = oSumMani.total + aMani[i].eink_wert;
           }
 
           // nici model
-          for(var i = 0; i < aNici.length; i++){
+          for (var i = 0; i < aNici.length; i++) {
             oSumNici.total = oSumNici.total + aNici[i].eink_wert;
           }
 
           //set meta inf
           var fDiff = oSumMani.total - oSumNici.total;
-          var f20Per = oSumMani.total / 100 * 20;
+          // var f20Per = oSumMani.total / 100 * 20;
+          var f20Per = oSumMani.total / 100 * (40*100/90);
 
-          if( (oSumNici.total + f20Per) < oSumMani.total){
+          if ((oSumNici.total + f20Per) < oSumMani.total) {
             oSumNici.valueColor = "Error";
             oSumMani.valueColor = "Good";
             oSumNici.indicator = "Up";
             oSumMani.indicator = "Down";
-          }else {
+          } else {
             oSumNici.valueColor = "Good";
             oSumMani.valueColor = "Error";
             oSumNici.indicator = "Down";
@@ -116,23 +169,41 @@ sap.ui.define([
           oNiciModel.setData(oSumNici);
           oThat.getView().setModel(oNiciModel, 'nici');
 
+          /**
+           * local with most revenue
+           */
+          var oGeschaeft = oThat.getView().getModel("Geschaefte").oData.results;
+          var oEinkauf   = oThat.getView().getModel("Einkaeufe").oData.results;
+          var aRevenue = []; //array with cumulated revenue
+          var fTempCounter = 0;
+          var oMostRevenueLoc;
 
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-          MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
-        })
-        .always(function () {
-          oThat.getView().setBusy(false);
-        });
+          for(var i = 0; i < oGeschaeft.length; i++){
+            var oTmp = {
+              ges_id: oGeschaeft[i].ges_id,
+              ges_name: oGeschaeft[i].ges_name,
+              eink_wert: 0,
+              ges_count: oGeschaeft[i].ges_besuche
+            };
 
-    },
+            for(var j = 0; j < oEinkauf.length; j++){
+              if(oGeschaeft[i].ges_id === oEinkauf[j].ges_id){
+                oTmp.eink_wert = oTmp.eink_wert +  oEinkauf[j].eink_wert
+              }
+            }
 
-    onRefreshStats: function () {
-      //init geschaefte entityset
-      this.getGeschaeftEntitySet();
+            aRevenue.push(oTmp);
 
-      //init einkaeufe entityset
-      this.getEinkaufEntitySet();
+            //helper for  highest location by revenue
+            if(oTmp.eink_wert > fTempCounter){
+              fTempCounter = oTmp.eink_wert;
+              oMostRevenueLoc = oTmp;
+            }
+          }
+
+          oModel.setData(oMostRevenueLoc);
+          oThat.getView().setModel(oModel, 'HighRevLoc');
+      });
     }
 
   });
