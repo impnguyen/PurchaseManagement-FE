@@ -38,7 +38,7 @@
 					applyContentPadding="true"
 					backgroundDesign="Solid"
 					headerMode="Standard"
-					select=""
+					select="onSelectTabbarFilter"
 					expand="">
 						<items>
 							<IconTabFilter xmlns="sap.m"
@@ -68,7 +68,11 @@
 								visible="true"
 								design="Vertical">
 									<content>
-										<Label text="in Arbeit..."></Label>
+										<DatePicker id="chartDatePicker" value="2017" valueFormat="yyyy" displayFormat="yyyy" change="onChangeChartDate"/> 
+										<core:HTML id="htmlContainer">
+										<!--content='&lt;canvas id="statChartjsCanvas" width="400px" height="400px"&gt;&lt;/canvas&gt;'-->
+										<!--<canvas id="statChartjsCanvas" width="auto" height="400px"></canvas>-->
+										</core:HTML>
 									</content>
 							</IconTabFilter>
 							<IconTabFilter xmlns="sap.m"
