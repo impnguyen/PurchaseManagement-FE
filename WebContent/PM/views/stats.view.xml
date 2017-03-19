@@ -82,7 +82,7 @@
 								design="Vertical">
 									<content>
 
-										<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Gessamteinkaufswert seit Beginn der Aufzeichnung"
+										<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Gesamteinkaufswert seit Beginn der Aufzeichnung"
 												frameType="TwoByOne" press="">
 												<tileContent>
 													<TileContent footer="in Euro">
@@ -122,6 +122,17 @@
 													<TileContent unit="EUR" footer="">
 														<content>
 															<NumericContent scale="" value="{HighRevLoc>/eink_wert}"
+																valueColor="Neutral" indicator="None" />
+														</content>
+													</TileContent>
+												</tileContent>
+											</GenericTile>
+
+											<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Geschäft mit den öftesten Besuchen" subheader="{MostFreqVisLoc>/ges_name}" press="">
+												<tileContent>
+													<TileContent unit="Besuche" footer="">
+														<content>
+															<NumericContent scale="" value="{MostFreqVisLoc>/ges_count}"
 																valueColor="Neutral" indicator="None" />
 														</content>
 													</TileContent>

@@ -174,9 +174,12 @@ sap.ui.define([
            */
           var oGeschaeft = oThat.getView().getModel("Geschaefte").oData.results;
           var oEinkauf   = oThat.getView().getModel("Einkaeufe").oData.results;
-          var aRevenue = []; //array with cumulated revenue
-          var fTempCounter = 0;
-          var oMostRevenueLoc;
+          var aRevenue = [];      //array with cumulated revenue
+          var fTempCounter = 0;   // helper counter for highest location by revenue
+          var oMostRevenueLoc;    // helper for highest location by revenue
+
+          var iTempCounter = 0;   //helper counter for most frequently visited location
+          var oFreqVisLoc;        //helper for most frequently visited location
 
           for(var i = 0; i < oGeschaeft.length; i++){
             var oTmp = {
@@ -194,15 +197,32 @@ sap.ui.define([
 
             aRevenue.push(oTmp);
 
-            //helper for  highest location by revenue
+            //helper for highest location by revenue
             if(oTmp.eink_wert > fTempCounter){
               fTempCounter = oTmp.eink_wert;
-              oMostRevenueLoc = oTmp;
+              oMostRevenueLoc = jQuery.extend(true, {}, oTmp);
+            }
+
+            //helper for most frequently visited location
+            if(oTmp.ges_count > iTempCounter){
+              iTempCounter = oTmp.ges_count;
+              oFreqVisLoc = jQuery.extend(true, {}, oTmp);
             }
           }
 
+          //set model for highest location by revenue
           oModel.setData(oMostRevenueLoc);
           oThat.getView().setModel(oModel, 'HighRevLoc');
+
+
+          /**
+           * get most frequently visited location
+           */
+           //set model most frequently visited location
+          var oModel2 = new JSONModel();
+          oModel2.setData(oFreqVisLoc);
+          oThat.getView().setModel(oModel2, 'MostFreqVisLoc');
+
       });
     }
 
