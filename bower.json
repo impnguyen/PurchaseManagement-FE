@@ -21,6 +21,7 @@
     "tests"
   ],
   "dependencies": {
-    "openui5.simplecharts": "openui5-simplecharts#*"
+    "openui5.simplecharts": "openui5-simplecharts#*",
+    "chart.js": "^2.5.0"
   }
 }

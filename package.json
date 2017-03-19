@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "a little purchase management tool with ui5",
   "main": "WebContent/index.html",
-  "dependencies": {},
+  "dependencies": {
+    "chart.js": "^2.5.0"
+  },
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
