@@ -81,64 +81,69 @@
 								visible="true"
 								design="Vertical">
 									<content>
+										<ScrollContainer
+											height="100%"
+											width="100%"
+											horizontal="false"
+											vertical="true">
 
-										<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Gesamteinkaufswert seit Beginn der Aufzeichnung"
-												frameType="TwoByOne" press="">
-												<tileContent>
-													<TileContent footer="in Euro">
-														<content>
-															<FeedContent contentText="Kumulation aller Einkäufe aus allen Geschäften. "
-																subheader="" value="{sum>/total}">
-															</FeedContent>
-														</content>
-													</TileContent>
-												</tileContent>
-											</GenericTile>
+											<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Gesamteinkaufswert seit Beginn der Aufzeichnung"
+													frameType="TwoByOne" press="">
+													<tileContent>
+														<TileContent footer="in Euro">
+															<content>
+																<FeedContent contentText="Kumulation aller Einkäufe aus allen Geschäften. "
+																	subheader="" value="{sum>/total}">
+																</FeedContent>
+															</content>
+														</TileContent>
+													</tileContent>
+												</GenericTile>
 
-											<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Mani's Einkaufsprofil" subheader="Anteil" press="">
-												<tileContent>
-													<TileContent unit="EUR" footer="">
-														<content>
-															<NumericContent scale="" value="{mani>/total}"
-																valueColor="{mani>/valueColor}" indicator="{mani>/indicator}" />
-														</content>
-													</TileContent>
-												</tileContent>
-											</GenericTile>
+												<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Mani's Einkaufsprofil" subheader="Anteil" press="">
+													<tileContent>
+														<TileContent unit="EUR" footer="">
+															<content>
+																<NumericContent scale="" value="{mani>/total}"
+																	valueColor="{mani>/valueColor}" indicator="{mani>/indicator}" />
+															</content>
+														</TileContent>
+													</tileContent>
+												</GenericTile>
 
-											<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Nici's Einkaufsprofil" subheader="Anteil" press="">
-												<tileContent>
-													<TileContent unit="EUR" footer="">
-														<content>
-															<NumericContent scale="" value="{nici>/total}"
-																valueColor="{nici>/valueColor}" indicator="{nici>/indicator}" />
-														</content>
-													</TileContent>
-												</tileContent>
-											</GenericTile>
+												<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Nici's Einkaufsprofil" subheader="Anteil" press="">
+													<tileContent>
+														<TileContent unit="EUR" footer="">
+															<content>
+																<NumericContent scale="" value="{nici>/total}"
+																	valueColor="{nici>/valueColor}" indicator="{nici>/indicator}" />
+															</content>
+														</TileContent>
+													</tileContent>
+												</GenericTile>
 
-											<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Geschäft mit dem höchsten Umsatz" subheader="{HighRevLoc>/ges_name} mit {HighRevLoc>/ges_count} Besuchen" press="">
-												<tileContent>
-													<TileContent unit="EUR" footer="">
-														<content>
-															<NumericContent scale="" value="{HighRevLoc>/eink_wert}"
-																valueColor="Neutral" indicator="None" />
-														</content>
-													</TileContent>
-												</tileContent>
-											</GenericTile>
+												<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Geschäft mit dem höchsten Umsatz" subheader="{HighRevLoc>/ges_name} mit {HighRevLoc>/ges_count} Besuchen" press="">
+													<tileContent>
+														<TileContent unit="EUR" footer="">
+															<content>
+																<NumericContent scale="" value="{HighRevLoc>/eink_wert}"
+																	valueColor="Neutral" indicator="None" />
+															</content>
+														</TileContent>
+													</tileContent>
+												</GenericTile>
 
-											<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Geschäft mit den öftesten Besuchen" subheader="{MostFreqVisLoc>/ges_name}" press="">
-												<tileContent>
-													<TileContent unit="Besuche" footer="">
-														<content>
-															<NumericContent scale="" value="{MostFreqVisLoc>/ges_count}"
-																valueColor="Neutral" indicator="None" />
-														</content>
-													</TileContent>
-												</tileContent>
-											</GenericTile>
-
+												<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Geschäft mit den öftesten Besuchen" subheader="{MostFreqVisLoc>/ges_name}" press="">
+													<tileContent>
+														<TileContent unit="Besuche" footer="">
+															<content>
+																<NumericContent scale="" value="{MostFreqVisLoc>/ges_count}"
+																	valueColor="Neutral" indicator="None" />
+															</content>
+														</TileContent>
+													</tileContent>
+												</GenericTile>
+											</ScrollContainer>
 									</content>
 							</IconTabFilter>
 						</items>
