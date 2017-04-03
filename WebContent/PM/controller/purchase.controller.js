@@ -116,7 +116,7 @@ sap.ui.define([
           data: JSON.stringify(oRequestBody)
         })
           .done(function (data, textStatus, jqXHR) {
-            oThat.getView().getModel("PurchaseTemp").newEink_id = data.result.eink_id;
+            oThat.getView().getModel("PurchaseTemp").newEink_id = data.insertedId.eink_id;
             oThat.getView().byId("successMs").setVisible(true);
             //reset geschaefte count
             oThat.getGeschaeftEntitySet();
