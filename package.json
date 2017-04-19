@@ -11,9 +11,10 @@
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-validate-xml": "0.0.1",
     "grunt-ftp-deploy": "^0.1.10",
-    "grunt-openui5": "^0.11.0",
-    "grunt-wiredep": "^3.0.1"
+    "grunt-openui5": "^0.11.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

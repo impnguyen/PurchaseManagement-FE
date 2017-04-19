@@ -11,11 +11,13 @@ module.exports = function (grunt) {
             dist: 'build'
         },
 
+        //clean task option
         clean: ['<%= dir.dist %>'],
 
+        //copy task option
         copy: {
             general: {
-                cwd: '<%= dir.root %>',     // set working folder / root to copy
+                cwd: '<%= dir.src %>',     // set working folder / root to copy
                 src: [
                     '**/*',
                     '!**bower_components/**',
@@ -23,7 +25,6 @@ module.exports = function (grunt) {
                     '!**/bower.json',
                     '!**/Gruntfile.js',
                     '!**/package.json'
-
                 ],                          // copy all files and subfolders
                 dest: '<%= dir.dist %>',    // destination folder
                 expand: true                // required when using cwd
@@ -48,6 +49,7 @@ module.exports = function (grunt) {
             }
         },
 
+        //webserver task option
         connect: {
             options: {
                 port: 8092,
@@ -58,6 +60,7 @@ module.exports = function (grunt) {
             dist: {}
         },
 
+        //deploy ui5 webapp option
         openui5_connect: {
             options: {
                 resources: [
@@ -74,10 +77,28 @@ module.exports = function (grunt) {
             },
             src: {
                 options: {
-                    appresources: '<%= dir.src %>'//'<%= dir.dist %>/<%= dir.src %>'
+                    appresources: '<%= dir.dist %>'//'<%= dir.dist %>/<%= dir.src %>'
                 }
             }
         },
+
+        //build preload task option
+        openui5_preload: {
+
+            component: {
+                options: {
+                    resources: {
+                        cwd: '<%= dir.dist %>',
+                        prefix: 'mpn'
+                    },
+                    dest: '<%= dir.dist%>'
+                },
+                components: true
+            }
+
+        },
+
+        //ftp deploy task option
         'ftp-deploy': {
             build: {
                 auth: {
@@ -90,43 +111,47 @@ module.exports = function (grunt) {
             }
         },
 
-        wiredep: {
-            task: {
+        //js hint task option
+        jshint: {
+            all: ['<%= dir.dist%>/**/*.js',
+                '!<%= dir.dist%>/PM/Component-preload.js',
+                '!<%= dir.dist%>/PM/libs/**/*.js'],
+        },
 
-                // Point to the files that should be updated when
-                // you run `grunt wiredep`
-                src: [
-                    '<%= dir.src %>/index.html'
-                ],
-
-                options: {
-                    // See wiredep's configuration documentation for the options
-                    // you may pass:
-
-                    // https://github.com/taptapship/wiredep#configuration
-                }
-            }
-        }
+        //xml hint task option
+        validate_xml: {
+            views: {
+                src: ['<%= dir.dist%>/**/*.xml']
+            },
+        },
 
     });
 
     // tasks.
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-openui5');
     grunt.loadNpmTasks('grunt-ftp-deploy');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-wiredep');
     grunt.loadNpmTasks('load-grunt-tasks');
+    grunt.loadNpmTasks('grunt-openui5');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-validate-xml');
+
+
 
     // Default task(s).
-    grunt.registerTask('build', ['clean', 'copy:general']);
-    //grunt.registerTask('libs', ['clean', 'copy:lib'])
     grunt.registerTask('local', ['openui5_connect']);
     grunt.registerTask('ftp', ['ftp-deploy']);
-    //grunt.registerTask('wiredep', ['wiredep']) //dieser befehl bindet automatisch die bower_component bibliotheken in die html datei ein
-
     grunt.registerTask('dev', ['local']);
+
+    // Jenkins tasks
+    grunt.registerTask('val_js', ['jshint']);
+    grunt.registerTask('val_xml', ['validate_xml:views']);
+    grunt.registerTask('clean_build_dir', ['clean'])
+    grunt.registerTask('copy_to_build_dir', ['copy:general'])
+    grunt.registerTask('build_preload_js', ['openui5_preload']);
+    grunt.registerTask('run_build', ['openui5_connect']);
+
 
 
 };
