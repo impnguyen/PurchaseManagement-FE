@@ -6,7 +6,6 @@ sap.ui.define([
 
   return Controller.extend("mpn.PM.controller.split", {
 
-
     onInit: function () {
       this.getView().setModel(this.getOwnerComponent().getModel("menu"), "menu");
     },

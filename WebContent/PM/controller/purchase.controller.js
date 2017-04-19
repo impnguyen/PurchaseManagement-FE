@@ -6,8 +6,7 @@ sap.ui.define([
 ], function (Controller, MessageToast, Device, JSONModel) {
   "use strict";
 
-  return Controller.extend("mpn.PM.controller.purchase", {
-
+  return Controller.extend("mpn.PM.controller.purchase", { 
 
     onInit: function () {
       var oThat = this;

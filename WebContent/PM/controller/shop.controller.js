@@ -8,7 +8,6 @@ sap.ui.define([
 
   return Controller.extend("mpn.PM.controller.shop", {
 
-
     onInit: function () {
       // set device model
       var oDeviceModel = new JSONModel(Device);

@@ -12,7 +12,6 @@ sap.ui.define([
 
   return Controller.extend("mpn.PM.controller.stats", {
 
-
     onInit: function () {
       // set device model
       var oDeviceModel = new JSONModel(Device);
