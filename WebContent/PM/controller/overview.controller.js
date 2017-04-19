@@ -175,9 +175,9 @@ sap.ui.define([
       this.setPageTitle(dStartDate.getMonth());
 
       //build temp einkaeufe model
-      for (var i = 0; i < oEinkaeufe.length; i++) {
-        if (new Date(oEinkaeufe[i].eink_datum) >= dStartDate && new Date(oEinkaeufe[i].eink_datum) <= dEndDate) {
-          oTmpModel.results.push(oEinkaeufe[i]);
+      for (var i1 = 0; i1 < oEinkaeufe.length; i1++) {
+        if (new Date(oEinkaeufe[i1].eink_datum) >= dStartDate && new Date(oEinkaeufe[i1].eink_datum) <= dEndDate) {
+          oTmpModel.results.push(oEinkaeufe[i1]);
         }
       }
 
@@ -219,7 +219,7 @@ sap.ui.define([
      * set view title
      */
     setPageTitle: function (iMonth) {
-      var month = new Array();
+      var month = [];
       month[0] = "Januar";
       month[1] = "Februar";
       month[2] = "März";

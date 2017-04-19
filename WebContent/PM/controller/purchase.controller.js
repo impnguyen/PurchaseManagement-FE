@@ -103,7 +103,8 @@ sap.ui.define([
           "eink_wert": parseFloat(this.getView().byId("purchaseValInput").getValue()),
           "ges_id": parseInt(this.getView().byId("geschaefteCb").getSelectedKey()),
           "zah_id": parseInt(this.getView().byId("zahlerCb").getSelectedKey())
-        }
+        };
+        
         this.getView().setBusy(true);
         var oThat = this;
 

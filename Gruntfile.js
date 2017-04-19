@@ -165,7 +165,7 @@ module.exports = function (grunt) {
     //jsdoc
 
     //aggregated tasks
-    grunt.registerTask('jenk_build', ['val_js', 'val_xml', 'clean_build_dir', 'copy_to_build_dir', 'build_preload_js'])
+    grunt.registerTask('jenk_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'build_preload_js']);
 
 
 

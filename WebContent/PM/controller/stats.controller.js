@@ -115,7 +115,7 @@ sap.ui.define([
         })
         .always(function () {
           oThat.getView().setBusy(false);
-        });;
+        });
     },
 
     getEinkaufEntitySet: function (callback) {
@@ -166,23 +166,23 @@ sap.ui.define([
       });
 
       //set models
-      $.when(oDefGeschaeft, oDefEinkauf).done(function (oGeschaeft, oEinkauf) {
+      $.when(oDefGeschaeft, oDefEinkauf).done(function (oGeschaeftCb, oEinkaufCb) {
         /**
          * geschaeft
          */
         var oModel = new JSONModel();
-        oModel.setData(oGeschaeft);
+        oModel.setData(oGeschaeftCb);
         oThat.getView().setModel(oModel, "Geschaefte");
 
         /**
          * einkauf
          */
-        var oModel = new JSONModel();
-        oModel.setData(oEinkauf);
+        oModel = new JSONModel();
+        oModel.setData(oEinkaufCb);
         oThat.getView().setModel(oModel, "Einkaeufe");
 
         //build purchase overview stats model
-        var aPurchases = oEinkauf.results;
+        var aPurchases = oEinkaufCb.results;
         var aMani = []; // 1
         var aNici = []; // 2
         var oSum = { total: 0 };
@@ -205,13 +205,13 @@ sap.ui.define([
         oThat.getView().setModel(oSumModel, 'sum');
 
         // mani model
-        for (var i = 0; i < aMani.length; i++) {
-          oSumMani.total = oSumMani.total + aMani[i].eink_wert;
+        for (var i1 = 0; i1 < aMani.length; i1++) {
+          oSumMani.total = oSumMani.total + aMani[i1].eink_wert;
         }
 
         // nici model
-        for (var i = 0; i < aNici.length; i++) {
-          oSumNici.total = oSumNici.total + aNici[i].eink_wert;
+        for (var i2 = 0; i2 < aNici.length; i2++) {
+          oSumNici.total = oSumNici.total + aNici[i2].eink_wert;
         }
 
         //set meta inf
@@ -252,17 +252,17 @@ sap.ui.define([
         var iTempCounter = 0;   //helper counter for most frequently visited location
         var oFreqVisLoc;        //helper for most frequently visited location
 
-        for (var i = 0; i < oGeschaeft.length; i++) {
+        for (var i3 = 0; i3 < oGeschaeft.length; i3++) {
           var oTmp = {
-            ges_id: oGeschaeft[i].ges_id,
-            ges_name: oGeschaeft[i].ges_name,
+            ges_id: oGeschaeft[i3].ges_id,
+            ges_name: oGeschaeft[i3].ges_name,
             eink_wert: 0,
-            ges_count: oGeschaeft[i].ges_besuche
+            ges_count: oGeschaeft[i3].ges_besuche
           };
 
           for (var j = 0; j < oEinkauf.length; j++) {
-            if (oGeschaeft[i].ges_id === oEinkauf[j].ges_id) {
-              oTmp.eink_wert = oTmp.eink_wert + oEinkauf[j].eink_wert
+            if (oGeschaeft[i3].ges_id === oEinkauf[j].ges_id) {
+              oTmp.eink_wert = oTmp.eink_wert + oEinkauf[j].eink_wert;
             }
           }
 
