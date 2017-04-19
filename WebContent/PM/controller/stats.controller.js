@@ -260,7 +260,7 @@ sap.ui.define([
             ges_count: oGeschaeft[i3].ges_besuche
           };
 
-          for (var j = 0; j < oEinkauf.length; j++) {;afsdfadsf
+          for (var j = 0; j < oEinkauf.length; j++) {
             if (oGeschaeft[i3].ges_id === oEinkauf[j].ges_id) {
               oTmp.eink_wert = oTmp.eink_wert + oEinkauf[j].eink_wert;
             }
