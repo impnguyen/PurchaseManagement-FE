@@ -144,14 +144,27 @@ module.exports = function (grunt) {
     grunt.registerTask('ftp', ['ftp-deploy']);
     grunt.registerTask('dev', ['local']);
 
-    // Jenkins tasks
+    /**
+     * Jenkins tasks
+     */
+
+    // Jenkins validation tasks
     grunt.registerTask('val_js', ['jshint']);
     grunt.registerTask('val_xml', ['validate_xml:views']);
+    //opa5
+    //qunit
+    //selenium webdriver io
+
+    // Jenkins build tasks
     grunt.registerTask('clean_build_dir', ['clean'])
     grunt.registerTask('copy_to_build_dir', ['copy:general'])
     grunt.registerTask('build_preload_js', ['openui5_preload']);
     grunt.registerTask('run_build', ['openui5_connect']);
 
+    // Jenkins documentation tasks
+    //jsdoc
+
+    //aggregated tasks
     grunt.registerTask('jenk_build', ['val_js', 'val_xml', 'clean_build_dir', 'copy_to_build_dir', 'build_preload_js'])
 
 
