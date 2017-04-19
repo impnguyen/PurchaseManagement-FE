@@ -14,7 +14,8 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-validate-xml": "0.0.1",
     "grunt-ftp-deploy": "^0.1.10",
-    "grunt-openui5": "^0.11.0"
+    "grunt-openui5": "^0.11.0",
+    "jshint-jenkins-checkstyle-reporter": "^0.1.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

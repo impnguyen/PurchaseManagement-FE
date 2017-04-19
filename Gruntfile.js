@@ -116,6 +116,10 @@ module.exports = function (grunt) {
             all: ['<%= dir.dist%>/**/*.js',
                 '!<%= dir.dist%>/PM/Component-preload.js',
                 '!<%= dir.dist%>/PM/libs/**/*.js'],
+            options: {
+                reporter: require('jshint-jenkins-checkstyle-reporter'),
+                reporterOutput: 'report-jshint-checkstyle.xml'
+            }
         },
 
         //xml hint task option
