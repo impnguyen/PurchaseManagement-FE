@@ -152,6 +152,8 @@ module.exports = function (grunt) {
     grunt.registerTask('build_preload_js', ['openui5_preload']);
     grunt.registerTask('run_build', ['openui5_connect']);
 
+    grunt.registerTask('jenk_build', ['val_js', 'val_xml', 'clean_build_dir', 'copy_to_build_dir', 'build_preload_js'])
+
 
 
 };
