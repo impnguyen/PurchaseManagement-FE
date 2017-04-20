@@ -1,0 +1,32 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "templates": {
+    //"logoFile": "http://www.lew-sportsbar.de/images/lew_sc_logo4c_160.jpg",
+    "cleverLinks": true,
+    "monospaceLinks": false,
+    "dateFormat": "ddd MMM Do YYYY",
+    "outputSourceFiles": true,
+    "outputSourcePath": true,
+    "systemName": "Purchase Manager Frontend",
+    "footer": "Manh Phuoc Nguyen",
+    "copyright": "",
+    "navType": "inline",
+    "theme": "Lumen",//cosmo //Lumen
+    "linenums": true,
+    "collapseSymbols": true,
+    "inverseNav": true,
+    "protocol": "html://",
+    "methodHeadingReturns": false,
+    "sort": true,
+    "search": true
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  }
+}

@@ -1,3 +1,7 @@
+/**
+ * @module Overview
+ * @author Manh Phuoc Nguyen
+ */
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/m/MessageToast",
@@ -12,6 +16,10 @@ sap.ui.define([
 
     formatter: formatter,
 
+    /**
+     * set device model and triggers overview setup
+     * @memberOf module:Overview
+     */
     onInit: function () {
       // set device model
       var oDeviceModel = new JSONModel(Device);
@@ -20,18 +28,36 @@ sap.ui.define([
 
     },
 
+    /**
+     * triggers overview setup
+     * @memberOf module:Overview
+     */
     onAfterRendering: function () {
       this.setupOverview();
     },
 
+    /**
+     * navigate back to top master view
+     * @memberOf module:Overview
+     */
     onNavBack: function () {
       this.getView().oParent.oParent.backToTopMaster();
     },
 
+    /**
+     * open calendar popover
+     * @memberOf module:Overview
+     * @param {object} oEvent - item press event
+     */
     onCal: function (oEvent) {
       this.getView().byId("calendarPopover").openBy(oEvent.getSource());
     },
 
+    /**
+     * triggers overview setup
+     * @memberOf module:Overview
+     * @param {callback} callback - callback function with data and errorThrown
+     */
     getEinkaufEntitySet: function (callback) {
       this.getView().setBusy(true);
       var oThat = this;
@@ -50,7 +76,9 @@ sap.ui.define([
     },
 
     /**
-     * get zahler entity setModel
+     * get zahler entity set request
+     * @memberOf module:Overview
+     * @param {callback} callback - callback function with data and errorThrown
      */
     getZahlerEntitySet: function (callback) {
       this.getView().setBusy(true);
@@ -69,9 +97,11 @@ sap.ui.define([
 
     },
 
-    /**
-   * get geschaefte entity setModel
-   */
+   /**
+     * get geschaeft entity set request
+     * @memberOf module:Overview
+     * @param {callback} callback - callback function with data and errorThrown
+     */
     getGeschaeftEntitySet: function (callback) {
       this.getView().setBusy(true);
       var oThat = this;
@@ -91,6 +121,7 @@ sap.ui.define([
 
     /**
      * setup overview models and binding
+     * @memberOf module:Overview
      */
     setupOverview: function () {
       //deferred objects
@@ -161,6 +192,7 @@ sap.ui.define([
 
     /**
      * setup model for table by month
+     * @memberOf module:Overview
      */
     setUpTableModelByDate: function () {
       var oEinkaeufe = this.getView().getModel("raw").oData.einkauf;
@@ -210,13 +242,19 @@ sap.ui.define([
 
     /**
      * get last date of month
+     * @memberOf module:Overview
+     * @param {string} Year - year as string
+     * @param {string} Month - month as string
+     * @return {Date} - returns the date
      */
     getLastDayOfMonth: function (Year, Month) {
       return new Date((new Date(Year, Month, 1)) - 1);
     },
 
-    /**
-     * set view title
+   /**
+     * set page title
+     * @memberOf module:Overview
+     * @param {integer} iMonth - month as integer [0...11]
      */
     setPageTitle: function (iMonth) {
       var month = [];
@@ -239,6 +277,7 @@ sap.ui.define([
 
     /**
      * set view footer with summary
+     * @memberOf module:Overview
      */
     setPageFooter: function () {
       var oEinkaeufe = this.getView().getModel("Einkaeufe").oData.results;
@@ -269,7 +308,8 @@ sap.ui.define([
     },
 
     /**
-     * on change calendar
+     * on change calendar handler; setup table model; close the calendar popover
+     * @memberOf module:Overview
      */
     onChangeCal: function () {
       this.setUpTableModelByDate();
@@ -278,6 +318,7 @@ sap.ui.define([
 
     /**
      * set special dates
+     * @memberOf module:Overview
      */
     setupCalendarSpecialDates: function () {
 

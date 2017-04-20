@@ -8,7 +8,8 @@ module.exports = function (grunt) {
             src: 'WebContent',
             root: './',
             bower_components: 'bower_components',
-            dist: 'build'
+            dist: 'build',
+            jsdoc: 'doc/jsdoc'
         },
 
         //clean task option
@@ -129,6 +130,18 @@ module.exports = function (grunt) {
             },
         },
 
+        //jsdoc task option
+        jsdoc: {
+            dist: {
+                src: ['<%= dir.src %>/**/*.js', '!<%= dir.src %>/PM/libs/**/*.js'],
+                options: {
+                    destination: '<%= dir.jsdoc%>',
+                    template: "node_modules/ink-docstrap/template",
+                    configure: "jsdoc/template/jsdoc.conf.json"
+                }
+            }
+        }
+
     });
 
     // tasks.
@@ -140,7 +153,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-openui5');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-validate-xml');
-
+    grunt.loadNpmTasks('grunt-jsdoc');
 
 
     // Default task(s).
@@ -166,7 +179,7 @@ module.exports = function (grunt) {
     grunt.registerTask('run_build', ['openui5_connect']);
 
     // Jenkins documentation tasks
-    //jsdoc
+    grunt.registerTask('createJsdoc', ['jsdoc:dist'])
 
     //aggregated tasks
     grunt.registerTask('jenk_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'build_preload_js']);

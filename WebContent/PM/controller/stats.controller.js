@@ -1,3 +1,7 @@
+/**
+ * @module PM
+ * @author Manh Phuoc Nguyen
+ */
 sap.ui.getCore().loadLibrary("openui5.googlemaps", "/Pm/libs/googlemaps/");
 //   "/Pm/libs/googlemaps/" -> local
 //   "/Pm/PM/libs/googlemaps/" -> remote
