@@ -148,7 +148,7 @@ module.exports = function (grunt) {
         'string-replace': {
         	  inline: {
         	    files: {
-        	      '<%= dir.dist%>': '/PM/controller/stats.controller.js',
+        	      './': '<%= dir.dist%>/PM/controller/stats.controller.js',
         	    },
         	    options: {
         	      replacements: [
