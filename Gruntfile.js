@@ -201,7 +201,7 @@ module.exports = function (grunt) {
     grunt.registerTask('replace_lib', ['string-replace']);
 
     // Jenkins documentation tasks
-    grunt.registerTask('createJsdoc', ['jsdoc:dist'])
+    grunt.registerTask('createJsdoc', ['jsdoc:dist']);
 
     // aggregated tasks
     grunt.registerTask('jenk_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'replace_lib', 'build_preload_js']);
