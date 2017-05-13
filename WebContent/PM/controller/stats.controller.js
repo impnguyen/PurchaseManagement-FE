@@ -81,7 +81,7 @@ sap.ui.define([
               aMonthRevenues[3] = parseInt(aMonthRevenues[3] + data.results[array].eink_wert);
               break;
             case 4:
-              aMonthRevenues[4] = aparseInt(MonthRevenues[4] + data.results[array].eink_wert);
+              aMonthRevenues[4] = parseInt(aMonthRevenues[4] + data.results[array].eink_wert);
               break;
             case 5:
               aMonthRevenues[5] = parseInt(aMonthRevenues[5] + data.results[array].eink_wert);

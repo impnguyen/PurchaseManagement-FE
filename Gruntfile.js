@@ -118,6 +118,7 @@ module.exports = function (grunt) {
                 '!<%= dir.dist%>/PM/Component-preload.js',
                 '!<%= dir.dist%>/PM/libs/**/*.js'],
             options: {
+                
                 reporter: require('jshint-jenkins-checkstyle-reporter'),
                 reporterOutput: 'report-jshint-checkstyle.xml'
             }
