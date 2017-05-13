@@ -1,0 +1,35 @@
+{
+  "name": "openui5.simplecharts",
+  "authors": [
+    "João Guilherme Sousa"
+  ],
+  "description": "OpenUI5 Simple Charts",
+  "keywords": [
+    "openui5",
+    "charts"
+  ],
+  "license": "Apache License, Version 2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "samples",
+    "src"
+  ],
+  "dependencies": {
+    "d3-tip": "~0.6.6"
+  },
+  "homepage": "https://github.com/jgsousa/openui5-simplecharts",
+  "_release": "af83fb7ff3",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "af83fb7ff3ccffc4e2e67f7d7fd6c1a3f36b55b9"
+  },
+  "_source": "https://github.com/jgsousa/openui5-simplecharts.git",
+  "_target": "*",
+  "_originalSource": "openui5-simplecharts",
+  "_direct": true
+}
