@@ -12,10 +12,10 @@ module.exports = function (grunt) {
             jsdoc: 'doc/jsdoc'
         },
 
-        //clean task option
+        // clean task option
         clean: ['<%= dir.dist %>'],
 
-        //copy task option
+        // copy task option
         copy: {
             general: {
                 cwd: '<%= dir.src %>',     // set working folder / root to copy
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
             }
         },
 
-        //webserver task option
+        // webserver task option
         connect: {
             options: {
                 port: 8092,
@@ -61,7 +61,7 @@ module.exports = function (grunt) {
             dist: {}
         },
 
-        //deploy ui5 webapp option
+        // deploy ui5 webapp option
         openui5_connect: {
             options: {
                 resources: [
@@ -78,12 +78,13 @@ module.exports = function (grunt) {
             },
             src: {
                 options: {
-                    appresources: '<%= dir.dist %>'//'<%= dir.dist %>/<%= dir.src %>'
+                    appresources: '<%= dir.dist %>'// '<%= dir.dist %>/<%=
+													// dir.src %>'
                 }
             }
         },
 
-        //build preload task option
+        // build preload task option
         openui5_preload: {
 
             component: {
@@ -99,7 +100,7 @@ module.exports = function (grunt) {
 
         },
 
-        //ftp deploy task option
+        // ftp deploy task option
         'ftp-deploy': {
             build: {
                 auth: {
@@ -112,7 +113,7 @@ module.exports = function (grunt) {
             }
         },
 
-        //js hint task option
+        // js hint task option
         jshint: {
             all: ['<%= dir.dist%>/**/*.js',
                 '!<%= dir.dist%>/PM/Component-preload.js',
@@ -124,14 +125,14 @@ module.exports = function (grunt) {
             }
         },
 
-        //xml hint task option
+        // xml hint task option
         validate_xml: {
             views: {
                 src: ['<%= dir.dist%>/**/*.xml']
             },
         },
 
-        //jsdoc task option
+        // jsdoc task option
         jsdoc: {
             dist: {
                 src: ['<%= dir.src %>/**/*.js', '!<%= dir.src %>/PM/libs/**/*.js'],
@@ -141,7 +142,25 @@ module.exports = function (grunt) {
                     configure: "jsdoc/template/jsdoc.conf.json"
                 }
             }
-        }
+        }, 
+        
+        // string replace task option
+        'string-replace': {
+        	  inline: {
+        	    files: {
+        	      'dest/': '<%= dir.dist%>/PM/controller/stats.controller.js',
+        	    },
+        	    options: {
+        	      replacements: [
+        	        // place files inline example
+        	        {
+        	          pattern: 		'sap.ui.getCore().loadLibrary("openui5.googlemaps", "/Pm/libs/googlemaps/");',
+        	          replacement: 	'sap.ui.getCore().loadLibrary("openui5.googlemaps", "/Pm/PM/libs/googlemaps/");'
+        	        }
+        	      ]
+        	    }
+        	  }
+        	}
 
     });
 
@@ -155,6 +174,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-validate-xml');
     grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks('grunt-string-replace');
 
 
     // Default task(s).
@@ -163,26 +183,27 @@ module.exports = function (grunt) {
     grunt.registerTask('dev', ['local']);
 
     /**
-     * Jenkins tasks
-     */
+	 * Jenkins tasks
+	 */
 
     // Jenkins validation tasks
     grunt.registerTask('val_js', ['jshint']);
     grunt.registerTask('val_xml', ['validate_xml:views']);
-    //opa5
-    //qunit
-    //selenium webdriver io
+    // opa5
+    // qunit
+    // selenium webdriver io
 
     // Jenkins build tasks
     grunt.registerTask('clean_build_dir', ['clean'])
     grunt.registerTask('copy_to_build_dir', ['copy:general'])
     grunt.registerTask('build_preload_js', ['openui5_preload']);
     grunt.registerTask('run_build', ['openui5_connect']);
+    grunt.registerTask('replace_lib', ['string-replace']);
 
     // Jenkins documentation tasks
     grunt.registerTask('createJsdoc', ['jsdoc:dist'])
 
-    //aggregated tasks
+    // aggregated tasks
     grunt.registerTask('jenk_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'build_preload_js']);
 
 
