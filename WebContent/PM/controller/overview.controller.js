@@ -89,7 +89,7 @@ sap.ui.define([
           callback(data, undefined);
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-          callback(undefined, oError);
+          callback(undefined, errorThrown);
         })
         .always(function () {
           oThat.getView().setBusy(false);

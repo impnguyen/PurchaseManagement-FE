@@ -42,13 +42,12 @@
  				<form:SimpleForm xmlns="sap.ui.layout"
 					id="purchaseSf"
 					busy="false"
-					busyIndicatorDelay="1000"
+					busyIndicatorDelay="10"
 					visible="true"
-					fieldGroupIds=""
 					maxContainerCols="2"
 					minWidth="-1"
 					width=""
-					editable=""
+					editable="true"
 					labelMinWidth="192"
 					layout="ResponsiveLayout"
 					labelSpanXL="-1"
@@ -67,9 +66,7 @@
 					breakpointXL="1440"
 					breakpointL="1024"
 					breakpointM="600"
-					backgroundDesign="Translucent"
-					ariaLabelledBy=""
-					validateFieldGroup="">
+					backgroundDesign="Translucent">
 						<form:content>
 							<Label xmlns="sap.m" text="Geschäft" />
 							<ComboBox xmlns="sap.m" required="true" items="{

@@ -119,9 +119,8 @@ module.exports = function (grunt) {
                 '!<%= dir.dist%>/PM/Component-preload.js',
                 '!<%= dir.dist%>/PM/libs/**/*.js'],
             options: {
-                
-                reporter: require('jshint-jenkins-checkstyle-reporter'),
-                reporterOutput: 'report-jshint-checkstyle.xml'
+//                reporter: require('jshint-jenkins-checkstyle-reporter'),
+//                reporterOutput: 'report-jshint-checkstyle.xml'
             }
         },
 
@@ -199,12 +198,14 @@ module.exports = function (grunt) {
     grunt.registerTask('build_preload_js', ['openui5_preload']);
     grunt.registerTask('run_build', ['openui5_connect']);
     grunt.registerTask('replace_lib', ['string-replace']);
+        
 
     // Jenkins documentation tasks
     grunt.registerTask('createJsdoc', ['jsdoc:dist']);
 
     // aggregated tasks
-    grunt.registerTask('jenk_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'replace_lib', 'build_preload_js']);
+    grunt.registerTask('jenk_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'replace_lib', 'build_preload_js']);  //'build_preload_js'
+    grunt.registerTask('local_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'run_build', 'build_preload_js']); //'build_preload_js'
 
 
 
