@@ -1,5 +1,5 @@
 # PurchaseManagement-FE
-A light purchase managagement tool with ui5
+A light purchase managagement tool with openui5 framework
 
 ## Screenshots
 <img src="https://github.com/impnguyen/PurchaseManagement-FE/blob/master/readme/image1.PNG" width="320">
