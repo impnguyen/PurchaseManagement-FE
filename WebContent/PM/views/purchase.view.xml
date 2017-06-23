@@ -1,136 +1,82 @@
-<core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified" xmlns:form="sap.ui.layout.form"
-		controllerName="mpn.PM.controller.purchase" xmlns:html="http://www.w3.org/1999/xhtml">
+<core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified"
+	xmlns:form="sap.ui.layout.form" controllerName="mpn.PM.controller.purchase"
+	xmlns:html="http://www.w3.org/1999/xhtml">
 
-	<Page xmlns="sap.m"
-		id="purchasePage"
-		busy="false"
-		busyIndicatorDelay="1000"
-		visible="true"
-		fieldGroupIds=""
-		title="Einkauf hinzufügen"
-		titleLevel="Auto"
-		showNavButton="{device>/system/phone}"
-		showHeader="true"
-		showSubHeader="true"
-		navButtonText=""
-		navButtonTooltip=""
-		enableScrolling="true"
-		icon=""
-		backgroundDesign="Standard"
-		navButtonType="Back"
-		showFooter="true"
-		contentOnlyBusy="false"
-		floatingFooter="false"
-		validateFieldGroup=""
-		navButtonTap=""
+	<Page xmlns="sap.m" id="purchasePage" busy="false"
+		busyIndicatorDelay="1000" visible="true" fieldGroupIds=""
+		title="{i18n>purchaseAddPurchase}" titleLevel="Auto" showNavButton="{device>/system/phone}"
+		showHeader="true" showSubHeader="true" navButtonText=""
+		navButtonTooltip="" enableScrolling="true" icon="" backgroundDesign="Standard"
+		navButtonType="Back" showFooter="true" contentOnlyBusy="false"
+		floatingFooter="false" validateFieldGroup="" navButtonTap=""
 		navButtonPress="onNavBack">
-			<content>
-				<MessageStrip
-					id="successMs"
-					text="Der Einkauf wurde erfolgreich angelegt."
-					visible="false"
-					type="Success"
-					showIcon="true"
-					showCloseButton="true"
-					class="sapUiMediumMarginBottom">
-					<link>
-						<Link
-							text="Rückgängig machen"
-							press="onDeleteNewPurchase" />
-						</link>
-				</MessageStrip>
- 				<form:SimpleForm xmlns="sap.ui.layout"
-					id="purchaseSf"
-					busy="false"
-					busyIndicatorDelay="10"
-					visible="true"
-					maxContainerCols="2"
-					minWidth="-1"
-					width=""
-					editable="true"
-					labelMinWidth="192"
-					layout="ResponsiveLayout"
-					labelSpanXL="-1"
-					labelSpanL="4"
-					labelSpanM="2"
-					labelSpanS="12"
-					adjustLabelSpan="true"
-					emptySpanXL="-1"
-					emptySpanL="0"
-					emptySpanM="0"
-					emptySpanS="0"
-					columnsXL="-1"
-					columnsL="2"
-					columnsM="1"
-					singleContainerFullSize="true"
-					breakpointXL="1440"
-					breakpointL="1024"
-					breakpointM="600"
-					backgroundDesign="Translucent">
-						<form:content>
-							<Label xmlns="sap.m" text="Geschäft" />
-							<ComboBox xmlns="sap.m" required="true" items="{
+		<content>
+			<MessageStrip id="successMs"
+				text="Der Einkauf wurde erfolgreich angelegt." visible="false" type="Success"
+				showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom">
+				<link>
+					<Link text="Rückgängig machen" press="onDeleteNewPurchase" />
+				</link>
+			</MessageStrip>
+			<form:SimpleForm xmlns="sap.ui.layout" id="purchaseSf"
+				busy="false" busyIndicatorDelay="10" visible="true"
+				maxContainerCols="2" minWidth="-1" width="" editable="true"
+				labelMinWidth="192" layout="ResponsiveLayout" labelSpanXL="-1"
+				labelSpanL="4" labelSpanM="2" labelSpanS="12" adjustLabelSpan="true"
+				emptySpanXL="-1" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+				columnsXL="-1" columnsL="2" columnsM="1" singleContainerFullSize="true"
+				breakpointXL="1440" breakpointL="1024" breakpointM="600"
+				backgroundDesign="Translucent">
+				<form:content>
+					<Label xmlns="sap.m" text="{i18n>purchaseShop}" />
+					<ComboBox xmlns="sap.m" required="true"
+						items="{
 																			path : 'Geschaefte>/results',
 																			sorter : {
 																				path : 'ges_besuche',
 																				descending: true
-																			}}" id="geschaefteCb">
-								<core:Item key="{Geschaefte>ges_id}" text="({Geschaefte>ges_besuche}) {Geschaefte>ges_name} - {Geschaefte>ges_stadt}" />
-							</ComboBox>
+																			}}"
+						id="geschaefteCb">
+						<core:Item key="{Geschaefte>ges_id}"
+							text="({Geschaefte>ges_besuche}) {Geschaefte>ges_name} - {Geschaefte>ges_stadt}" />
+					</ComboBox>
 
-							<Label xmlns="sap.m" text="Datum" />
-								<DatePicker xmlns="sap.m"
-									id="purchaseDate"
-									visible="true"
-									value=""
-									width=""
-									enabled="true"
-									valueState="None"
-									name=""
-									placeholder=""
-									editable="true"
-									required="true"
-									displayFormat=""
-									valueFormat=""
-									dateValue=""
-									displayFormatType=""
-									secondaryCalendarType=""
-									minDate=""
-									maxDate=""
-									ariaLabelledBy=""
-									legend=""
-									change="">
-										<specialDates></specialDates> <!-- sap.ui.core.Element, since 1.38.5 -->
-								</DatePicker>
+					<Label xmlns="sap.m" text="{i18n>purchaseDate}" />
+					<DatePicker xmlns="sap.m" id="purchaseDate" visible="true"
+						value="" width="" enabled="true" valueState="None" name=""
+						placeholder="" editable="true" required="true" displayFormat=""
+						valueFormat="" dateValue="" displayFormatType=""
+						secondaryCalendarType="" minDate="" maxDate="" ariaLabelledBy=""
+						legend="" change="">
+						<specialDates></specialDates> <!-- sap.ui.core.Element, since 1.38.5 -->
+					</DatePicker>
 
-								<Label xmlns="sap.m" text="Zahler" />
-								<ComboBox xmlns="sap.m" required="true" items="{Zahler>/results}" id="zahlerCb">
-									<core:Item key="{Zahler>zah_id}" text="{Zahler>zah_alias}" />
-								</ComboBox>
+					<Label xmlns="sap.m" text="{i18n>purchasePayer}" />
+					<ComboBox xmlns="sap.m" required="true" items="{Zahler>/results}"
+						id="zahlerCb">
+						<core:Item key="{Zahler>zah_id}" text="{Zahler>zah_alias}" />
+					</ComboBox>
 
-								<Label xmlns="sap.m" text="Einkaufswert"  />
-								<Input xmlns="sap.m" required="true" type="Number" id="purchaseValInput"></Input>
+					<Label xmlns="sap.m" text="{i18n>purchaseValue}" />
+					<Input xmlns="sap.m" required="true" type="Number" id="purchaseValInput"></Input>
 
-							<Label xmlns="sap.m" text="" />
-							<Button xmlns="sap.m"
-									text="hinzufügen"
-									type="Accept"
-									width=""
-									enabled="true"
-									icon=""
-									press="onAddPurchase">
-								</Button>
-						</form:content>
-				</form:SimpleForm>
-            </content>
-			<dependents>
-				<core:Fragment fragmentName="mpn.PM.fragments.addShop" type="XML"/>
-			</dependents>
-			<customHeader></customHeader> <!-- sap.m.IBar -->
-			<footer></footer> <!-- sap.m.IBar -->
-			<subHeader></subHeader> <!-- sap.m.IBar -->
-			<headerContent></headerContent> <!-- sap.ui.core.Control -->
-			<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
+					<Label xmlns="sap.m" text="" />
+					<Button xmlns="sap.m" text="{i18n>purchaseAdd}" type="Accept"
+						width="" enabled="true" icon="" press="onAddPurchase">
+					</Button>
+				</form:content>
+			</form:SimpleForm>
+		</content>
+		<dependents>
+			<core:Fragment fragmentName="mpn.PM.fragments.addShop"
+				type="XML" />
+		</dependents>
+		<customHeader></customHeader> <!-- sap.m.IBar -->
+		<footer></footer> <!-- sap.m.IBar -->
+		<subHeader></subHeader> <!-- sap.m.IBar -->
+		<headerContent></headerContent> <!-- sap.ui.core.Control -->
+		<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
 	</Page>
 
 </core:View>

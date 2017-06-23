@@ -1,62 +1,68 @@
 {
-    "_version": "1.1.0",
-    "sap.app": {
-        "_version": "1.1.0",
-        "id": "PM",
-        "type": "application",
-        "i18n": "i18n/i18n.properties",
-        "title": "PUrchase Management",
-        "description": "A little purchase managment tool with ui5",
-        "applicationVersion": {
-            "version": "0.0.1"
-        },
-        "dataSources": {
+	"_version": "1.1.0",
+	"sap.app": {
+		"_version": "1.1.0",
+		"id": "PM",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "PUrchase Management",
+		"description": "A little purchase managment tool with ui5",
+		"applicationVersion": {
+			"version": "0.0.1"
+		},
+		"dataSources": {
 			"menu": {
 				"uri": "model/menu.json",
 				"type": "JSON"
 			}
 		}
-    },
-    "sap.ui": {
-        "_version": "1.1.0",
-        "technology": "UI5",
-        "deviceTypes": {
-            "desktop": true,
-            "tablet": true,
-            "phone": true
-        },
-        "supportedThemes": [
-            "sap_belize"
-        ]
-    },
-    "sap.ui5": {
-        "_version": "1.1.0",
-        "rootView": "mpn.PM.views/split",
-        "dependencies": {
-            "minUI5Version": "1.42",
-            "libs": {
-                "sap.m": {
-
-                }, 
-                "sap.ui.layout": {
-                    
-                }, 
-                "sap.ui.unified": {
-                    
-                }
-            }
-        }, 
-        "resources":{
-            "css": [{
-                "uri": "styles/style.css",
-                "id": "purchaseStyle"
-            }]
-        },
-        "models": {
+	},
+	"sap.ui": {
+		"_version": "1.1.0",
+		"technology": "UI5",
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_belize"
+		]
+	},
+	"sap.ui5": {
+		"_version": "1.1.0",
+		"rootView": "mpn.PM.views/split",
+		"dependencies": {
+			"minUI5Version": "1.42",
+			"libs": {
+				"sap.m": {
+					
+				},
+				"sap.ui.layout": {
+					
+				},
+				"sap.ui.unified": {
+					
+				}
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "styles/style.css",
+					"id": "purchaseStyle"
+				}
+			]
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"uri": "i18n/i18n.properties"
+			},
 			"menu": {
 				"type": "sap.ui.model.json.JSONModel",
 				"dataSource": "menu"
 			}
 		}
-    }
+	}
 }

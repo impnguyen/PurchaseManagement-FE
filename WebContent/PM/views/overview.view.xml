@@ -3,7 +3,7 @@
 	controllerName="mpn.PM.controller.overview" xmlns:html="http://www.w3.org/1999/xhtml">
 
 	<Page xmlns="sap.m" id="overviewPage" busy="false"
-		busyIndicatorDelay="1000" visible="true" fieldGroupIds="" title="Übersicht"
+		busyIndicatorDelay="1000" visible="true" fieldGroupIds="" title=""
 		titleLevel="Auto" showNavButton="{device>/system/phone}" showHeader="true"
 		showSubHeader="true" navButtonText="" navButtonTooltip=""
 		enableScrolling="true" icon="" backgroundDesign="Standard"
@@ -41,16 +41,16 @@
 				</items>
 				<columns>
 					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
-						<Text text="Geschäft" />
+						<Text text="{i18n>overviewShopColumn}" />
 					</Column>
 					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
-						<Text text="Datum" />
+						<Text text="{i18n>overviewDateColumn}" />
 					</Column>
 					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
-						<Text text="Zahler" />
+						<Text text="{i18n>overviewPayerColumn}" />
 					</Column>
 					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
-						<Text text="Wert" />
+						<Text text="{i18n>overviewValueColumn}" />
 					</Column>
 				</columns>
 			</List>

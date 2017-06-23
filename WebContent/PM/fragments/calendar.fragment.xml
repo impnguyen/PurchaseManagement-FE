@@ -1,45 +1,23 @@
-<core:FragmentDefinition
-	xmlns:core="sap.ui.core"
-    xmlns:form="sap.ui.layout.form"
-    xmlns:l="sap.ui.layout"
-    xmlns:u="sap.ui.unified"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-       <Popover xmlns="sap.m"
-            id="calendarPopover"
-            visible="true"
-            placement="Bottom"
-            showHeader="true"
-            title="Kalendar"
-            modal="false"
-            offsetX="0"
-            offsetY="0"
-            showArrow="true"
-            contentWidth="100%"
-            contentMinWidth="auto"
-            contentHeight="auto"
-            enableScrolling="true"
-            verticalScrolling="true"
-            horizontalScrolling="true"
-            bounce=""
-            resizable="false"
-            leftButton=""
-            rightButton=""
-            initialFocus=""
-            afterOpen=""
-            afterClose=""
-            beforeOpen=""
-            beforeClose="">
-                <tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
-                <dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
-                <content>
-                    <u:Calendar id="overviewCalendar" select="onChangeCal">
-                    </u:Calendar>
-                </content> <!-- sap.ui.core.Control -->
-                <customHeader></customHeader> <!-- sap.ui.core.Control -->
-                <subHeader></subHeader> <!-- sap.ui.core.Control, since 1.15.1 -->
-                <footer></footer> <!-- sap.ui.core.Control -->
-                <beginButton></beginButton> <!-- sap.ui.core.Control, since 1.15.1 -->
-                <endButton></endButton> <!-- sap.ui.core.Control, since 1.15.1 -->
-        </Popover>
+<core:FragmentDefinition xmlns:core="sap.ui.core"
+	xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified"
+	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+	<Popover xmlns="sap.m" id="calendarPopover" visible="true"
+		placement="Bottom" showHeader="true" title="{i18n>calPopoverTitle}"
+		modal="true" offsetX="0" offsetY="0" showArrow="true" contentWidth="auto"
+		contentMinWidth="auto" contentHeight="auto" enableScrolling="false"
+		verticalScrolling="false" horizontalScrolling="false" bounce=""
+		resizable="false" leftButton="" rightButton="" initialFocus=""
+		afterOpen="" afterClose="" beforeOpen="" beforeClose="">
+		<tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
+		<dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->
+		<content>
+			<u:Calendar id="overviewCalendar" select="onChangeCal">
+			</u:Calendar>
+		</content> <!-- sap.ui.core.Control -->
+		<customHeader></customHeader> <!-- sap.ui.core.Control -->
+		<subHeader></subHeader> <!-- sap.ui.core.Control, since 1.15.1 -->
+		<footer></footer> <!-- sap.ui.core.Control -->
+		<beginButton></beginButton> <!-- sap.ui.core.Control, since 1.15.1 -->
+		<endButton></endButton> <!-- sap.ui.core.Control, since 1.15.1 -->
+	</Popover>
 </core:FragmentDefinition>

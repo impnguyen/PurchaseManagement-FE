@@ -4,7 +4,7 @@
 
 	<Page xmlns="sap.m" id="menuListPage" busy="false"
 		busyIndicatorDelay="1000" visible="true" fieldGroupIds=""
-		title="Purchase Manager Menu" titleLevel="Auto" showNavButton="false"
+		title="{i18n>menuPageTitle}" titleLevel="Auto" showNavButton="false"
 		showHeader="true" showSubHeader="true" navButtonText=""
 		navButtonTooltip="" enableScrolling="true" icon="" backgroundDesign="Standard"
 		navButtonType="Back" showFooter="true" contentOnlyBusy="false"
