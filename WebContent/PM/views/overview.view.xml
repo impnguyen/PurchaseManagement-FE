@@ -1,142 +1,85 @@
-<core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified" 
-		controllerName="mpn.PM.controller.overview" xmlns:html="http://www.w3.org/1999/xhtml">
+<core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified"
+	controllerName="mpn.PM.controller.overview" xmlns:html="http://www.w3.org/1999/xhtml">
 
-	<Page xmlns="sap.m"
-		id="overviewPage"
-		busy="false"
-		busyIndicatorDelay="1000"
-		visible="true"
-		fieldGroupIds=""
-		title="Übersicht"
-		titleLevel="Auto"
-		showNavButton="{device>/system/phone}"
-		showHeader="true"
-		showSubHeader="true"
-		navButtonText=""
-		navButtonTooltip=""
-		enableScrolling="true"
-		icon=""
-		backgroundDesign="Standard"
-		navButtonType="Back"
-		showFooter="true"
-		contentOnlyBusy="false"
-		floatingFooter="false"
-		validateFieldGroup=""
-		navButtonTap=""
+	<Page xmlns="sap.m" id="overviewPage" busy="false"
+		busyIndicatorDelay="1000" visible="true" fieldGroupIds="" title="Übersicht"
+		titleLevel="Auto" showNavButton="{device>/system/phone}" showHeader="true"
+		showSubHeader="true" navButtonText="" navButtonTooltip=""
+		enableScrolling="true" icon="" backgroundDesign="Standard"
+		navButtonType="Back" showFooter="true" contentOnlyBusy="false"
+		floatingFooter="false" validateFieldGroup="" navButtonTap=""
 		navButtonPress="onNavBack">
-			<content>
-        
-				<List xmlns="sap.m"
-					id="overviewList"
-					busy="false"
-					busyIndicatorDelay="1000"
-					visible="true"
-					fieldGroupIds=""
-					inset="false"
-					headerText=""
-					headerDesign="Standard"
-					footerText=""
-					mode="None"
-					width="100%"
-					includeItemInSelection="false"
-					showUnread="false"
-					noDataText=""
-					showNoData="true"
-					enableBusyIndicator="true"
-					modeAnimationOn="true"
-					showSeparators="All"
-					swipeDirection="Both"
-					growing="false"
-					growingThreshold="20"
-					growingTriggerText=""
-					growingScrollToLoad="false"
-					growingDirection="Downwards"
-					rememberSelections="true"
-					keyboardMode="Navigation"
-					backgroundDesign="Solid"
-					ariaLabelledBy=""
-					validateFieldGroup=""
-					select=""
-					selectionChange=""
-					swipe=""
-					growingStarted=""
-					growingFinished=""
-					updateStarted=""
-					updateFinished=""
-					itemPress=""
-					items="{Einkaeufe>/results}">
-						<items>
-							<ColumnListItem>
-								<cells>
-									<Text text="{Einkaeufe>ges_name}" />
-									<Text text="{
+		<content>
+
+			<List xmlns="sap.m" id="overviewList" busy="false"
+				busyIndicatorDelay="1000" visible="true" fieldGroupIds="" inset="false"
+				headerText="" headerDesign="Standard" footerText="" mode="None"
+				width="100%" includeItemInSelection="false" showUnread="false"
+				noDataText="" showNoData="true" enableBusyIndicator="true"
+				modeAnimationOn="true" showSeparators="All" swipeDirection="Both"
+				growing="false" growingThreshold="20" growingTriggerText=""
+				growingScrollToLoad="false" growingDirection="Downwards"
+				rememberSelections="true" keyboardMode="Navigation"
+				backgroundDesign="Solid" ariaLabelledBy="" validateFieldGroup=""
+				select="" selectionChange="" swipe="" growingStarted=""
+				growingFinished="" updateStarted="" updateFinished="" itemPress=""
+				items="{Einkaeufe>/results}">
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="{Einkaeufe>ges_name}" />
+							<Text
+								text="{
 													path: 'Einkaeufe>eink_datum',
 													formatter: '.formatter.overviewPurchaseDateFormatter'
 												}" />
-									<Text text="{Einkaeufe>zah_alias}" />
-									<Text text="{Einkaeufe>eink_wert}" />
-								</cells>
-							</ColumnListItem>
-						</items>
-						<columns>
-							<Column
-								minScreenWidth="Phone"
-								demandPopin="true" hAlign="Right">
-								<Text text="Geschäft" />
-							</Column>
-							<Column
-								minScreenWidth="Phone"
-								demandPopin="true"
-								hAlign="Right">
-								<Text text="Datum" />
-							</Column>
-							<Column
-								minScreenWidth="Phone"
-								demandPopin="true"
-								hAlign="Right">
-								<Text text="Zahler" />
-							</Column>
-							<Column
-								minScreenWidth="Phone"
-								demandPopin="true"
-								hAlign="Right">
-								<Text text="Wert" />
-							</Column>
-					</columns>
-				</List>
+							<Text text="{Einkaeufe>zah_alias}" />
+							<Text text="{Einkaeufe>eink_wert}" />
+						</cells>
+					</ColumnListItem>
+				</items>
+				<columns>
+					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
+						<Text text="Geschäft" />
+					</Column>
+					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
+						<Text text="Datum" />
+					</Column>
+					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
+						<Text text="Zahler" />
+					</Column>
+					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
+						<Text text="Wert" />
+					</Column>
+				</columns>
+			</List>
 
-            </content>
-			<dependents>
-				<core:Fragment fragmentName="mpn.PM.fragments.calendar" type="XML"/>
-			</dependents>
-			<customHeader></customHeader> <!-- sap.m.IBar -->
-			<footer>
-				 	<OverflowToolbar xmlns="sap.m"
-						id="locationOftbaar"
-						visible="true"
-						width=""
-						active="false"
-						enabled="true"
-						height=""
-						design="Auto"
-						press="">
-							<content>
-								<Label xmlns="sap.m" id="userMani" text="Mani: 45 €" />
-								<ToolbarSpacer xmlns="sap.m"></ToolbarSpacer>
-								<Label xmlns="sap.m" id="userNici" text="Nicole: 30 €" />
-							</content>
-					</OverflowToolbar>
-			</footer> <!-- sap.m.IBar -->
-			<subHeader></subHeader> <!-- sap.m.IBar -->
-			<headerContent>
-				<Button
-					icon="sap-icon://refresh"
-					press="setupOverview" />
-				<Button
-					icon="sap-icon://calendar"
-					press="onCal" />
-			</headerContent> 
-			<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
+		</content>
+		<dependents>
+			<core:Fragment fragmentName="mpn.PM.fragments.calendar"
+				type="XML" />
+		</dependents>
+		<customHeader></customHeader> <!-- sap.m.IBar -->
+		<footer>
+			<OverflowToolbar xmlns="sap.m" id="locationOftbaar"
+				visible="true" width="" active="false" enabled="true" height=""
+				design="Auto" press="">
+				<content>
+					<ToolbarSpacer xmlns="sap.m"></ToolbarSpacer>
+					<Label xmlns="sap.m" id="userMani" text="Mani: 45 €" />
+					<ToolbarSeparator xmlns="sap.m">
+					</ToolbarSeparator>
+					<Label xmlns="sap.m" id="userNici" text="Nicole: 30 €" />
+				</content>
+			</OverflowToolbar>
+		</footer> <!-- sap.m.IBar -->
+		<subHeader></subHeader> <!-- sap.m.IBar -->
+		<headerContent>
+			<Button icon="sap-icon://refresh" press="setupOverview" />
+			<Button icon="sap-icon://calendar" press="onCal" />
+		</headerContent>
+		<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
 	</Page>
 
 </core:View>

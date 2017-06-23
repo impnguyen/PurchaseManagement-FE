@@ -58,6 +58,20 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 				.fail(function(jqXHR, textStatus, errorThrown) {
 					callback(errorThrown, undefined);
 				});
+		},
+
+		/**
+		 * get purchases
+		 * get request
+		 */
+		getAllPurchases : function(callback) {
+			$.ajax("http://192.168.20.20:3000/EinkaufEntitySet")
+				.done(function(data, textStatus, jqXHR) {
+					callback(data, undefined);
+				})
+				.fail(function(jqXHR, textStatus, errorThrown) {
+					callback(undefined, errorThrown);
+				});
 		}
 	});
 
