@@ -159,7 +159,19 @@ module.exports = function (grunt) {
         	      ]
         	    }
         	  }
-        	}
+            }, 
+            
+            //watch task option
+            watch: {
+                scripts: {
+                  files: ['<%= dir.src %>/**/*.js'],
+                  tasks: ['local_build'],
+                  options: {
+                    spawn: false,
+                    event: 'all'
+                  },
+                },
+              },
 
     });
 
@@ -174,6 +186,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-validate-xml');
     grunt.loadNpmTasks('grunt-jsdoc');
     grunt.loadNpmTasks('grunt-string-replace');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
 
     // Default task(s).
@@ -198,6 +211,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build_preload_js', ['openui5_preload']);
     grunt.registerTask('run_build', ['openui5_connect']);
     grunt.registerTask('replace_lib', ['string-replace']);
+    
         
 
     // Jenkins documentation tasks
