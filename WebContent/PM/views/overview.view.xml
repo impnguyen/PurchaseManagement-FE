@@ -67,10 +67,10 @@
 				design="Auto" press="">
 				<content>
 					<ToolbarSpacer xmlns="sap.m"></ToolbarSpacer>
-					<Label xmlns="sap.m" id="userMani" text="Mani: 45 €" />
+					<Label xmlns="sap.m" id="userMani" text="Mani: 0 €" />
 					<ToolbarSeparator xmlns="sap.m">
 					</ToolbarSeparator>
-					<Label xmlns="sap.m" id="userNici" text="Nicole: 30 €" />
+					<Label xmlns="sap.m" id="userNici" text="Nicole: 0 €" />
 				</content>
 			</OverflowToolbar>
 		</footer> <!-- sap.m.IBar -->

@@ -242,8 +242,19 @@ sap.ui.define([
 				}
 			}
 
-			this.getView().byId("userMani").setText("Mani: " + oZahlerExt[0].zah_count.toFixed(2) + " €");
-			this.getView().byId("userNici").setText("Nici: " + oZahlerExt[1].zah_count.toFixed(2) + " €");
+			try {
+				//try to fix decimals
+				this.getView().byId("userMani").setText("Mani: " + oZahlerExt[0].zah_count.toFixed(2) + " €");
+				this.getView().byId("userNici").setText("Nici: " + oZahlerExt[1].zah_count.toFixed(2) + " €");
+			} catch (error) {
+				if (error.name === "TypeError") {
+					console.log("no payments in selected month");
+				} else {
+					throw "uncaught error: in setPageFooter method (overview.controller.js)";
+				}
+			}
+
+			
 		},
 
 		/**
