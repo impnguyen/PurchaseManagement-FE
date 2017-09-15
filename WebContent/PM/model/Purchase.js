@@ -72,6 +72,19 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 				.fail(function(jqXHR, textStatus, errorThrown) {
 					callback(undefined, errorThrown);
 				});
+		}, 
+		
+		/**
+		 * get purchases by ges_id
+		 */
+		getPurchasesByShopId: function(iGesId, callback){
+			$.ajax("http://192.168.20.20:3000/EinkaufEntitySet/byGeschaeft/".concat(iGesId))
+			.done(function(data, textStatus, jqXHR) {
+				callback(data, undefined);
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				callback(undefined, errorThrown);
+			});
 		}
 	});
 
