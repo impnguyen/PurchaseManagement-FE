@@ -11,8 +11,12 @@
 			"version": "0.0.1"
 		},
 		"dataSources": {
-			"menu": {
-				"uri": "model/menu.json",
+			"menu_de": {
+				"uri": "model/menu_de.json",
+				"type": "JSON"
+			}, 
+			"menu_en": {
+				"uri": "model/menu_en.json",
 				"type": "JSON"
 			}
 		}
@@ -33,7 +37,7 @@
 		"_version": "1.1.0",
 		"rootView": "mpn.PM.views/split",
 		"dependencies": {
-			"minUI5Version": "1.42",
+			"minUI5Version": "1.48",
 			"libs": {
 				"sap.m": {
 					
@@ -59,9 +63,13 @@
 				"type": "sap.ui.model.resource.ResourceModel",
 				"uri": "i18n/i18n.properties"
 			},
-			"menu": {
+			"menu_de": {
 				"type": "sap.ui.model.json.JSONModel",
-				"dataSource": "menu"
+				"dataSource": "menu_de"
+			},
+			"menu_en": {
+				"type": "sap.ui.model.json.JSONModel",
+				"dataSource": "menu_en"
 			}
 		}
 	}

@@ -11,7 +11,12 @@ sap.ui.define([
   return Controller.extend("mpn.PM.controller.split", {
 
     onInit: function () {
-      this.getView().setModel(this.getOwnerComponent().getModel("menu"), "menu");
+      //set menu model based on language
+      if(sap.ui.getCore().getConfiguration().getLanguage() === 'de'){
+    	  this.getView().setModel(this.getOwnerComponent().getModel("menu_de"), "menu");
+      }else{
+    	  this.getView().setModel(this.getOwnerComponent().getModel("menu_en"), "menu");
+      }
     },
 
     onAfterRendering: function () {
@@ -20,8 +25,8 @@ sap.ui.define([
 
 
     /**
-     * menu press
-     */
+	 * menu press
+	 */
     onMenuPress: function(oEvent){
       var sPath = oEvent.oSource.oBindingContexts.menu.sPath;
       var oMenuModel = this.getView().getModel("menu");

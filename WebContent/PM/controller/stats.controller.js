@@ -28,6 +28,9 @@ sap.ui.define([
 
     },
 
+    /**
+     * navigate back to master view
+     */
     onNavBack: function () {
       this.getView().oParent.oParent.backToTopMaster();
     },

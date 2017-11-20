@@ -27,19 +27,9 @@ sap.ui.define([
 					oThat.getGeschaeftEntitySet();
 				}
 			});
-
-			// set device model
-			var oDeviceModel = new JSONModel(Device);
-			this.getView().setModel(oDeviceModel, "device");
-
-			//set zahler
-			this.getZahlerEntitySet();
-
-			//globals
-			var oGlobal = {
-				newEink_id : 0
-			};
-			this.getView().setModel(oGlobal, 'PurchaseTemp');
+			
+			//setup models
+			this.setupModels();
 		},
 		
 		/**
@@ -66,12 +56,13 @@ sap.ui.define([
 			var shop = new Shop();
 			
 			shop.getShops(function(oError, oData){
-				if(oError === undefined){
+				if(oError === null){
 					var oModel = new JSONModel();
 					oModel.setData(oData);
 					oThat.getView().setModel(oModel, "Geschaefte");
 				}else{
 					MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
+					console.warn('Shops Entity konnte nicht aufgerufen werden.');
 				}
 				oThat.getView().setBusy();
 			});
@@ -79,21 +70,21 @@ sap.ui.define([
 		},
 
 		/**
-		 * get zahler entity setModel
+		 * get zahler entity model and set to view
 		 */
-		getZahlerEntitySet : function() {
+		setPayerToView : function() {
 			this.getView().setBusy(true);
 			var oThat = this;
-			
-			var payer = new Payer();
+			var payer =  new Payer();
 			
 			payer.getPayers(function(oError, oData){
-				if(oError === undefined){
+				if(oError === null){
 					var oModel = new JSONModel();
 					oModel.setData(oData);
 					oThat.getView().setModel(oModel, "Zahler");
 				}else{
-					MessageToast.show("Die Zahler konnten nicht geladen werden.");
+					MessageToast.show("Die Bezahler konnten nicht geladen werden.");
+					console.warn(oError);
 				}
 				oThat.getView().setBusy();
 			});
@@ -122,7 +113,7 @@ sap.ui.define([
 				);
 
 				purchase.createPurchase(function(oError, oData) {
-					if (oError === undefined) {
+					if (oError === null) {
 						oThat.getView().getModel("PurchaseTemp").newEink_id = oData.insertedId.eink_id;
 						oThat.getView().byId("successMs").setVisible(true);
 						//reset geschaefte count
@@ -143,7 +134,7 @@ sap.ui.define([
 
 			var purchase = new Purchase();
 			purchase.deletePurchase(this.getView().getModel("PurchaseTemp").newEink_id, function(oError, oData) {
-				if (oError === undefined) {
+				if (oError === null) {
 					oThat.getView().byId("successMs").setVisible(false);
 					MessageToast.show("Der Einkauf wurde wieder gelöscht.");
 				} else {
@@ -151,6 +142,23 @@ sap.ui.define([
 				}
 				oThat.getView().setBusy(false);
 			});
+		}, 
+		
+		/**
+		 * set device model to view
+		 */
+		setDeviceModel: function(){
+			var oDeviceModel = new JSONModel(Device);
+			this.getView().setModel(oDeviceModel, "device");
+		}, 
+		
+		/**
+		 * setup models and set to view
+		 */
+		setupModels: function(){
+			this.setDeviceModel();
+			this.setPayerToView();
+			this.getView().setModel({newEink_id : 0}, 'PurchaseTemp'); //temp added purchase obj
 		}
 	});
 });

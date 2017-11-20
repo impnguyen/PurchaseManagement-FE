@@ -1,6 +1,7 @@
 /**
  * @module Menu
  * @author Manh Phuoc Nguyen
+ * @deprecated unused
  */
 sap.ui.define([
   "sap/ui/core/mvc/Controller",

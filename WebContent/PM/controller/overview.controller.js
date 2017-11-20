@@ -23,11 +23,7 @@ sap.ui.define([
 		 * @memberOf module:Overview
 		 */
 		onInit : function() {
-			// set device model
-			var oDeviceModel = new JSONModel(Device);
-			this.getView().setModel(oDeviceModel, "device");
-			this.setupOverview();
-
+			this.setupModels();
 		},
 
 		/**
@@ -72,12 +68,13 @@ sap.ui.define([
 			//get purchases
 			var purchase = new Purchase();
 			purchase.getAllPurchases(function(oData, oError) {
-				if (oError === undefined) {
+				if (oError === null) {
 					var oModel = new JSONModel();
 					oModel.setData(oData);
 					oDefEinkauf.resolve(oModel);
 				} else {
 					MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
+					console.warn(oError);
 					oDefEinkauf.reject();
 				}
 			});
@@ -85,7 +82,7 @@ sap.ui.define([
 			//set payer
 			var payer = new Payer();
 			payer.getPayers(function(oError, oData) {
-				if (oError === undefined) {
+				if (oError === null) {
 					var oModel = new JSONModel();
 					oModel.setData(oData);
 					oDefZahler.resolve(oModel);
@@ -98,12 +95,13 @@ sap.ui.define([
 			//set shops
 			var shop = new Shop();
 			shop.getShops(function(oError, oData) {
-				if (oError === undefined) {
+				if (oError === null) {
 					var oModel = new JSONModel();
 					oModel.setData(oData);
 					oDefGeschaeft.resolve(oModel);
 				} else {
 					MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
+					console.warn('Shops Entity konnte nicht aufgerufen werden.');
 					oDefGeschaeft.reject();
 				}
 			});
@@ -123,6 +121,7 @@ sap.ui.define([
 				oThat.setUpTableModelByDate();
 			}).fail(function() {
 				MessageToast.show("Es ist ein Fehler aufgetreten. Probiere es später noch einmal.");
+				console.warn('request queue konnte nicht erfolgreich abgeschlossen werden');
 			});
 
 		},
@@ -248,7 +247,7 @@ sap.ui.define([
 				this.getView().byId("userNici").setText("Nici: " + oZahlerExt[1].zah_count.toFixed(2) + " €");
 			} catch (error) {
 				if (error.name === "TypeError") {
-					console.log("no payments in selected month");
+					console.warn("no payments in selected month");
 				} else {
 					throw "uncaught error: in setPageFooter method (overview.controller.js)";
 				}
@@ -284,6 +283,20 @@ sap.ui.define([
 				}));
 			}
 
+		}, 
+		
+		// set device model
+		setupDeviceModel: function(){
+			var oDeviceModel = new JSONModel(Device);
+			this.getView().setModel(oDeviceModel, "device");
+		},
+		
+		/**
+		 * setup models and set to view
+		 */
+		setupModels: function(){
+			this.setupDeviceModel();
+			this.setupOverview();
 		}
 	});
 });

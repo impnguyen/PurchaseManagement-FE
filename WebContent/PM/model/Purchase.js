@@ -8,6 +8,12 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 			this._purchaseValue = purchaseValue;
 			this._shopId = shopId;
 			this._payerId = payerId;
+			
+			this.sHostUrl = 'http://192.168.20.20';
+			this.sHostPort = '3000';
+			this.sConnString = this.sHostUrl + ':' + this.sHostPort;
+			this.sPurchaseEntityUrl = '/EinkaufEntitySet';
+			this.sExpandByLocation = 'byGeschaeft';
 		},
 
 		/**
@@ -32,14 +38,14 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 				dataType : "json",
 				contentType : "application/json",
 				method : "POST",
-				url : "http://192.168.20.20:3000/EinkaufEntity",
+				url : this.sConnString + this.sPurchaseEntityUrl,
 				data : JSON.stringify(this.getPurchaseJson())
 			})
 				.done(function(data, textStatus, jqXHR) {
-					callback(undefined, data);
+					callback(null, data);
 				})
 				.fail(function(jqXHR, textStatus, errorThrown) {
-					callback(errorThrown, undefined);
+					callback(errorThrown, null);
 				});
 		},
 
@@ -50,13 +56,13 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 		deletePurchase : function(sPurchaseId, callback) {
 			$.ajax({
 				method : "DELETE",
-				url : "http://192.168.20.20:3000/EinkaufEntity/" + sPurchaseId
+				url : this.sConnString + this.sPurchaseEntityUrl + '/' + sPurchaseId
 			})
 				.done(function(data, textStatus, jqXHR) {
-					callback(undefined, data);
+					callback(null, data);
 				})
 				.fail(function(jqXHR, textStatus, errorThrown) {
-					callback(errorThrown, undefined);
+					callback(errorThrown, null);
 				});
 		},
 
@@ -65,12 +71,12 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 		 * get request
 		 */
 		getAllPurchases : function(callback) {
-			$.ajax("http://192.168.20.20:3000/EinkaufEntitySet")
+			$.ajax(this.sConnString + this.sPurchaseEntityUrl)
 				.done(function(data, textStatus, jqXHR) {
-					callback(data, undefined);
+					callback(data, null);
 				})
 				.fail(function(jqXHR, textStatus, errorThrown) {
-					callback(undefined, errorThrown);
+					callback(null, errorThrown);
 				});
 		}, 
 		
@@ -78,7 +84,7 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 		 * get purchases by ges_id
 		 */
 		getPurchasesByShopId: function(iGesId, callback){
-			$.ajax("http://192.168.20.20:3000/EinkaufEntitySet/byGeschaeft/".concat(iGesId))
+			$.ajax(this.sConnString + this.sPurchaseEntityUrl + sExpandByLocation + iGesId)
 			.done(function(data, textStatus, jqXHR) {
 				callback(data, undefined);
 			})
