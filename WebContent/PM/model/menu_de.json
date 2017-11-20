@@ -2,26 +2,26 @@
     "meta": {},
     "menuItems": [
         {
-            "title": "Einkauf hinzufügen",
+            "title": "Einkauf hinzufÃ¼gen",
             "description": "Einen Einkauf erfassen",
             "pageId": "purchaseView",
             "icon": "sap-icon://cart"
         },
         {
-            "title": "Übersicht",
-            "description": "Monatsübersicht",
+            "title": "Ãœbersicht",
+            "description": "MonatsÃ¼bersicht",
             "pageId": "overviewView",
             "icon": "sap-icon://line-chart"
         },
         {
-            "title": "Verwaltung der Geschäfte",
-            "description": "Geschäfte verwalten",
+            "title": "Verwaltung der GeschÃ¤fte",
+            "description": "GeschÃ¤fte verwalten",
             "pageId": "shopView",
             "icon": "sap-icon://addresses"
         },
         {
             "title": "Statistik",
-            "description": "Eine Karte über alle Einkäufe, Übersicht",
+            "description": "Eine Karte Ã¼ber alle EinkÃ¤ufe, Ãœbersicht",
             "pageId": "statsView",
             "icon": "sap-icon://business-objects-experience"
         }
