@@ -10,8 +10,9 @@ sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/m/MessageToast",
   "sap/ui/Device",
-  "sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, Device, JSONModel) {
+  "sap/ui/model/json/JSONModel",
+  "mpn/PM/model/Shop"
+], function (Controller, MessageToast, Device, JSONModel, Shop) {
   "use strict";
 
   return Controller.extend("mpn.PM.controller.stats", {
@@ -24,32 +25,12 @@ sap.ui.define([
       this.onRefreshStats();
     },
 
-    onAfterRendering: function () {
-
-    },
 
     /**
      * navigate back to master view
      */
     onNavBack: function () {
       this.getView().oParent.oParent.backToTopMaster();
-    },
-
-    getGeschaeftEntitySet: function (callback) {
-      this.getView().setBusy(true);
-      var oThat = this;
-
-      $.ajax("http://192.168.20.20:3000/GeschaeftEntitySet")
-        .done(function (data, textStatus, jqXHR) {
-          callback(data, undefined);
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-          callback(undefined, errorThrown);
-        })
-        .always(function () {
-          oThat.getView().setBusy(false);
-        });
-
     },
 
     getEinkaufEntitySetWithRange: function (sFirstDayInYear, sLastDayInYear) {
@@ -142,31 +123,37 @@ sap.ui.define([
 
     },
 
+    /**
+     * refresh stats view with new data
+     */
     onRefreshStats: function () {
       var oThat = this;
       var oDefGeschaeft = $.Deferred();
       var oDefEinkauf = $.Deferred();
 
       //init geschaefte entityset
-      this.getGeschaeftEntitySet.call(this, (function (oData, oError) {
-        if (oError === undefined) {
-          oDefGeschaeft.resolve(oData);
-        } else {
-          MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
-          console.log(oError);
+      let shop = new Shop();
+      shop.getShops().then(
+		  function(data){
+			  oDefGeschaeft.resolve(data);
+		  },
+		  function(error){
+			  MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
+	          console.warn(oError);
 
-          oDefGeschaeft.reject();
-        }
-      }));
+	          oDefGeschaeft.reject();
+		  }
+      );
 
 
       //init einkaeufe entityset
+      //TODO: refactoring!
       this.getEinkaufEntitySet(function (oData, oError) {
         if (oError === undefined) {
           oDefEinkauf.resolve(oData);
         } else {
           MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
-          console.log(oError);
+          console.warn(oError);
 
           oDefEinkauf.reject();
         }
