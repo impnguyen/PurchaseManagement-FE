@@ -105,11 +105,12 @@ sap.ui.define([
 				this.getView().setBusy(true);
 				var oThat = this;
 
-				var purchase = new Purchase(0,
-					new Date(this.getView().byId("purchaseDate").mProperties.dateValue.setDate(this.getView().byId("purchaseDate").mProperties.dateValue.getDate() + 1)).toISOString(),
-					parseFloat(this.getView().byId("purchaseValInput").getValue()),
-					parseInt(this.getView().byId("geschaefteCb").getSelectedKey()),
-					parseInt(this.getView().byId("zahlerCb").getSelectedKey())
+				var purchase = new Purchase(
+					purchaseId=0,
+					purchaseDate=new Date(this.getView().byId("purchaseDate").mProperties.dateValue.setDate(this.getView().byId("purchaseDate").mProperties.dateValue.getDate() + 1)).toISOString(),
+					purchaseValue=parseFloat(this.getView().byId("purchaseValInput").getValue()),
+					shopId=parseInt(this.getView().byId("geschaefteCb").getSelectedKey()),
+					payerId=parseInt(this.getView().byId("zahlerCb").getSelectedKey())
 				);
 
 				purchase.createPurchase(function(oError, oData) {
