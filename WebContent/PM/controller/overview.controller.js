@@ -81,30 +81,31 @@ sap.ui.define([
 
 			//set payer
 			var payer = new Payer();
-			payer.getPayers(function(oError, oData) {
-				if (oError === null) {
-					var oModel = new JSONModel();
-					oModel.setData(oData);
+			payer.getPayers().then(
+				function(oData){
+					let oModel = new JSONModel(oData);
 					oDefZahler.resolve(oModel);
-				} else {
+				}, 
+				function(error){
 					MessageToast.show("Die Zahler konnten nicht geladen werden.");
+					console.warn('Payer entity konnte im promise nicht requestet werden');
 					oDefZahler.reject();
 				}
-			});
+			);
 
 			//set shops
 			var shop = new Shop();
-			shop.getShops(function(oError, oData) {
-				if (oError === null) {
-					var oModel = new JSONModel();
-					oModel.setData(oData);
+			shop.getShops().then(
+				function(oData){
+					let oModel = new JSONModel(oData);
 					oDefGeschaeft.resolve(oModel);
-				} else {
+				},
+				function(error){
 					MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
 					console.warn('Shops Entity konnte nicht aufgerufen werden.');
 					oDefGeschaeft.reject();
 				}
-			});
+			);
 
 			//check for deferred objects
 			$.when(oDefGeschaeft, oDefZahler, oDefEinkauf).done(function(oGeschaeft, oZahler, oEinkauf) {
