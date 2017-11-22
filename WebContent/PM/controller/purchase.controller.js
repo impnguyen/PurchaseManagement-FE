@@ -63,7 +63,9 @@ sap.ui.define([
 					MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
 					console.warn('Shops Entity konnte nicht aufgerufen werden.');
 				}
-			);
+			).catch(function (err) {
+				  console.warn(err);
+			});
 		},
 
 		/**
@@ -87,7 +89,9 @@ sap.ui.define([
 					oDefZahler.reject();
 					oThat.getView().setBusy();
 				}
-			);
+			).catch(function (err) {
+				  console.warn(err);
+			});
 		},
 
 		/**

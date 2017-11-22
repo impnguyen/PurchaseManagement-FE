@@ -91,7 +91,9 @@ sap.ui.define([
 					console.warn('Payer entity konnte im promise nicht requestet werden');
 					oDefZahler.reject();
 				}
-			);
+			).catch(function (err) {
+				  console.warn(err);
+			});
 
 			//set shops
 			var shop = new Shop();
@@ -105,7 +107,9 @@ sap.ui.define([
 					console.warn('Shops Entity konnte nicht aufgerufen werden.');
 					oDefGeschaeft.reject();
 				}
-			);
+			).catch(function (err) {
+				  console.warn(err);
+			});
 
 			//check for deferred objects
 			$.when(oDefGeschaeft, oDefZahler, oDefEinkauf).done(function(oGeschaeft, oZahler, oEinkauf) {
