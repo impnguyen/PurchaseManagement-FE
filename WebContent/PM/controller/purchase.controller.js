@@ -75,7 +75,6 @@ sap.ui.define([
 		setPayerToView : function() {
 			this.getView().setBusy(true);
 			var oThat = this;
-			var payer =  new Payer();
 			var payer = new Payer();
 			
 			payer.getPayers().then(
