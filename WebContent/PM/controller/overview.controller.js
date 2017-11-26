@@ -70,9 +70,7 @@ sap.ui.define([
 			var purchase = new Purchase();
 			purchase.getAllPurchases(function(oData, oError) {
 				if (oError === null) {
-					var oModel = new JSONModel();
-					oModel.setData(oData);
-					oDefEinkauf.resolve(oModel);
+					oDefEinkauf.resolve(new JSONModel(oData));
 				} else {
 					MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
 					console.warn(oError);
@@ -84,12 +82,11 @@ sap.ui.define([
 			var payer = new Payer();
 			payer.getPayers().then(
 				function(oData){
-					let oModel = new JSONModel(oData);
-					oDefZahler.resolve(oModel);
+					oDefZahler.resolve(new JSONModel(oData));
 				}, 
 				function(error){
 					MessageToast.show("Die Zahler konnten nicht geladen werden.");
-					console.warn('Payer entity konnte im promise nicht requestet werden');
+					console.warn("Payer entity konnte im promise nicht requestet werden");
 					oDefZahler.reject();
 				}
 			).catch(function (err) {
@@ -100,12 +97,11 @@ sap.ui.define([
 			var shop = new Shop();
 			shop.getShops().then(
 				function(oData){
-					let oModel = new JSONModel(oData);
-					oDefGeschaeft.resolve(oModel);
+					oDefGeschaeft.resolve(new JSONModel(oData));
 				},
 				function(error){
 					MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
-					console.warn('Shops Entity konnte nicht aufgerufen werden.');
+					console.warn("Shops Entity konnte nicht aufgerufen werden.");
 					oDefGeschaeft.reject();
 				}
 			).catch(function (err) {
@@ -115,19 +111,17 @@ sap.ui.define([
 			//check for deferred objects
 			$.when(oDefGeschaeft, oDefZahler, oDefEinkauf).done(function(oGeschaeft, oZahler, oEinkauf) {
 				//set raw model
-				var oModel = new JSONModel();
-				oModel.setData({
+				oThat.getView().setModel(new JSONModel({
 					geschaeft : oGeschaeft.oData.results,
 					zahler : oZahler.oData.results,
 					einkauf : oEinkauf.oData.results
-				});
-				oThat.getView().setModel(oModel, "raw");
+				}), "raw");
 
 				//setup month
 				oThat.setUpTableModelByDate();
 			}).fail(function() {
 				MessageToast.show("Es ist ein Fehler aufgetreten. Probiere es später noch einmal.");
-				console.warn('request queue konnte nicht erfolgreich abgeschlossen werden');
+				console.warn("request queue konnte nicht erfolgreich abgeschlossen werden");
 			});
 
 		},
@@ -140,7 +134,7 @@ sap.ui.define([
 			var oEinkaeufe = this.getView().getModel("raw").oData.einkauf;
 			var oZahler = this.getView().getModel("raw").oData.zahler;
 			var oGeschaeft = this.getView().getModel("raw").oData.geschaeft;
-			var oModel = new JSONModel();
+			var oModel2 = new JSONModel();
 			var oTmpModel = {
 				results : []
 			};
@@ -174,8 +168,8 @@ sap.ui.define([
 				}
 			}
 
-			oModel.setData(oTmpModel);
-			this.getView().setModel(oModel, "Einkaeufe");
+			oModel2.setData(oTmpModel);
+			this.getView().setModel(oModel2, "Einkaeufe");
 
 			//setup calendar
 			this.setupCalendarSpecialDates();

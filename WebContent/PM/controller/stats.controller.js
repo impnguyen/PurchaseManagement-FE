@@ -133,7 +133,7 @@ sap.ui.define([
       var oDefEinkauf = $.Deferred();
 
       //init geschaefte entityset
-      let shop = new Shop();
+      var shop = new Shop();
       shop.getShops().then(
 		  function(data){
 			  oDefGeschaeft.resolve(data);
@@ -165,16 +165,12 @@ sap.ui.define([
         /**
          * geschaeft
          */
-        var oModel = new JSONModel();
-        oModel.setData(oGeschaeftCb);
-        oThat.getView().setModel(oModel, "Geschaefte");
+        oThat.getView().setModel(new JSONModel(oGeschaeftCb), "Geschaefte");
 
         /**
          * einkauf
          */
-        oModel = new JSONModel();
-        oModel.setData(oEinkaufCb);
-        oThat.getView().setModel(oModel, "Einkaeufe");
+        oThat.getView().setModel(new JSONModel(oEinkaufCb), "Einkaeufe");
 
         //build purchase overview stats model
         var aPurchases = oEinkaufCb.results;
@@ -277,17 +273,14 @@ sap.ui.define([
         }
 
         //set model for highest location by revenue
-        oModel.setData(oMostRevenueLoc);
-        oThat.getView().setModel(oModel, 'HighRevLoc');
+        oThat.getView().setModel(new JSONModel(oMostRevenueLoc), 'HighRevLoc');
 
 
         /**
          * get most frequently visited location
          */
         //set model most frequently visited location
-        var oModel2 = new JSONModel();
-        oModel2.setData(oFreqVisLoc);
-        oThat.getView().setModel(oModel2, 'MostFreqVisLoc');
+        oThat.getView().setModel(new JSONModel(oFreqVisLoc), 'MostFreqVisLoc');
       });
     },
 

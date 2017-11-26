@@ -51,18 +51,19 @@ sap.ui.define([
 		 * get geschaefte entity setModel
 		 */
 		getGeschaeftEntitySet : function(callback) {
-			this.getView().setBusy(true);
+			//this.getView().setBusy(true);
 			var oThat = this;
 			
 			var shop = new Shop();
 			shop.getShops().then(
 				function(data){
-					let oModel = new JSONModel(data);
-					oThat.getView().setModel(oModel, "Geschaefte");
+					oThat.getView().setModel(new JSONModel(data), "Geschaefte");
+					oThat.getView().setBusy(false);
 				},
 				function(error){
 					MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
 					console.warn('Shops Entity konnte nicht aufgerufen werden.');
+					oThat.getView().setBusy(false);
 				}
 			).catch(function (err) {
 				  console.warn(err);
@@ -79,15 +80,14 @@ sap.ui.define([
 			
 			payer.getPayers().then(
 				function(oData){
-					let oModel = new JSONModel(oData);
-					oThat.getView().setModel(oModel, "Zahler");
-					oThat.getView().setBusy();
+					oThat.getView().setModel(new JSONModel(oData), "Zahler");
+					oThat.getView().setBusy(false);
 				}, 
 				function(error){
 					MessageToast.show("Die Zahler konnten nicht geladen werden.");
 					console.warn('Payer entity konnte im promise nicht requestet werden');
 					oDefZahler.reject();
-					oThat.getView().setBusy();
+					oThat.getView().setBusy(false);
 				}
 			).catch(function (err) {
 				  console.warn(err);
@@ -126,6 +126,8 @@ sap.ui.define([
 					} else {
 						MessageToast.show("Fehler. Probiere es später aus.");
 					}
+					
+					this.getView().setBusy(false);
 				});
 			}
 		},

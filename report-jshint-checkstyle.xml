@@ -1,8 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <checkstyle version="4.3">
-	<file name="build\PM\model\Purchase.js">
-		<error line="1" column="1" severity="warning" message="Use the function form of &quot;use strict&quot;." source="jshint.W097" />
-		<error line="2" column="1" severity="warning" message="&apos;class&apos; is available in ES6 (use &apos;esversion: 6&apos;) or Mozilla JS extensions (use moz)." source="jshint.W104" />
-		<error line="69" column="5" severity="warning" message="&apos;$&apos; is not defined." source="jshint.W117" />
-	</file>
 </checkstyle>
