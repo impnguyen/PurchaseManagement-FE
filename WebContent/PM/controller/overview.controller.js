@@ -1,3 +1,4 @@
+'esversion: 6'
 /**
  * @module Overview
  * @author Manh Phuoc Nguyen
