@@ -1,4 +1,4 @@
-'esversion: 6';
+/*jshint esversion: 6 */ 
 /**
  * @module Overview
  * @author Manh Phuoc Nguyen
