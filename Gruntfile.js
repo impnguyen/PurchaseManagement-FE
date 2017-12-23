@@ -225,12 +225,9 @@ module.exports = function(grunt) {
 	grunt.registerTask('createJsdoc', [ 'jsdoc:dist' ]);
 
 	// aggregated tasks
-	grunt.registerTask('jenk_build', [ 'clean_build_dir', 'copy_to_build_dir',
-			'val_js', 'val_xml', 'replace_lib', 'build_preload_js' ]); // 'build_preload_js'
-	grunt.registerTask('local_build', [ 'clean_build_dir', 'copy_to_build_dir',
-			'val_js', 'val_xml', 'run_build', 'build_preload_js' ]); // 'build_preload_js'
-	grunt.registerTask('watch_build', [ 'clean_build_dir', 'copy_to_build_dir',
-			'val_js', 'val_xml', 'build_preload_js' ]);
+	grunt.registerTask('jenk_build', [ 'clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'replace_lib', 'build_preload_js' ]); // 'build_preload_js'
+	grunt.registerTask('local_build', [ 'clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'run_build', 'build_preload_js' ]); // 'build_preload_js'
+	grunt.registerTask('watch_build', [ 'clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'build_preload_js' ]);
 	grunt.registerTask('local', function() {
 		grunt.task.run('watch_build');
 		grunt.task.run('watch:scripts');

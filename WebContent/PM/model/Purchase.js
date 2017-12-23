@@ -12,7 +12,8 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 			this.sHostUrl = 'http://192.168.20.20';
 			this.sHostPort = '3000';
 			this.sConnString = this.sHostUrl + ':' + this.sHostPort;
-			this.sPurchaseEntityUrl = '/EinkaufEntitySet';
+			this.sPurchaseEntityUrl = '/EinkaufEntity';
+			this.sPurchaseEntitySetUrl = '/EinkaufEntitySet';
 			this.sExpandByLocation = 'byGeschaeft';
 		},
 
@@ -71,7 +72,7 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 		 * get request
 		 */
 		getAllPurchases : function(callback) {
-			$.ajax(this.sConnString + this.sPurchaseEntityUrl)
+			$.ajax(this.sConnString + this.sPurchaseEntitySetUrl)
 				.done(function(data, textStatus, jqXHR) {
 					callback(data, null);
 				})
@@ -84,7 +85,7 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 		 * get purchases by ges_id
 		 */
 		getPurchasesByShopId: function(iGesId, callback){
-			$.ajax(this.sConnString + this.sPurchaseEntityUrl + this.sExpandByLocation + iGesId)
+			$.ajax(this.sConnString + this.sPurchaseEntitySetUrl + this.sExpandByLocation + iGesId)
 			.done(function(data, textStatus, jqXHR) {
 				callback(data, undefined);
 			})
