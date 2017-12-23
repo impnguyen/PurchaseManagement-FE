@@ -14,12 +14,12 @@
 		<content>
 
 			<IconTabBar xmlns="sap.m" id="statsIconTabBar" visible="true"
-				showSelection="true" expandable="false" expanded="true" selectedKey="mapsFilter"
+				showSelection="true" expandable="false" expanded="true" selectedKey="purchaseFilter"
 				upperCase="false" stretchContentHeight="true" applyContentPadding="true"
 				backgroundDesign="Solid" headerMode="Standard" select="onSelectTabbarFilter"
 				expand="">
 				<items>
-					<IconTabFilter xmlns="sap.m" id="mapsFilter" text=""
+					<!--<IconTabFilter xmlns="sap.m" id="mapsFilter" text=""
 						enabled="true" key="mapsFilter" icon="sap-icon://map-2" iconColor="Default"
 						visible="true" design="Vertical">
 						<content>
@@ -34,19 +34,7 @@
 								</gmaps:markers>
 							</gmaps:Map>
 						</content>
-					</IconTabFilter>
-					<IconTabFilter xmlns="sap.m" id="yearFilter" text=""
-						enabled="true" key="mapsFilter" icon="sap-icon://appointment-2"
-						iconColor="Default" visible="true" design="Vertical">
-						<content>
-							<DatePicker id="chartDatePicker" value="2017"
-								valueFormat="yyyy" displayFormat="yyyy" change="onChangeChartDate" />
-							<core:HTML id="htmlContainer">
-								<!--content='&lt;canvas id="statChartjsCanvas" width="400px" height="400px"&gt;&lt;/canvas&gt;' -->
-								<!--<canvas id="statChartjsCanvas" width="auto" height="400px"></canvas> -->
-							</core:HTML>
-						</content>
-					</IconTabFilter>
+					</IconTabFilter>-->
 					<IconTabFilter xmlns="sap.m" id="purchaseFilter"
 						text="" enabled="true" key="mapsFilter" icon="sap-icon://simple-payment"
 						iconColor="Default" visible="true" design="Vertical">
@@ -127,6 +115,18 @@
 									</tileContent>
 								</GenericTile>
 							</ScrollContainer>
+						</content>
+					</IconTabFilter>
+					<IconTabFilter xmlns="sap.m" id="yearFilter" text=""
+						enabled="true" key="mapsFilter" icon="sap-icon://appointment-2"
+						iconColor="Default" visible="true" design="Vertical">
+						<content>
+							<DatePicker id="chartDatePicker" value="2017"
+								valueFormat="yyyy" displayFormat="yyyy" change="onChangeChartDate" />
+							<core:HTML id="htmlContainer">
+								<!--content='&lt;canvas id="statChartjsCanvas" width="400px" height="400px"&gt;&lt;/canvas&gt;' -->
+								<!--<canvas id="statChartjsCanvas" width="auto" height="400px"></canvas> -->
+							</core:HTML>
 						</content>
 					</IconTabFilter>
 				</items>

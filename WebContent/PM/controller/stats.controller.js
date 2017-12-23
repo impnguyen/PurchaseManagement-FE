@@ -329,7 +329,7 @@ sap.ui.define([
 
     //create canvas element to html 
     createCanvas: function () {
-      this.getView().byId("htmlContainer").setContent('<canvas id="statChartjsCanvas" width="300px" height="300px"></canvas>');
+      this.getView().byId("htmlContainer").setContent('<canvas id="statChartjsCanvas" width="300px" height="auto"></canvas>');
     },
 
     // on click on tab bar filter 
