@@ -281,6 +281,18 @@ sap.ui.define([
          */
         //set model most frequently visited location
         oThat.getView().setModel(new JSONModel(oFreqVisLoc), 'MostFreqVisLoc');
+
+
+        /**
+         * get arithm. cost average
+         */
+        try {
+          let sArithMonthAmount = oThat.getView().getModel('sum').oData.total / oThat.getView().getModel("Einkaeufe").oData.results.length;
+          oThat.getView().setModel(new JSONModel({averageCost: sArithMonthAmount}), 'average');
+        } catch (error) {
+          MessageToast.show('Die durchschnittle Monatskosten konnten nicht berechnet werden.');
+        }
+
       });
     },
 
