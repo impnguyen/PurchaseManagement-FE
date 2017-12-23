@@ -8,14 +8,9 @@
 
             <form:SimpleForm xmlns="sap.ui.layout"
                 id="geschaeftSf"
-                busy="false"
-                busyIndicatorDelay="1000"
-                visible="true"
-                fieldGroupIds=""
+                busyIndicatorDelay="0"
                 maxContainerCols="2"
                 minWidth="-1"
-                width=""
-                editable=""
                 labelMinWidth="192"
                 layout="ResponsiveLayout"
                 labelSpanXL="-1"
@@ -34,9 +29,7 @@
                 breakpointXL="1440"
                 breakpointL="1024"
                 breakpointM="600"
-                backgroundDesign="Translucent"
-                ariaLabelledBy=""
-                validateFieldGroup="">
+                backgroundDesign="Translucent">
                     <form:content>
                         <Label xmlns="sap.m" text="Geschäft" />
                         <Input xmlns="sap.m" id="storeNameInput"></Input>
@@ -45,7 +38,7 @@
                         <Input xmlns="sap.m" id="cityNameInput"></Input>
                     </form:content>
             </form:SimpleForm>
-                <buttons> <!-- sap.m.Button, since 1.21.1 -->
+                <buttons>
                     <Button xmlns="sap.m"
                         text="anlegen"
                         press="onAddShop">

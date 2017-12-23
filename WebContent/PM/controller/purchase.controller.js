@@ -106,6 +106,12 @@ sap.ui.define([
 
 				MessageToast.show("Bitte alle Felder ausfüllen!");
 			} else {
+				// transform , to .
+				let svalInput = this.getView().byId('purchaseValInput').getValue();
+				if(svalInput.includes(',')){
+					this.getView().byId('purchaseValInput').setValue(svalInput.replace(',', '.'));
+				}
+
 				this.getView().setBusy(true);
 				var oThat = this;
 
