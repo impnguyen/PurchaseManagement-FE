@@ -151,7 +151,8 @@ sap.ui.define(
       },
 
       /**
-		 * on press shop list item handlers
+		 * on press shop list item handlers;
+		 * open items based on selected shop
 		 */
       onPressShopItem: function(oEvent) {
         var sSelPath = oEvent.oSource.oBindingContexts.Geschaefte.sPath;

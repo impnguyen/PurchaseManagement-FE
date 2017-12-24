@@ -85,7 +85,7 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 		 * get purchases by ges_id
 		 */
 		getPurchasesByShopId: function(iGesId, callback){
-			$.ajax(this.sConnString + this.sPurchaseEntitySetUrl + this.sExpandByLocation + iGesId)
+			$.ajax(this.sConnString + this.sPurchaseEntitySetUrl + '/' + this.sExpandByLocation + '/' + iGesId)
 			.done(function(data, textStatus, jqXHR) {
 				callback(data, undefined);
 			})
