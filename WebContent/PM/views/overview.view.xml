@@ -1,85 +1,69 @@
-<core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified"
-	controllerName="mpn.PM.controller.overview" xmlns:html="http://www.w3.org/1999/xhtml">
-
-	<Page xmlns="sap.m" id="overviewPage" busy="false"
-		busyIndicatorDelay="1000" visible="true" fieldGroupIds="" title=""
-		titleLevel="Auto" showNavButton="{device>/system/phone}" showHeader="true"
-		showSubHeader="true" navButtonText="" navButtonTooltip=""
-		enableScrolling="true" icon="" backgroundDesign="Standard"
-		navButtonType="Back" showFooter="true" contentOnlyBusy="false"
-		floatingFooter="false" validateFieldGroup="" navButtonTap=""
-		navButtonPress="onNavBack">
+<core:View 
+	xmlns:l="sap.ui.layout" 
+	xmlns:core="sap.ui.core" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m" 
+	xmlns:u="sap.ui.unified" controllerName="mpn.PM.controller.overview" 
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page 
+		xmlns="sap.m" id="overviewPage" busy="false" busyIndicatorDelay="1000" visible="true" fieldGroupIds="" title="" titleLevel="Auto" showNavButton="{device>/system/phone}" showHeader="true" showSubHeader="true" navButtonText="" navButtonTooltip="" enableScrolling="true" icon="" backgroundDesign="Standard" navButtonType="Back" showFooter="true" contentOnlyBusy="false" floatingFooter="false" validateFieldGroup="" navButtonTap="" navButtonPress="onNavBack">
 		<content>
-
-			<List xmlns="sap.m" id="overviewList" busy="false"
-				busyIndicatorDelay="1000" visible="true" fieldGroupIds="" inset="false"
-				headerText="" headerDesign="Standard" footerText="" mode="None"
-				width="100%" includeItemInSelection="false" showUnread="false"
-				noDataText="" showNoData="true" enableBusyIndicator="true"
-				modeAnimationOn="true" showSeparators="All" swipeDirection="Both"
-				growing="false" growingThreshold="20" growingTriggerText=""
-				growingScrollToLoad="false" growingDirection="Downwards"
-				rememberSelections="true" keyboardMode="Navigation"
-				backgroundDesign="Solid" ariaLabelledBy="" validateFieldGroup=""
-				select="" selectionChange="" swipe="" growingStarted=""
-				growingFinished="" updateStarted="" updateFinished="" itemPress=""
-				items="{Einkaeufe>/results}">
+			<Table 
+				xmlns="sap.m" id="overviewList" busyIndicatorDelay="0" visible="true" headerText="" headerDesign="Standard" footerText="" width="100%" showUnread="false" noDataText="" showNoData="true" modeAnimationOn="true" showSeparators="All" swipeDirection="Both" growing="false" growingThreshold="20" growingScrollToLoad="false" growingDirection="Downwards" rememberSelections="true" keyboardMode="Navigation" backgroundDesign="Solid" items="{Einkaeufe>/results}">
 				<items>
 					<ColumnListItem>
 						<cells>
-							<Text text="{Einkaeufe>ges_name}" />
-							<Text
-								text="{
+							<ObjectIdentifier title="{Einkaeufe>ges_name}" text=""/>
+							<Text text="{
 													path: 'Einkaeufe>eink_datum',
 													formatter: '.formatter.overviewPurchaseDateFormatter'
 												}" />
+							<ObjectNumber number="{Einkaeufe>eink_wert}" unit="€" state="Success" />
 							<Text text="{Einkaeufe>zah_alias}" />
-							<Text text="{Einkaeufe>eink_wert}" />
 						</cells>
 					</ColumnListItem>
 				</items>
 				<columns>
-					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
+					<Column minScreenWidth="Phone" hAlign="Left">
 						<Text text="{i18n>overviewShopColumn}" />
 					</Column>
-					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="End">
 						<Text text="{i18n>overviewDateColumn}" />
 					</Column>
-					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
-						<Text text="{i18n>overviewPayerColumn}" />
-					</Column>
-					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right">
+					<Column minScreenWidth="Phone" hAlign="Right">
 						<Text text="{i18n>overviewValueColumn}" />
 					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Right">
+						<Text text="{i18n>overviewPayerColumn}" />
+					</Column>
 				</columns>
-			</List>
-
+			</Table>
 		</content>
 		<dependents>
-			<core:Fragment fragmentName="mpn.PM.fragments.calendar"
-				type="XML" />
+			<core:Fragment fragmentName="mpn.PM.fragments.calendar" type="XML" />
 		</dependents>
-		<customHeader></customHeader> <!-- sap.m.IBar -->
+		<customHeader></customHeader>
 		<footer>
-			<OverflowToolbar xmlns="sap.m" id="locationOftbaar"
-				visible="true" width="" active="false" enabled="true" height=""
-				design="Auto" press="">
+			<OverflowToolbar 
+				xmlns="sap.m" id="locationOftbaar" visible="true" width="" active="false" enabled="true" height="" design="Auto" press="">
 				<content>
-					<ToolbarSpacer xmlns="sap.m"></ToolbarSpacer>
-					<Label xmlns="sap.m" id="userMani" text="Mani: 0 €" />
-					<ToolbarSeparator xmlns="sap.m">
+					<ToolbarSpacer 
+						xmlns="sap.m">
+					</ToolbarSpacer>
+					<Label 
+						xmlns="sap.m" id="userMani" text="Mani: 0 €" />
+					<ToolbarSeparator 
+						xmlns="sap.m">
 					</ToolbarSeparator>
-					<Label xmlns="sap.m" id="userNici" text="Nicole: 0 €" />
+					<Label 
+						xmlns="sap.m" id="userNici" text="Nicole: 0 €" />
 				</content>
 			</OverflowToolbar>
-		</footer> <!-- sap.m.IBar -->
-		<subHeader></subHeader> <!-- sap.m.IBar -->
+		</footer>
+		<subHeader></subHeader>
 		<headerContent>
 			<Button icon="sap-icon://refresh" press="setupOverview" />
 			<Button icon="sap-icon://calendar" press="onCal" />
 		</headerContent>
-		<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
 	</Page>
-
 </core:View>
