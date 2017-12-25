@@ -3,7 +3,7 @@
 	xmlns:core="sap.ui.core" 
 	xmlns:form="sap.ui.layout.form">
 
-	<Dialog id="purchasesFromShop" title="Einkäufe" stretch="true">
+	<Dialog id="purchasesFromShop" title="{i18n>purchases}" stretch="true">
 		<List 
 			xmlns="sap.m" items="{shopPurchases>/}">
 			<items>
