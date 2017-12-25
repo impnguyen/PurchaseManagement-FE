@@ -7,7 +7,7 @@
 		<List 
 			xmlns="sap.m" items="{shopPurchases>/}">
 			<items>
-				<StandardListItem 
+				<StandardListItem
 					xmlns="sap.m" visible="true" info="{shopPurchases>eink_wert} €" description="" title="{path: 'shopPurchases>eink_datum',
 					formatter: '.formatter.overviewPurchaseDateFormatter'}" infoState="None">
 				</StandardListItem>
