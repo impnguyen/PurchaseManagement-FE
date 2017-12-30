@@ -1,14 +1,30 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
+	<!-- general -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<link rel="apple-touch-icon" href="http://icons.iconarchive.com/icons/tinylab/android-lollipop-apps/128/DrawIt-icon.png"/>
+	<link rel="apple-touch-icon" href="http://icons.iconarchive.com/icons/tinylab/android-lollipop-apps/128/DrawIt-icon.png"
+	/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- firebase sdk -->
+	<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase-auth.js"></script>
+
+	<!-- firebase ui -->
+	<script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+
+	<!-- pm auth module-->
+	<script src="auth.js"></script>
 
 	<!-- chartjs library -->
 	<script src="PM/libs/chartjs/dist/Chart.min.js"></script>
 
+	<!-- ui5 bootstrap -->
 	<script src="https://openui5.hana.ondemand.com/1.50.8/resources/sap-ui-cachebuster/sap-ui-core.js" id="sap-ui-bootstrap"
 	    data-sap-ui-libs="sap.m" data-sap-ui-preload="async" data-sap-ui-theme="sap_belize" data-sap-ui-bindingSyntax="complex"
 	    data-sap-ui-appCacheBuster="./" data-sap-ui-resourceroots='{
@@ -16,16 +32,33 @@
 			}'>
 	</script>
 
+	<!-- setup auth & pm -->
 	<script>
-		sap.ui.getCore().attachInit(function () {
-			new sap.ui.core.ComponentContainer({
-				name: "mpn.PM"
-			}).placeAt("content");
+		// setup firebase
+		firebase.initializeApp(PmAuth.getFirebaseConfig());
 
+		//check user status
+		firebase.auth().onAuthStateChanged(function (user) {
+			if (user) {
+				PmAuth.showPm();
+				PmAuth.hideFirebaseAuthUiLoader();
+				PmAuth.setupPm();
+			} else {
+				//setup firebase ui
+				var ui = new firebaseui.auth.AuthUI(firebase.auth());
+				ui.start('#firebaseui-auth-container', PmAuth.getUiConfig());
+
+				PmAuth.hidePm();
+			}
 		});
 	</script>
-
 </head>
+
+<!-- firebase auth -->
+<div id="firebaseui-auth-container"></div>
+<div id="loader">Loading...</div>
+
+<!-- ui5 body -->
 
 <body class="sapUiBody" role="application">
 	<div id="content"></div>
