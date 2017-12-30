@@ -4,6 +4,7 @@
  * @author Manh Phuoc Nguyen
  */
 sap.ui.define([
+	"mpn/PM/controller/BaseController",
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/ui/Device",
@@ -11,10 +12,10 @@ sap.ui.define([
 	"mpn/PM/model/Purchase",
 	"mpn/PM/model/Shop", 
 	"mpn/PM/model/Payer"
-], function(Controller, MessageToast, Device, JSONModel, Purchase, Shop, Payer) {
+], function(BaseController, Controller, MessageToast, Device, JSONModel, Purchase, Shop, Payer) {
 	"use strict";
 
-	return Controller.extend("mpn.PM.controller.purchase", {
+	return BaseController.extend("mpn.PM.controller.purchase", {
 		/**
 		 * on init handler
 		 */

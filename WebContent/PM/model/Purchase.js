@@ -2,7 +2,7 @@
 sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(BaseObject, JSONModel) {
 
 	var Purchase = BaseObject.extend("mpn/PM/model/Purchase", {
-		constructor : function(purchaseId, purchaseDate, purchaseValue, shopId, payerId) {
+		constructor : function(purchaseId, purchaseDate, purchaseValue, shopId, payerId, fbIdToken) {
 			this._purchaseId = purchaseId;
 			this._purchaseDate = purchaseDate;
 			this._purchaseValue = purchaseValue;
@@ -15,6 +15,8 @@ sap.ui.define([ "sap/ui/base/Object", "sap/ui/model/json/JSONModel" ], function(
 			this.sPurchaseEntityUrl = '/EinkaufEntity';
 			this.sPurchaseEntitySetUrl = '/EinkaufEntitySet';
 			this.sExpandByLocation = 'byGeschaeft';
+
+			this.firebaseIdToken = fbIdToken;
 		},
 
 		/**

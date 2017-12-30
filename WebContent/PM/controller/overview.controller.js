@@ -4,6 +4,7 @@
  * @author Manh Phuoc Nguyen
  */
 sap.ui.define([
+	"mpn/PM/controller/BaseController",
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/ui/Device",
@@ -13,10 +14,10 @@ sap.ui.define([
 	"mpn/PM/model/Shop",
 	"mpn/PM/model/Purchase",
 	"mpn/PM/model/Payer"
-], function(Controller, MessageToast, Device, JSONModel, formatter, DateTypeRange, Shop, Purchase, Payer) {
+], function(BaseController, Controller, MessageToast, Device, JSONModel, formatter, DateTypeRange, Shop, Purchase, Payer) {
 	"use strict";
 
-	return Controller.extend("mpn.PM.controller.overview", {
+	return BaseController.extend("mpn.PM.controller.overview", {
 		formatter : formatter,
 
 		/**
@@ -65,6 +66,13 @@ sap.ui.define([
 
 			//global vars
 			var oThat = this;
+
+			//get firebase id
+            this.getFireBaseIdToken().then(function(token) {
+                console.warn(token);
+            }, function(error) {
+                console.error(error);
+            });
 
 			//get purchases
 			var purchase = new Purchase();
