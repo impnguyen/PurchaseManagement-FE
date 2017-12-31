@@ -4,20 +4,19 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
   JSONModel
 ) {
   var Payer = BaseObject.extend("mpn/PM/model/Payer", {
-    constructor: function(payerId, fbIdToken) {
-      this._payerId = payerId;
+    constructor: function(oConfig) {
+      this._payerId = oConfig.payerId;
       this.sHostUrl = "http://192.168.20.20";
       this.sHostPort = "3000";
       this.sConnString = this.sHostUrl + ":" + this.sHostPort;
       this.sPayerEntityUrl = "/ZahlerEntitySet";
 
-      this.firebaseIdToken = fbIdToken;
+      this.firebaseIdToken = oConfig.fbIdToken;
     },
 
     /**
-				 * get payers entityset with promise
-				 * 
-				 */
+	 * get payers entityset with promise
+	 */
     getPayers: function() {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {

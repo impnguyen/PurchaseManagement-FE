@@ -102,8 +102,7 @@ sap.ui.define(
             return token;
           })
           .then(function(token) {
-            //TODO: refactor contructor as object
-            payer = new Payer(null, token);
+            payer = new Payer({fbIdToken: token});
             return payer.getPayers();
           })
           .then(function(oData) {
