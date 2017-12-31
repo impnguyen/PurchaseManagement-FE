@@ -75,18 +75,19 @@ sap.ui.define(
         //global vars
         var oThat = this;
 
-		//promise super objects
-		var purchase;
+        //promise super objects
+        var purchase;
+        var payer;
 
-        //get firebase id
+        //get purchases
         this.getFireBaseIdToken()
           .then(function(token) {
             return token;
           })
           .then(function(token) {
             //TODO: refactor contructor as object
-			purchase = new Purchase(null, null, null, null, null, token);
-			return purchase.getAllPurchases();
+            purchase = new Purchase(null, null, null, null, null, token);
+            return purchase.getAllPurchases();
           })
           .then(function(oData) {
             oDefEinkauf.resolve(new JSONModel(oData));
@@ -95,24 +96,21 @@ sap.ui.define(
             //error handling
           });
 
-        //set payer
-        var payer = new Payer();
-        payer
-          .getPayers()
-          .then(
-            function(oData) {
-              oDefZahler.resolve(new JSONModel(oData));
-            },
-            function(error) {
-              MessageToast.show("Die Zahler konnten nicht geladen werden.");
-              console.warn(
-                "Payer entity konnte im promise nicht requestet werden"
-              );
-              oDefZahler.reject();
-            }
-          )
-          .catch(function(err) {
-            console.warn(err);
+        //get payers
+        this.getFireBaseIdToken()
+          .then(function(token) {
+            return token;
+          })
+          .then(function(token) {
+            //TODO: refactor contructor as object
+            payer = new Payer(null, token);
+            return payer.getPayers();
+          })
+          .then(function(oData) {
+            oDefZahler.resolve(new JSONModel(oData));
+          })
+          .catch(function(oError) {
+            //error handling
           });
 
         //set shops
