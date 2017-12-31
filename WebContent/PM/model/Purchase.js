@@ -82,20 +82,25 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
 		 * get purchases
 		 * get request
 		 */
-    getAllPurchases: function(callback) {
-      $.ajax({
-        method: "GET",
-        url: this.sConnString + this.sPurchaseEntitySetUrl,
-        headers: {
-          Authorization: this.firebaseIdToken
-        }
-      })
-        .done(function(data, textStatus, jqXHR) {
-          callback(data, null);
+    getAllPurchases: function() {
+      var oThat = this;
+      var promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          method: "GET",
+          url: oThat.sConnString + oThat.sPurchaseEntitySetUrl,
+          headers: {
+            Authorization: oThat.firebaseIdToken
+          }
         })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-          callback(null, errorThrown);
-        });
+          .done(function(data, textStatus, jqXHR) {
+            resolve(data);
+          })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+            reject(errorThrown);
+          });
+      });
+
+      return promise;
     },
 
     /**

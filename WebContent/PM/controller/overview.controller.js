@@ -13,7 +13,7 @@ sap.ui.define(
     "sap/ui/unified/DateTypeRange",
     "mpn/PM/model/Shop",
     "mpn/PM/model/Purchase",
-	"mpn/PM/model/Payer"
+    "mpn/PM/model/Payer"
   ],
   function(
     BaseController,
@@ -23,7 +23,7 @@ sap.ui.define(
     DateTypeRange,
     Shop,
     Purchase,
-	Payer
+    Payer
   ) {
     "use strict";
     return BaseController.extend("mpn.PM.controller.overview", {
@@ -75,31 +75,25 @@ sap.ui.define(
         //global vars
         var oThat = this;
 
+		//promise super objects
+		var purchase;
+
         //get firebase id
-        this.getFireBaseIdToken().then(
-          function(token) {
-            //get purchases
-            var purchase = new Purchase(null, null, null, null, null, token);
-            purchase.getAllPurchases(function(oData, oError) {
-              if (oError === null) {
-                oDefEinkauf.resolve(new JSONModel(oData));
-              } else {
-                MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
-                console.warn(oError);
-                oDefEinkauf.reject();
-              }
-            });
-          },
-          function(error) {
-            if (
-              window.confirm(
-                "Wir konnten dich nicht eindeutig identifizieren. Die App wird neu geladen."
-              )
-            ) {
-              location.reload();
-            }
-          }
-        );
+        this.getFireBaseIdToken()
+          .then(function(token) {
+            return token;
+          })
+          .then(function(token) {
+            //TODO: refactor contructor as object
+			purchase = new Purchase(null, null, null, null, null, token);
+			return purchase.getAllPurchases();
+          })
+          .then(function(oData) {
+            oDefEinkauf.resolve(new JSONModel(oData));
+          })
+          .catch(function(oError) {
+            //error handling
+          });
 
         //set payer
         var payer = new Payer();
@@ -347,8 +341,7 @@ sap.ui.define(
       // set device model
       setupDeviceModel: function() {
         this.getView().setModel(new JSONModel(sap.ui.Device), "device");
-	  }
-	  
+      }
     });
   }
 );
