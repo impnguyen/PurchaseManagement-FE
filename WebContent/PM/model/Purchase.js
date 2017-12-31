@@ -18,7 +18,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
       this._shopId = shopId;
       this._payerId = payerId;
 
-      this.sHostUrl = "http://localhost";//"http://192.168.20.20";
+      this.sHostUrl = "http://192.168.20.20";
       this.sHostPort = "3000";
       this.sConnString = this.sHostUrl + ":" + this.sHostPort;
       this.sPurchaseEntityUrl = "/EinkaufEntity";

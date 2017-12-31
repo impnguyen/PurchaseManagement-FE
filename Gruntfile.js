@@ -33,6 +33,20 @@ module.exports = function (grunt) {
 					dest: '<%= dir.dist %>',
 					expand: true
 				},
+				local_general: {
+					cwd: '<%= dir.src %>',
+					src: ['**/*', '!**bower_components/**',
+						'!**/node_modules/**', '!**/bower.json',
+						'!**/Gruntfile.js', '!**/package.json'
+					], 
+					options: {
+						process: function (content, srcpath) {
+						  return content.replace('192.168.20.20', 'localhost');
+						},
+					  },
+					dest: '<%= dir.dist %>',
+					expand: true
+				},
 				libs: {
 					cwd: '<%= dir.root %>',
 					src: ['<%= dir.bower_components %>/signature_pad/*',
@@ -216,8 +230,8 @@ module.exports = function (grunt) {
 	// selenium webdriver io
 
 	// Jenkins build tasks
-	grunt.registerTask('clean_build_dir', ['clean'])
-	grunt.registerTask('copy_to_build_dir', ['copy:general'])
+	grunt.registerTask('clean_build_dir', ['clean']);
+	grunt.registerTask('copy_to_build_dir', ['copy:general']);
 	grunt.registerTask('build_preload_js', ['openui5_preload']);
 	grunt.registerTask('run_build', ['openui5_connect']);
 	grunt.registerTask('replace_lib', ['string-replace']);
@@ -227,8 +241,8 @@ module.exports = function (grunt) {
 
 	// aggregated tasks
 	grunt.registerTask('jenk_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'replace_lib', 'build_preload_js']); // 'build_preload_js'
-	grunt.registerTask('local_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'run_build', 'build_preload_js']); // 'build_preload_js'
-	grunt.registerTask('watch_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'build_preload_js']);
+	grunt.registerTask('local_build', ['clean_build_dir', 'copy:local_general', 'val_js', 'val_xml', 'run_build', 'build_preload_js']); // 'build_preload_js'
+	// grunt.registerTask('watch_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'build_preload_js']);
 	grunt.registerTask('local', function () {
 		grunt.task.run('openui5_connect');
 		grunt.task.run('watch');
