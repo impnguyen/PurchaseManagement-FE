@@ -121,6 +121,36 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
         .fail(function(jqXHR, textStatus, errorThrown) {
           callback(undefined, errorThrown);
         });
+    },
+
+    /**
+     * get purchases between range parameters
+     */
+    getPurchasesInRange: function(oRange) {
+      var oThat = this;
+      var promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: "POST",
+          data: JSON.stringify({
+            startDate: oRange.firstDayInYear,
+            endDate: oRange.lastDayInYear
+          }),
+          dataType: "json",
+          headers: {
+            Authorization: oThat.firebaseIdToken,
+            'Content-Type': "application/json; charset=UTF-8",
+          },
+          url: oThat.sConnString + oThat.sPurchaseEntitySetUrl
+        })
+          .done(function(data, textStatus, jqXHR) {
+            resolve(data);
+          })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+            reject(errorThrown);
+          });
+      });
+
+      return promise;
     }
   });
 
