@@ -65,17 +65,33 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
 		 * delete a purchase
 		 * delete request
 		 */
-    deletePurchase: function(sPurchaseId, callback) {
-      $.ajax({
-        method: "DELETE",
-        url: this.sConnString + this.sPurchaseEntityUrl + "/" + sPurchaseId
-      })
-        .done(function(data, textStatus, jqXHR) {
-          callback(null, data);
+    deletePurchase: function(sPurchaseId) {
+      // $.ajax({
+      //   method: "DELETE",
+      //   url: this.sConnString + this.sPurchaseEntityUrl + "/" + sPurchaseId
+      // })
+      //   .done(function(data, textStatus, jqXHR) {
+      //     callback(null, data);
+      //   })
+      //   .fail(function(jqXHR, textStatus, errorThrown) {
+      //     callback(errorThrown, null);
+      //   });
+
+      var oThat = this;
+      var promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          method: "DELETE",
+          url: oThat.sConnString + oThat.sPurchaseEntityUrl + "/" + sPurchaseId
         })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-          callback(errorThrown, null);
-        });
+          .done(function(data, textStatus, jqXHR) {
+            resolve(data);
+          })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+            reject(errorThrown);
+          });
+      });
+
+      return promise;
     },
 
     /**
@@ -138,7 +154,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
           dataType: "json",
           headers: {
             Authorization: oThat.firebaseIdToken,
-            'Content-Type': "application/json; charset=UTF-8",
+            "Content-Type": "application/json; charset=UTF-8"
           },
           url: oThat.sConnString + oThat.sPurchaseEntitySetUrl
         })

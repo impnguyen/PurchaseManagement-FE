@@ -9,7 +9,6 @@ sap.ui.define(
     "mpn/PM/controller/BaseController",
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageToast",
-    "sap/ui/Device",
     "sap/ui/model/json/JSONModel",
     "mpn/PM/model/Purchase",
     "mpn/PM/model/Shop",
@@ -19,7 +18,6 @@ sap.ui.define(
     BaseController,
     Controller,
     MessageToast,
-    Device,
     JSONModel,
     Purchase,
     Shop,
@@ -28,7 +26,7 @@ sap.ui.define(
     "use strict";
     return BaseController.extend("mpn.PM.controller.purchase", {
       /**
-		 * on init handler
+		 * setup models and setup shop entity
 		 */
       onInit: function() {
         var oThat = this;
@@ -46,10 +44,10 @@ sap.ui.define(
       },
 
       /**
-		 * on after rendering handler
+		 * on after rendering handler: set current date to form
 		 */
       onAfterRendering: function() {
-        this.byId("purchaseDate").setDateValue(new Date());
+        this.setCurrentDateToForm();
       },
 
       /**
@@ -63,25 +61,26 @@ sap.ui.define(
 		 * get geschaefte entity setModel
 		 */
       getGeschaeftEntitySet: function(callback) {
-        //this.getView().setBusy(true);
+        this.getView().setBusy(true);
         var oThat = this;
+        var shop;
 
-        var shop = new Shop();
-        shop
-          .getShops()
-          .then(
-            function(data) {
-              oThat.getView().setModel(new JSONModel(data), "Geschaefte");
-              oThat.getView().setBusy(false);
-            },
-            function(error) {
-              MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
-              console.warn("Shops Entity konnte nicht aufgerufen werden.");
-              oThat.getView().setBusy(false);
-            }
-          )
-          .catch(function(err) {
-            console.warn(err);
+        this.getFireBaseIdToken()
+          .then(function(token) {
+            return token;
+          })
+          .then(function(token) {
+            shop = new Shop(null, token);
+            return shop.getShops();
+          })
+          .then(function(oData) {
+            oThat.getView().setModel(new JSONModel(oData), "Geschaefte");
+            oThat.getView().setBusy(false);
+          })
+          .catch(function(oError) {
+            //error handling
+            MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
+            oThat.getView().setBusy(false);
           });
       },
 
@@ -100,7 +99,7 @@ sap.ui.define(
           })
           .then(function(token) {
             //TODO: refactor contructor as object
-            payer = new Payer({fbIdToken: token});
+            payer = new Payer({ fbIdToken: token });
             return payer.getPayers();
           })
           .then(function(oData) {
@@ -109,16 +108,13 @@ sap.ui.define(
           })
           .catch(function(oError) {
             MessageToast.show("Die Zahler konnten nicht geladen werden.");
-            console.warn(
-              "Payer entity konnte im promise nicht requestet werden"
-            );
             oDefZahler.reject();
             oThat.getView().setBusy(false);
           });
       },
 
       /**
-		 * add purchase
+		 * add purchase: TODO: to refactor
 		 */
       onAddPurchase: function() {
         if (
@@ -176,30 +172,40 @@ sap.ui.define(
 		 * on delete new purchase
 		 */
       onDeleteNewPurchase: function() {
-        var oThat = this;
         this.getView().setBusy(true);
+        var oThat = this;
+        var purchase;
 
-        var purchase = new Purchase();
-        purchase.deletePurchase(
-          this.getView().getModel("PurchaseTemp").newEink_id,
-          function(oError, oData) {
-            if (oError === null) {
-              oThat.getView().byId("successMs").setVisible(false);
-              MessageToast.show("Der Einkauf wurde wieder gelöscht.");
-            } else {
-              MessageToast.show("Fehler. Probiere es später aus.");
-            }
+        //get purchases
+        this.getFireBaseIdToken()
+          .then(function(token) {
+            return token;
+          })
+          .then(function(token) {
+            //TODO: refactor contructor as object
+            purchase = new Purchase(null, null, null, null, null, token);
+            return purchase.deletePurchase(
+              oThat.getView().getModel("PurchaseTemp").newEink_id
+            );
+          })
+          .then(function(oData) {
+            oThat.getView().byId("successMs").setVisible(false);
             oThat.getView().setBusy(false);
-          }
-        );
+            MessageToast.show("Der Einkauf wurde wieder gelöscht.");
+          })
+          .catch(function(oError) {
+            //error handling
+            oThat.getView().byId("successMs").setVisible(false);
+            MessageToast.show("Fehler. Probiere es später aus.");
+            oThat.getView().setBusy(false);            
+          });
       },
 
       /**
 		 * set device model to view
 		 */
       setDeviceModel: function() {
-        var oDeviceModel = new JSONModel(Device);
-        this.getView().setModel(oDeviceModel, "device");
+        this.getView().setModel(new JSONModel(sap.ui.Device), "device");
       },
 
       /**
@@ -209,6 +215,13 @@ sap.ui.define(
         this.setDeviceModel();
         this.setPayerToView();
         this.getView().setModel({ newEink_id: 0 }, "PurchaseTemp"); //temp added purchase obj
+      },
+
+      /**
+       * set current date to form
+       */
+      setCurrentDateToForm: function() {
+        this.byId("purchaseDate").setDateValue(new Date());
       }
     });
   }

@@ -7,7 +7,7 @@ sap.ui.define(
         return sap.ui.core.UIComponent.getRouterFor(this);
       },
 
-      // get firebase user id token 
+      // get firebase user id token
       getFireBaseIdToken: function() {
         var promise = new Promise(function(resolve, reject) {
           try {
