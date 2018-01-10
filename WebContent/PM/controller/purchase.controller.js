@@ -114,7 +114,7 @@ sap.ui.define(
       },
 
       /**
-		 * add purchase: TODO: to refactor
+		 * add purchase
 		 */
       onAddPurchase: function() {
         if (
@@ -137,36 +137,6 @@ sap.ui.define(
           var oThat = this;
           var purchase;
 
-          // var purchase = new Purchase(
-          //   0,
-          //   new Date(
-          //     this.getView()
-          //       .byId("purchaseDate")
-          //       .mProperties.dateValue.setDate(
-          //         this.getView()
-          //           .byId("purchaseDate")
-          //           .mProperties.dateValue.getDate() + 1
-          //       )
-          //   ).toISOString(),
-          //   parseFloat(this.getView().byId("purchaseValInput").getValue()),
-          //   parseInt(this.getView().byId("geschaefteCb").getSelectedKey()),
-          //   parseInt(this.getView().byId("zahlerCb").getSelectedKey())
-          // );
-
-          // purchase.createPurchase(function(oError, oData) {
-          //   if (oError === null) {
-          //     oThat.getView().getModel("PurchaseTemp").newEink_id =
-          //       oData.insertedId.eink_id;
-          //     oThat.getView().byId("successMs").setVisible(true);
-          //     //reset geschaefte count
-          //     oThat.getGeschaeftEntitySet();
-          //   } else {
-          //     MessageToast.show("Fehler. Probiere es später aus.");
-          //   }
-
-          //   oThat.getView().setBusy(false);
-          // });
-
           this.getFireBaseIdToken()
             .then(function(token) {
               return token;
@@ -176,10 +146,12 @@ sap.ui.define(
               purchase = new Purchase(
                 0,
                 new Date(
-                  oThat.getView()
+                  oThat
+                    .getView()
                     .byId("purchaseDate")
                     .mProperties.dateValue.setDate(
-                      oThat.getView()
+                      oThat
+                        .getView()
                         .byId("purchaseDate")
                         .mProperties.dateValue.getDate() + 1
                     )
