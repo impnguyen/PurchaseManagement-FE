@@ -45,20 +45,29 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
 		  * create a new purchase
 		  * post request
 		  */
-    createPurchase: function(callback) {
-      $.ajax({
-        dataType: "json",
-        contentType: "application/json",
-        method: "POST",
-        url: this.sConnString + this.sPurchaseEntityUrl,
-        data: JSON.stringify(this.getPurchaseJson())
-      })
-        .done(function(data, textStatus, jqXHR) {
-          callback(null, data);
+    createPurchase: function() {
+      var oThat = this;
+      var promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          dataType: "json",
+          contentType: "application/json",
+          method: "POST",
+          url: oThat.sConnString + oThat.sPurchaseEntityUrl,
+          data: JSON.stringify(oThat.getPurchaseJson()),
+          headers: {
+            Authorization: oThat.firebaseIdToken,
+            "Content-Type": "application/json; charset=UTF-8"
+          }
         })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-          callback(errorThrown, null);
-        });
+          .done(function(data, textStatus, jqXHR) {
+            resolve(data);
+          })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+            reject(errorThrown);
+          });
+      });
+
+      return promise;
     },
 
     /**
@@ -66,22 +75,15 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
 		 * delete request
 		 */
     deletePurchase: function(sPurchaseId) {
-      // $.ajax({
-      //   method: "DELETE",
-      //   url: this.sConnString + this.sPurchaseEntityUrl + "/" + sPurchaseId
-      // })
-      //   .done(function(data, textStatus, jqXHR) {
-      //     callback(null, data);
-      //   })
-      //   .fail(function(jqXHR, textStatus, errorThrown) {
-      //     callback(errorThrown, null);
-      //   });
-
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
         $.ajax({
           method: "DELETE",
-          url: oThat.sConnString + oThat.sPurchaseEntityUrl + "/" + sPurchaseId
+          url: oThat.sConnString + oThat.sPurchaseEntityUrl + "/" + sPurchaseId,
+          headers: {
+            Authorization: oThat.firebaseIdToken,
+            "Content-Type": "application/json; charset=UTF-8"
+          }
         })
           .done(function(data, textStatus, jqXHR) {
             resolve(data);

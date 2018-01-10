@@ -135,36 +135,75 @@ sap.ui.define(
 
           this.getView().setBusy(true);
           var oThat = this;
+          var purchase;
 
-          var purchase = new Purchase(
-            0,
-            new Date(
-              this.getView()
-                .byId("purchaseDate")
-                .mProperties.dateValue.setDate(
-                  this.getView()
+          // var purchase = new Purchase(
+          //   0,
+          //   new Date(
+          //     this.getView()
+          //       .byId("purchaseDate")
+          //       .mProperties.dateValue.setDate(
+          //         this.getView()
+          //           .byId("purchaseDate")
+          //           .mProperties.dateValue.getDate() + 1
+          //       )
+          //   ).toISOString(),
+          //   parseFloat(this.getView().byId("purchaseValInput").getValue()),
+          //   parseInt(this.getView().byId("geschaefteCb").getSelectedKey()),
+          //   parseInt(this.getView().byId("zahlerCb").getSelectedKey())
+          // );
+
+          // purchase.createPurchase(function(oError, oData) {
+          //   if (oError === null) {
+          //     oThat.getView().getModel("PurchaseTemp").newEink_id =
+          //       oData.insertedId.eink_id;
+          //     oThat.getView().byId("successMs").setVisible(true);
+          //     //reset geschaefte count
+          //     oThat.getGeschaeftEntitySet();
+          //   } else {
+          //     MessageToast.show("Fehler. Probiere es später aus.");
+          //   }
+
+          //   oThat.getView().setBusy(false);
+          // });
+
+          this.getFireBaseIdToken()
+            .then(function(token) {
+              return token;
+            })
+            .then(function(token) {
+              //TODO: refactor contructor as object
+              purchase = new Purchase(
+                0,
+                new Date(
+                  oThat.getView()
                     .byId("purchaseDate")
-                    .mProperties.dateValue.getDate() + 1
-                )
-            ).toISOString(),
-            parseFloat(this.getView().byId("purchaseValInput").getValue()),
-            parseInt(this.getView().byId("geschaefteCb").getSelectedKey()),
-            parseInt(this.getView().byId("zahlerCb").getSelectedKey())
-          );
-
-          purchase.createPurchase(function(oError, oData) {
-            if (oError === null) {
+                    .mProperties.dateValue.setDate(
+                      oThat.getView()
+                        .byId("purchaseDate")
+                        .mProperties.dateValue.getDate() + 1
+                    )
+                ).toISOString(),
+                parseFloat(oThat.getView().byId("purchaseValInput").getValue()),
+                parseInt(oThat.getView().byId("geschaefteCb").getSelectedKey()),
+                parseInt(oThat.getView().byId("zahlerCb").getSelectedKey()),
+                token
+              );
+              return purchase.createPurchase();
+            })
+            .then(function(oData) {
               oThat.getView().getModel("PurchaseTemp").newEink_id =
                 oData.insertedId.eink_id;
               oThat.getView().byId("successMs").setVisible(true);
               //reset geschaefte count
               oThat.getGeschaeftEntitySet();
-            } else {
+              oThat.getView().setBusy(false);
+            })
+            .catch(function(oError) {
+              //error handling
               MessageToast.show("Fehler. Probiere es später aus.");
-            }
-
-            oThat.getView().setBusy(false);
-          });
+              oThat.getView().setBusy(false);
+            });
         }
       },
 
@@ -197,7 +236,7 @@ sap.ui.define(
             //error handling
             oThat.getView().byId("successMs").setVisible(false);
             MessageToast.show("Fehler. Probiere es später aus.");
-            oThat.getView().setBusy(false);            
+            oThat.getView().setBusy(false);
           });
       },
 
