@@ -257,6 +257,7 @@ sap.ui.define(
       setPageFooter: function() {
         var oThat = this;
         var oPurchases = this.getView().getModel("Einkaeufe").oData.results;
+        var oPayers = oThat.getView().getModel("raw").oData.zahler;
         var oPayerExt = jQuery.extend(
           true,
           [],
@@ -264,17 +265,15 @@ sap.ui.define(
         );
 
         oPurchases.forEach(function(oPurch) {
-          oThat.getView().getModel("raw").oData.zahler.forEach(function(oPayer) {
+          oPayers.forEach(function(oPayer) {
             if (oPurch.zah_id === oPayer.zah_id) {
-              //ext zahler model with count
+
               oPayerExt.forEach(function(oPayExt) {
                 if (oPayExt.zah_id === oPurch.zah_id) {
                   if (oPayExt.zah_count === undefined) {
                     oPayExt.zah_count = 0;
                   }
-                  oPayExt.zah_count =
-                    parseFloat(oPayExt.zah_count) +
-                    parseFloat(oPurch.eink_wert);
+                  oPayExt.zah_count = parseFloat(oPayExt.zah_count) + parseFloat(oPurch.eink_wert);
                 }
               });
             }
@@ -286,12 +285,22 @@ sap.ui.define(
           this.getView()
             .byId("userMani")
             .setText("Mani: " + oPayerExt[0].zah_count.toFixed(2) + " €");
+        } catch (error) {
+          if (error.name === "TypeError") {
+            console.warn("no payments for mani in selected month");
+          } else {
+            throw "uncaught error: in setPageFooter method (overview.controller.js)";
+          }
+        }
+
+        try {
+          //try to fix decimals
           this.getView()
             .byId("userNici")
             .setText("Nici: " + oPayerExt[1].zah_count.toFixed(2) + " €");
         } catch (error) {
           if (error.name === "TypeError") {
-            console.warn("no payments in selected month");
+            console.warn("no payments for nicole in selected month");
           } else {
             throw "uncaught error: in setPageFooter method (overview.controller.js)";
           }
