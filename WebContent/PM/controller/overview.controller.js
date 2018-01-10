@@ -78,6 +78,7 @@ sap.ui.define(
         //promise super objects
         var purchase;
         var payer;
+        var shop;
 
         //get purchases
         this.getFireBaseIdToken()
@@ -94,6 +95,8 @@ sap.ui.define(
           })
           .catch(function(oError) {
             //error handling
+            MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
+            oDefEinkauf.reject();
           });
 
         //get payers
@@ -102,7 +105,7 @@ sap.ui.define(
             return token;
           })
           .then(function(token) {
-            payer = new Payer({fbIdToken: token});
+            payer = new Payer({ fbIdToken: token });
             return payer.getPayers();
           })
           .then(function(oData) {
@@ -110,41 +113,43 @@ sap.ui.define(
           })
           .catch(function(oError) {
             //error handling
+            MessageToast.show("Die Zahler konnten nicht geladen werden.");
+            oDefZahler.reject();
           });
 
-        //set shops
-        var shop = new Shop();
-        shop
-          .getShops()
-          .then(
-            function(oData) {
-              oDefGeschaeft.resolve(new JSONModel(oData));
-            },
-            function(error) {
-              MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
-              console.warn("Shops Entity konnte nicht aufgerufen werden.");
-              oDefGeschaeft.reject();
-            }
-          )
-          .catch(function(err) {
-            console.warn(err);
+        //get shops
+        this.getFireBaseIdToken()
+          .then(function(token) {
+            return token;
+          })
+          .then(function(token) {
+            shop = new Shop(null, token);
+            return shop.getShops();
+          })
+          .then(function(oData) {
+            oDefGeschaeft.resolve(new JSONModel(oData));
+          })
+          .catch(function(oError) {
+            //error handling
+            MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
+            oDefGeschaeft.reject();
           });
 
         //check for deferred objects
         $.when(oDefGeschaeft, oDefZahler, oDefEinkauf)
-          .done(function(oGeschaeft, oZahler, oEinkauf) {
+          .done(function(oShops, oPayer, oEinkauf) {
             //set raw model
             oThat.getView().setModel(
               new JSONModel({
-                geschaeft: oGeschaeft.oData.results,
-                zahler: oZahler.oData.results,
+                geschaeft: oShops.oData.results,
+                zahler: oPayer.oData.results,
                 einkauf: oEinkauf.oData.results
               }),
               "raw"
             );
 
             //setup month
-            oThat.setUpTableModelByDate();
+            oThat.setUpTableModelByDate.apply(oThat);
           })
           .fail(function() {
             MessageToast.show(
@@ -161,13 +166,10 @@ sap.ui.define(
 		 * @memberOf module:Overview
 		 */
       setUpTableModelByDate: function() {
-        var oEinkaeufe = this.getView().getModel("raw").oData.einkauf;
-        var oZahler = this.getView().getModel("raw").oData.zahler;
-        var oGeschaeft = this.getView().getModel("raw").oData.geschaeft;
-        var oModel2 = new JSONModel();
-        var oTmpModel = {
-          results: []
-        };
+        var oPurchases = this.getView().getModel("raw").oData.einkauf;
+        var oPayer = this.getView().getModel("raw").oData.zahler;
+        var oShops = this.getView().getModel("raw").oData.geschaeft;
+        var oTmpModel = { results: [] };
         var dStartDate = this.getView().byId("overviewCalendar").getStartDate();
         var dEndDate = this.getLastDayOfMonth(
           dStartDate.getFullYear(),
@@ -177,35 +179,34 @@ sap.ui.define(
         //set title
         this.setPageTitle(dStartDate.getMonth());
 
-        //build temp einkaeufe model
-        for (var i1 = 0; i1 < oEinkaeufe.length; i1++) {
+        //build temp purchases model
+        oPurchases.forEach(function(oPurch) {
           if (
-            new Date(oEinkaeufe[i1].eink_datum) >= dStartDate &&
-            new Date(oEinkaeufe[i1].eink_datum) <= dEndDate
+            new Date(oPurch.eink_datum) >= dStartDate &&
+            new Date(oPurch.eink_datum) <= dEndDate
           ) {
-            oTmpModel.results.push(oEinkaeufe[i1]);
+            oTmpModel.results.push(oPurch);
           }
-        }
+        });
 
         //add zahler and geschaeft  to temp einkaeufe model
-        for (var i = 0; i < oTmpModel.results.length; i++) {
-          //add zah_alias to oTmpModel
-          for (var j = 0; j < oZahler.length; j++) {
-            if (oTmpModel.results[i].zah_id === oZahler[j].zah_id) {
-              oTmpModel.results[i].zah_alias = oZahler[j].zah_alias;
+        oTmpModel.results.forEach(function(oTmp) {
+          // add zah_alias to tmp
+          oPayer.forEach(function(oPayer) {
+            if (oTmp.zah_id === oPayer.zah_id) {
+              oTmp.zah_alias = oPayer.zah_alias;
             }
-          }
+          });
 
-          //add ges_name to oTmpModel
-          for (var k = 0; k < oGeschaeft.length; k++) {
-            if (oTmpModel.results[i].ges_id === oGeschaeft[k].ges_id) {
-              oTmpModel.results[i].ges_name = oGeschaeft[k].ges_name;
+          //add ges_name to tmp
+          oShops.forEach(function(oShop) {
+            if (oTmp.ges_id === oShop.ges_id) {
+              oTmp.ges_name = oShop.ges_name;
             }
-          }
-        }
+          });
+        });
 
-        oModel2.setData(oTmpModel);
-        this.getView().setModel(oModel2, "Einkaeufe");
+        this.getView().setModel(new JSONModel(oTmpModel), "Einkaeufe");
 
         //setup calendar
         this.setupCalendarSpecialDates();
@@ -254,49 +255,40 @@ sap.ui.define(
 		 * @memberOf module:Overview
 		 */
       setPageFooter: function() {
-        var oEinkaeufe = this.getView().getModel("Einkaeufe").oData.results;
-        var oZahlerExt = jQuery.extend(
+        var oThat = this;
+        var oPurchases = this.getView().getModel("Einkaeufe").oData.results;
+        var oPayerExt = jQuery.extend(
           true,
           [],
           this.getView().getModel("raw").oData.zahler
         );
-        var oZah1Count = 0.0;
-        var oZah2Count = 0.0;
 
-        for (var i = 0; i < oEinkaeufe.length; i++) {
-          for (
-            var j = 0;
-            j < this.getView().getModel("raw").oData.zahler.length;
-            j++
-          ) {
-            if (
-              oEinkaeufe[i].zah_id ===
-              this.getView().getModel("raw").oData.zahler[j].zah_id
-            ) {
+        oPurchases.forEach(function(oPurch) {
+          oThat.getView().getModel("raw").oData.zahler.forEach(function(oPayer) {
+            if (oPurch.zah_id === oPayer.zah_id) {
               //ext zahler model with count
-              for (var k = 0; k < oZahlerExt.length; k++) {
-                if (oZahlerExt[k].zah_id === oEinkaeufe[i].zah_id) {
-                  if (oZahlerExt[k].zah_count === undefined) {
-                    oZahlerExt[k].zah_count = 0;
+              oPayerExt.forEach(function(oPayExt) {
+                if (oPayExt.zah_id === oPurch.zah_id) {
+                  if (oPayExt.zah_count === undefined) {
+                    oPayExt.zah_count = 0;
                   }
-
-                  oZahlerExt[k].zah_count =
-                    parseFloat(oZahlerExt[k].zah_count) +
-                    parseFloat(oEinkaeufe[i].eink_wert);
+                  oPayExt.zah_count =
+                    parseFloat(oPayExt.zah_count) +
+                    parseFloat(oPurch.eink_wert);
                 }
-              }
+              });
             }
-          }
-        }
+          });
+        });
 
         try {
           //try to fix decimals
           this.getView()
             .byId("userMani")
-            .setText("Mani: " + oZahlerExt[0].zah_count.toFixed(2) + " €");
+            .setText("Mani: " + oPayerExt[0].zah_count.toFixed(2) + " €");
           this.getView()
             .byId("userNici")
-            .setText("Nici: " + oZahlerExt[1].zah_count.toFixed(2) + " €");
+            .setText("Nici: " + oPayerExt[1].zah_count.toFixed(2) + " €");
         } catch (error) {
           if (error.name === "TypeError") {
             console.warn("no payments in selected month");
@@ -320,19 +312,17 @@ sap.ui.define(
 		 * @memberOf module:Overview
 		 */
       setupCalendarSpecialDates: function() {
-        var oEinkaeufe = this.getView().getModel("raw").oData.einkauf;
-        var oCal = this.getView().byId("overviewCalendar");
+        let oCal = this.getView().byId("overviewCalendar");
         oCal.destroySpecialDates();
 
-        for (var i = 0; i < oEinkaeufe.length; i++) {
-          //add special date to cal
+        this.getView().getModel("raw").oData.einkauf.forEach(function(oPurch) {
           oCal.addSpecialDate(
             new DateTypeRange({
-              startDate: new Date(oEinkaeufe[i].eink_datum),
+              startDate: new Date(oPurch.eink_datum),
               type: "Type10"
             })
           );
-        }
+        });
       },
 
       // set device model
