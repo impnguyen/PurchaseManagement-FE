@@ -232,22 +232,23 @@ sap.ui.define(
 		  * @param {integer} iMonth - month as integer [0...11]
 		  */
       setPageTitle: function(iMonth) {
-        var month = [];
-        month[0] = "January";
-        month[1] = "February";
-        month[2] = "March";
-        month[3] = "April";
-        month[4] = "May";
-        month[5] = "June";
-        month[6] = "July";
-        month[7] = "August";
-        month[8] = "September";
-        month[9] = "October";
-        month[10] = "November";
-        month[11] = "December";
-        var sMonth = month[iMonth];
-
-        this.getView().byId("overviewPage").setTitle("Purchases: " + sMonth);
+        var months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+        ];
+        this.getView()
+          .byId("overviewPage")
+          .setTitle("Purchases: " + months[iMonth]);
       },
 
       /**
@@ -267,13 +268,14 @@ sap.ui.define(
         oPurchases.forEach(function(oPurch) {
           oPayers.forEach(function(oPayer) {
             if (oPurch.zah_id === oPayer.zah_id) {
-
               oPayerExt.forEach(function(oPayExt) {
                 if (oPayExt.zah_id === oPurch.zah_id) {
                   if (oPayExt.zah_count === undefined) {
                     oPayExt.zah_count = 0;
                   }
-                  oPayExt.zah_count = parseFloat(oPayExt.zah_count) + parseFloat(oPurch.eink_wert);
+                  oPayExt.zah_count =
+                    parseFloat(oPayExt.zah_count) +
+                    parseFloat(oPurch.eink_wert);
                 }
               });
             }
