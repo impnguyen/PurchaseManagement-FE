@@ -78,10 +78,11 @@
 					<IconTabFilter 
 						xmlns="sap.m" id="yearFilter" text="" enabled="true" key="mapsFilter" icon="sap-icon://appointment-2" iconColor="Default" visible="true" design="Vertical">
 						<content>
-							<DatePicker id="chartDatePicker" value="2017" valueFormat="yyyy" displayFormat="yyyy" change="onChangeChartDate" />
+							<l:HorizontalLayout>
+								<DatePicker xmlns="sap.m" id="chartDatePicker" value="2018" valueFormat="yyyy" displayFormat="yyyy" change="onChangeChartDate" />
+								<Button xmlns="sap.m" press="onChangeChartType" icon="sap-icon://business-objects-experience"></Button>
+							</l:HorizontalLayout>
 							<core:HTML id="htmlContainer">
-								<!--content='&lt;canvas id="statChartjsCanvas" width="400px" height="400px"&gt;&lt;/canvas&gt;' -->
-								<!--<canvas id="statChartjsCanvas" width="auto" height="400px"></canvas> -->
 							</core:HTML>
 						</content>
 					</IconTabFilter>

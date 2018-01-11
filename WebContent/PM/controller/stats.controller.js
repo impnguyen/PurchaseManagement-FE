@@ -42,7 +42,6 @@ sap.ui.define(
             return token;
           })
           .then(function(token) {
-            //TODO: refactor contructor as object
             purchase = new Purchase({ fbIdToken: token });
             return purchase.getPurchasesInRange({
               firstDayInYear: sFirstDayInYear,
@@ -51,7 +50,7 @@ sap.ui.define(
           })
           .then(function(oData) {
             //setup chart with data
-            oThat.setupChart(oThat._parseRevenuesToMonths(oData));
+            oThat.setupChart.call(oThat, oThat._parseRevenuesToMonths(oData));
           })
           .catch(function(oError) {
             MessageToast.show(
@@ -113,7 +112,6 @@ sap.ui.define(
             return token;
           })
           .then(function(token) {
-            //TODO: refactor contructor as object
             purchase = new Purchase({ fbIdToken: token });
             return purchase.getAllPurchases();
           })
@@ -259,33 +257,14 @@ sap.ui.define(
        * setup chart control with incoming revuenue per month array
        */
       setupChart: function(aMonthRevenues) {
-        var ctx = document.getElementById("statChartjsCanvas");
-        var chartjs = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: this.getChartLabel(),
-            datasets: [
-              {
-                label: "Monatsausgaben",
-                data: aMonthRevenues,
-                backgroundColor: "rgba(54, 162, 235, 0.2)",
-                borderColor: "rgba(54, 162, 235, 1)",
-                borderWidth: 1
-              }
-            ]
-          },
-          options: {
-            scales: {
-              yAxes: [
-                {
-                  ticks: {
-                    beginAtZero: true
-                  }
-                }
-              ]
-            }
+        if (this.chartjs !== undefined) {
+          try {
+            this.chartjs.destroy();
+          } catch (error) {
+            console.log(error);
           }
-        });
+        }
+        this.createChart(aMonthRevenues);
       },
 
       //create canvas element to html
@@ -293,21 +272,26 @@ sap.ui.define(
         this.getView()
           .byId("htmlContainer")
           .setContent(
-            '<canvas id="statChartjsCanvas" width="300px" height="auto"></canvas>'
+            '<canvas id="statChartjsCanvas" width="100%" height="100%"></canvas>'
           );
       },
 
       // on click on tab bar filter
       onSelectTabbarFilter: function(oEvent) {
-        this.getView().setBusy(true);
-        var dPicker = this.getView().byId("chartDatePicker").getDateValue();
-        var dYear = dPicker.getFullYear();
-        this.setPurchaseInRange.apply(this, [
-          String(dYear).concat("-01-01"),
-          String(dYear).concat("-12-31")
-        ]);
+        if (oEvent.mParameters.selectedKey === "mapsFilter") {
+          this.getView().setBusy(true);
+          var dPicker = this.getView().byId("chartDatePicker").getDateValue();
+          var dYear = dPicker.getFullYear();
+          this.setPurchaseInRange.apply(this, [
+            String(dYear).concat("-01-01"),
+            String(dYear).concat("-12-31")
+          ]);
+        }
       },
 
+      /**
+       * on change date
+       */
       onChangeChartDate: function(oEvent) {
         this.getView().setBusy(true);
         var sYear = oEvent.oSource.getValue();
@@ -342,6 +326,59 @@ sap.ui.define(
           "November",
           "Dezember"
         ];
+      },
+
+      /**
+       * remove data from chart
+       */
+      removeChartData: function(chart) {
+        chart.data.labels.pop();
+        chart.data.datasets.forEach(dataset => {
+          dataset.data.pop();
+        });
+        chart.update();
+      },
+
+      /**
+       * create data for chart
+       */
+      createChart: function(aMonthRevenues) {
+        var ctx = document.getElementById("statChartjsCanvas");
+        this.chartjs = new Chart(ctx, {
+          type: "horizontalBar",
+          data: {
+            labels: this.getChartLabel(),
+            datasets: [
+              {
+                label: "Monatsausgaben",
+                data: aMonthRevenues,
+                // backgroundColor: "rgba(54, 162, 235, 0.2)",
+                // borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            responsiveAnimationDuration: 100,
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }
+              ]
+            }
+          }
+        });
+      }, 
+
+      /**
+       * on change chart type
+       */
+      onChangeChartType: function(){
+        //TODO: change type: http://www.chartjs.org/docs/latest/getting-started/ , http://www.chartjs.org/samples/latest/
       }
     });
   }
