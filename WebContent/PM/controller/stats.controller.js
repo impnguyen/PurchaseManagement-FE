@@ -46,7 +46,7 @@ sap.ui.define(
           })
           .then(function(token) {
             //TODO: refactor contructor as object
-            purchase = new Purchase(null, null, null, null, null, token);
+            purchase = new Purchase({fbIdToken: token});
             return purchase.getPurchasesInRange({
               firstDayInYear: sFirstDayInYear,
               lastDayInYear: sLastDayInYear
@@ -187,7 +187,7 @@ sap.ui.define(
           })
           .then(function(token) {
             //TODO: refactor contructor as object
-            purchase = new Purchase(null, null, null, null, null, token);
+            purchase = new Purchase({fbIdToken: token});
             return purchase.getAllPurchases();
           })
           .then(function(oData) {

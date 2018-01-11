@@ -4,19 +4,12 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
   JSONModel
 ) {
   var Purchase = BaseObject.extend("mpn/PM/model/Purchase", {
-    constructor: function(
-      purchaseId,
-      purchaseDate,
-      purchaseValue,
-      shopId,
-      payerId,
-      fbIdToken
-    ) {
-      this._purchaseId = purchaseId;
-      this._purchaseDate = purchaseDate;
-      this._purchaseValue = purchaseValue;
-      this._shopId = shopId;
-      this._payerId = payerId;
+    constructor: function(oPurchase) {
+      this._purchaseId = oPurchase.purchaseId;
+      this._purchaseDate = oPurchase.purchaseDate;
+      this._purchaseValue = oPurchase.purchaseValue;
+      this._shopId = oPurchase.shopId;
+      this._payerId = oPurchase.payerId;
 
       this.sHostUrl = "http://192.168.20.20";
       this.sHostPort = "3000";
@@ -25,7 +18,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
       this.sPurchaseEntitySetUrl = "/EinkaufEntitySet";
       this.sExpandByLocation = "byGeschaeft";
 
-      this.firebaseIdToken = fbIdToken;
+      this.firebaseIdToken = oPurchase.fbIdToken;
     },
 
     /**

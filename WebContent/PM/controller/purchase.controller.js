@@ -117,6 +117,7 @@ sap.ui.define(
 		 * add purchase
 		 */
       onAddPurchase: function() {
+        //check valid form values
         if (
           this.getView().byId("purchaseDate").mProperties.dateValue === null ||
           this.getView().byId("geschaefteCb").getSelectedKey() === "" ||
@@ -137,30 +138,14 @@ sap.ui.define(
           var oThat = this;
           var purchase;
 
+          //create new purchase
           this.getFireBaseIdToken()
             .then(function(token) {
               return token;
             })
             .then(function(token) {
               //TODO: refactor contructor as object
-              purchase = new Purchase(
-                0,
-                new Date(
-                  oThat
-                    .getView()
-                    .byId("purchaseDate")
-                    .mProperties.dateValue.setDate(
-                      oThat
-                        .getView()
-                        .byId("purchaseDate")
-                        .mProperties.dateValue.getDate() + 1
-                    )
-                ).toISOString(),
-                parseFloat(oThat.getView().byId("purchaseValInput").getValue()),
-                parseInt(oThat.getView().byId("geschaefteCb").getSelectedKey()),
-                parseInt(oThat.getView().byId("zahlerCb").getSelectedKey()),
-                token
-              );
+              purchase = new Purchase(oThat.createNewPurchaseObject(token));
               return purchase.createPurchase();
             })
             .then(function(oData) {
@@ -194,7 +179,7 @@ sap.ui.define(
           })
           .then(function(token) {
             //TODO: refactor contructor as object
-            purchase = new Purchase(null, null, null, null, null, token);
+            purchase = new Purchase({ fbIdToken: token });
             return purchase.deletePurchase(
               oThat.getView().getModel("PurchaseTemp").newEink_id
             );
@@ -233,6 +218,34 @@ sap.ui.define(
        */
       setCurrentDateToForm: function() {
         this.byId("purchaseDate").setDateValue(new Date());
+      },
+
+      /**
+       * create new purchase object
+       */
+      createNewPurchaseObject: function(sFbToken) {
+        return {
+          purchaseId: 0,
+          purchaseDate: new Date(
+            this
+              .getView()
+              .byId("purchaseDate")
+              .mProperties.dateValue.setDate(
+                this
+                  .getView()
+                  .byId("purchaseDate")
+                  .mProperties.dateValue.getDate() + 1
+              )
+          ).toISOString(),
+          purchaseValue: parseFloat(
+            this.getView().byId("purchaseValInput").getValue()
+          ),
+          shopId: parseInt(
+            this.getView().byId("geschaefteCb").getSelectedKey()
+          ),
+          payerId: parseInt(this.getView().byId("zahlerCb").getSelectedKey()),
+          fbIdToken: sFbToken
+        };
       }
     });
   }
