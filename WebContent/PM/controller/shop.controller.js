@@ -162,18 +162,32 @@ sap.ui.define(
         var oThat = this;
 
         //get shops purchases
+        this.getView().setBusy(true);
         var purchase = new Purchase();
-        purchase.getPurchasesByShopId(iSelGesId, function(data, error) {
-          if (error === undefined) {
-            var oModel2 = new JSONModel();
-            oModel2.setData(data.results);
-            oThat.getView().setModel(oModel2, "shopPurchases");
-          } else {
-            MessageToast.show(
-              "Die Einkäufe konnten nicht geladen werden. Bitte wende dich an den Entwickler."
-            );
-          }
+        purchase.getPurchasesByShopId()
+        .then(function(data){
+          var oModel2 = new JSONModel();
+          oModel2.setData(data.results);
+          oThat.getView().setModel(oModel2, "shopPurchases");
+          oThat.getView().setBusy(false);
+        })
+        .catch(function(error){
+          MessageToast.show(
+            "Die Einkäufe konnten nicht geladen werden. Bitte wende dich an den Entwickler."
+          );
+          oThat.getView().setBusy(false);
         });
+        // purchase.getPurchasesByShopId(iSelGesId, function(data, error) {
+        //   if (error === undefined) {
+        //     var oModel2 = new JSONModel();
+        //     oModel2.setData(data.results);
+        //     oThat.getView().setModel(oModel2, "shopPurchases");
+        //   } else {
+        //     MessageToast.show(
+        //       "Die Einkäufe konnten nicht geladen werden. Bitte wende dich an den Entwickler."
+        //     );
+        //   }
+        // });
 
         this.getView().byId("purchasesFromShop").open();
       },

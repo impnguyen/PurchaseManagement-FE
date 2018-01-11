@@ -12,19 +12,16 @@ sap.ui.define(
   [
     "mpn/PM/controller/BaseController",
     "sap/m/MessageToast",
-    "sap/ui/Device",
     "sap/ui/model/json/JSONModel",
     "mpn/PM/model/Shop",
     "mpn/PM/model/Purchase"
   ],
-  function(BaseController, MessageToast, Device, JSONModel, Shop, Purchase) {
+  function(BaseController, MessageToast, JSONModel, Shop, Purchase) {
     "use strict";
     return BaseController.extend("mpn.PM.controller.stats", {
       onInit: function() {
-        // set device model
-        var oDeviceModel = new JSONModel(Device);
-        this.getView().setModel(oDeviceModel, "device");
-        this.createCanvas();
+        this.setModels();
+        this.createChartCanvas();
         this.onRefreshStats();
       },
 
@@ -46,7 +43,7 @@ sap.ui.define(
           })
           .then(function(token) {
             //TODO: refactor contructor as object
-            purchase = new Purchase({fbIdToken: token});
+            purchase = new Purchase({ fbIdToken: token });
             return purchase.getPurchasesInRange({
               firstDayInYear: sFirstDayInYear,
               lastDayInYear: sLastDayInYear
@@ -72,86 +69,13 @@ sap.ui.define(
        */
       _parseRevenuesToMonths: function(aRevenue) {
         var aMonthRevenues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        for (var array = 0; array < aRevenue.results.length; array++) {
-          var iMonth = new Date(aRevenue.results[array].eink_datum).getMonth();
 
-          switch (iMonth) {
-            case 0:
-              aMonthRevenues[0] = parseInt(
-                aMonthRevenues[0] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 1:
-              aMonthRevenues[1] = parseInt(
-                aMonthRevenues[1] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 2:
-              aMonthRevenues[2] = parseInt(
-                aMonthRevenues[2] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 3:
-              aMonthRevenues[3] = parseInt(
-                aMonthRevenues[3] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 4:
-              aMonthRevenues[4] = parseInt(
-                aMonthRevenues[4] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 5:
-              aMonthRevenues[5] = parseInt(
-                aMonthRevenues[5] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 6:
-              aMonthRevenues[6] = parseInt(
-                aMonthRevenues[6] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 7:
-              aMonthRevenues[7] = parseInt(
-                aMonthRevenues[7] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 8:
-              aMonthRevenues[8] = parseInt(
-                aMonthRevenues[8] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 9:
-              aMonthRevenues[9] = parseInt(
-                aMonthRevenues[9] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 10:
-              aMonthRevenues[10] = parseInt(
-                aMonthRevenues[10] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            case 11:
-              aMonthRevenues[11] = parseInt(
-                aMonthRevenues[11] + aRevenue.results[array].eink_wert
-              );
-              break;
-
-            default:
-              break;
-          }
-        }
+        aRevenue.results.forEach((oRev, index) => {
+          var iMonth = new Date(oRev.eink_datum).getMonth();
+          aMonthRevenues[iMonth] = parseInt(
+            aMonthRevenues[iMonth] + oRev.eink_wert
+          );
+        });
 
         return aMonthRevenues;
       },
@@ -164,30 +88,33 @@ sap.ui.define(
         var oDefGeschaeft = $.Deferred();
         var oDefEinkauf = $.Deferred();
         var purchase;
+        var shop;
 
-        //init geschaefte entityset
-        var shop = new Shop();
-        shop.getShops().then(
-          function(data) {
-            oDefGeschaeft.resolve(data);
-          },
-          function(error) {
+        //get shops
+        this.getFireBaseIdToken()
+          .then(function(token) {
+            return token;
+          })
+          .then(function(token) {
+            shop = new Shop({ fbIdToken: token });
+            return shop.getShops();
+          })
+          .then(function(oData) {
+            oDefGeschaeft.resolve(oData);
+          })
+          .catch(function(oError) {
             MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
-            console.warn(oError);
-
             oDefGeschaeft.reject();
-          }
-        );
+          });
 
         //get purchases
-        oThat
-          .getFireBaseIdToken()
+        this.getFireBaseIdToken()
           .then(function(token) {
             return token;
           })
           .then(function(token) {
             //TODO: refactor contructor as object
-            purchase = new Purchase({fbIdToken: token});
+            purchase = new Purchase({ fbIdToken: token });
             return purchase.getAllPurchases();
           })
           .then(function(oData) {
@@ -195,8 +122,6 @@ sap.ui.define(
           })
           .catch(function(oError) {
             MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
-            console.warn(oError);
-
             oDefEinkauf.reject();
           });
 
@@ -205,14 +130,7 @@ sap.ui.define(
           oGeschaeftCb,
           oEinkaufCb
         ) {
-          /**
-         * geschaeft
-         */
           oThat.getView().setModel(new JSONModel(oGeschaeftCb), "Geschaefte");
-
-          /**
-         * einkauf
-         */
           oThat.getView().setModel(new JSONModel(oEinkaufCb), "Einkaeufe");
 
           //build purchase overview stats model
@@ -223,30 +141,25 @@ sap.ui.define(
           var oSumMani = { total: 0, indicator: "", valueColor: "" };
           var oSumNici = { total: 0, indicator: "", valueColor: "" };
 
-          for (var i = 0; i < aPurchases.length; i++) {
-            if (aPurchases[i].zah_id === 1) {
-              aMani.push(aPurchases[i]);
+          aPurchases.forEach(function(oPurch) {
+            if (oPurch.zah_id === 1) {
+              aMani.push(oPurch);
             } else {
-              aNici.push(aPurchases[i]);
+              aNici.push(oPurch);
             }
-
-            oSum.total = oSum.total + aPurchases[i].eink_wert;
-          }
+            oSum.total = oSum.total + oPurch.eink_wert;
+          });
 
           //sum model
-          var oSumModel = new JSONModel();
-          oSumModel.setData(oSum);
-          oThat.getView().setModel(oSumModel, "sum");
+          oThat.getView().setModel(new JSONModel(oSum), "sum");
 
-          // mani model
-          for (var i1 = 0; i1 < aMani.length; i1++) {
-            oSumMani.total = oSumMani.total + aMani[i1].eink_wert;
-          }
+          aMani.forEach(function(aPurch) {
+            oSumMani.total = oSumMani.total + aPurch.eink_wert;
+          });
 
-          // nici model
-          for (var i2 = 0; i2 < aNici.length; i2++) {
-            oSumNici.total = oSumNici.total + aNici[i2].eink_wert;
-          }
+          aNici.forEach(function(aPurch) {
+            oSumNici.total = oSumNici.total + aPurch.eink_wert;
+          });
 
           //set meta inf
           var fDiff = oSumMani.total - oSumNici.total;
@@ -265,39 +178,33 @@ sap.ui.define(
             oSumMani.indicator = "Up";
           }
 
-          var oManiModel = new JSONModel();
-          oManiModel.setData(oSumMani);
-          oThat.getView().setModel(oManiModel, "mani");
-
-          var oNiciModel = new JSONModel();
-          oNiciModel.setData(oSumNici);
-          oThat.getView().setModel(oNiciModel, "nici");
+          oThat.getView().setModel(new JSONModel(oSumMani), "mani");
+          oThat.getView().setModel(new JSONModel(oSumNici), "nici");
 
           /**
-         * local with most revenue
-         */
+           * local with most revenue
+           */
           var oGeschaeft = oThat.getView().getModel("Geschaefte").oData.results;
           var oEinkauf = oThat.getView().getModel("Einkaeufe").oData.results;
           var aRevenue = []; //array with cumulated revenue
           var fTempCounter = 0; // helper counter for highest location by revenue
           var oMostRevenueLoc; // helper for highest location by revenue
-
           var iTempCounter = 0; //helper counter for most frequently visited location
           var oFreqVisLoc; //helper for most frequently visited location
 
-          for (var i3 = 0; i3 < oGeschaeft.length; i3++) {
+          oGeschaeft.forEach(function(oShop) {
             var oTmp = {
-              ges_id: oGeschaeft[i3].ges_id,
-              ges_name: oGeschaeft[i3].ges_name,
+              ges_id: oShop.ges_id,
+              ges_name: oShop.ges_name,
               eink_wert: 0,
-              ges_count: oGeschaeft[i3].ges_besuche
+              ges_count: oShop.ges_besuche
             };
 
-            for (var j = 0; j < oEinkauf.length; j++) {
-              if (oGeschaeft[i3].ges_id === oEinkauf[j].ges_id) {
-                oTmp.eink_wert = oTmp.eink_wert + oEinkauf[j].eink_wert;
+            oEinkauf.forEach(function(oPurch) {
+              if (oShop.ges_id === oPurch.ges_id) {
+                oTmp.eink_wert = oTmp.eink_wert + oPurch.eink_wert;
               }
-            }
+            });
 
             aRevenue.push(oTmp);
 
@@ -312,7 +219,7 @@ sap.ui.define(
               iTempCounter = oTmp.ges_count;
               oFreqVisLoc = jQuery.extend(true, {}, oTmp);
             }
-          }
+          });
 
           //set model for highest location by revenue
           oThat
@@ -320,20 +227,20 @@ sap.ui.define(
             .setModel(new JSONModel(oMostRevenueLoc), "HighRevLoc");
 
           /**
-         * get most frequently visited location
-         */
-          //set model most frequently visited location
+           * set most frequently visited location
+           */
           oThat
             .getView()
             .setModel(new JSONModel(oFreqVisLoc), "MostFreqVisLoc");
 
           /**
-         * get arithm. cost average
-         */
+           * get arithm. cost average
+           */
           try {
             let sArithMonthAmount =
               oThat.getView().getModel("sum").oData.total /
               oThat.getView().getModel("Einkaeufe").oData.results.length;
+
             oThat
               .getView()
               .setModel(
@@ -348,25 +255,15 @@ sap.ui.define(
         });
       },
 
+      /**
+       * setup chart control with incoming revuenue per month array
+       */
       setupChart: function(aMonthRevenues) {
         var ctx = document.getElementById("statChartjsCanvas");
         var chartjs = new Chart(ctx, {
           type: "bar",
           data: {
-            labels: [
-              "Januar",
-              "Februar",
-              "März",
-              "April",
-              "Mai",
-              "Juni",
-              "Juli",
-              "August",
-              "September",
-              "Oktober",
-              "November",
-              "Dezember"
-            ],
+            labels: this.getChartLabel(),
             datasets: [
               {
                 label: "Monatsausgaben",
@@ -392,7 +289,7 @@ sap.ui.define(
       },
 
       //create canvas element to html
-      createCanvas: function() {
+      createChartCanvas: function() {
         this.getView()
           .byId("htmlContainer")
           .setContent(
@@ -403,22 +300,48 @@ sap.ui.define(
       // on click on tab bar filter
       onSelectTabbarFilter: function(oEvent) {
         this.getView().setBusy(true);
-
         var dPicker = this.getView().byId("chartDatePicker").getDateValue();
         var dYear = dPicker.getFullYear();
-        var sFirstDayInYear = String(dYear).concat("-01-01");
-        var sLastDayInYear = String(dYear).concat("-12-31");
-
-        this.setPurchaseInRange.apply(this, [sFirstDayInYear, sLastDayInYear]);
+        this.setPurchaseInRange.apply(this, [
+          String(dYear).concat("-01-01"),
+          String(dYear).concat("-12-31")
+        ]);
       },
 
       onChangeChartDate: function(oEvent) {
         this.getView().setBusy(true);
         var sYear = oEvent.oSource.getValue();
-        var sFirstDayInYear = sYear.concat("-01-01");
-        var sLastDayInYear = sYear.concat("-12-31");
+        this.setPurchaseInRange.apply(this, [
+          sYear.concat("-01-01"),
+          sYear.concat("-12-31")
+        ]);
+      },
 
-        this.setPurchaseInRange.apply(this, [sFirstDayInYear, sLastDayInYear]);
+      /**
+       * set device model
+       */
+      setModels: function() {
+        this.getView().setModel(new JSONModel(sap.ui.Device), "device");
+      },
+
+      /**
+       * array of months
+       */
+      getChartLabel: function() {
+        return [
+          "Januar",
+          "Februar",
+          "März",
+          "April",
+          "Mai",
+          "Juni",
+          "Juli",
+          "August",
+          "September",
+          "Oktober",
+          "November",
+          "Dezember"
+        ];
       }
     });
   }

@@ -10,13 +10,12 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
       this.sHostPort = "3000";
       this.sConnString = this.sHostUrl + ":" + this.sHostPort;
       this.sPayerEntityUrl = "/ZahlerEntitySet";
-
       this.firebaseIdToken = oPayer.fbIdToken;
     },
 
     /**
-	 * get payers entityset with promise
-	 */
+     * get payers entityset with promise
+     */
     getPayers: function() {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {

@@ -10,6 +10,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
       this._purchaseValue = oPurchase.purchaseValue;
       this._shopId = oPurchase.shopId;
       this._payerId = oPurchase.payerId;
+      this.firebaseIdToken = oPurchase.fbIdToken;
 
       this.sHostUrl = "http://192.168.20.20";
       this.sHostPort = "3000";
@@ -17,8 +18,6 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
       this.sPurchaseEntityUrl = "/EinkaufEntity";
       this.sPurchaseEntitySetUrl = "/EinkaufEntitySet";
       this.sExpandByLocation = "byGeschaeft";
-
-      this.firebaseIdToken = oPurchase.fbIdToken;
     },
 
     /**
@@ -117,21 +116,26 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
     /**
 		 * get purchases by ges_id
 		 */
-    getPurchasesByShopId: function(iGesId, callback) {
-      $.ajax(
-        this.sConnString +
-          this.sPurchaseEntitySetUrl +
-          "/" +
-          this.sExpandByLocation +
-          "/" +
-          iGesId
-      )
-        .done(function(data, textStatus, jqXHR) {
-          callback(data, undefined);
-        })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-          callback(undefined, errorThrown);
-        });
+    getPurchasesByShopId: function(iGesId) {
+      var oThat = this;
+      var promise = new Promise(function(resolve, reject){
+        $.ajax(
+          oThat.sConnString +
+          oThat.sPurchaseEntitySetUrl +
+            "/" +
+            oThat.sExpandByLocation +
+            "/" +
+            iGesId
+        )
+          .done(function(data, textStatus, jqXHR) {
+            resolve(data);
+          })
+          .fail(function(jqXHR, textStatus, errorThrown) {
+            reject(errorThrown);
+          });
+      });
+
+      return promise;
     },
 
     /**
