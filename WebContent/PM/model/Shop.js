@@ -4,14 +4,14 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
   JSONModel
 ) {
   var Shop = BaseObject.extend("mpn/PM/model/Shop", {
-    constructor: function(shopId, fbIdToken) {
-      this._shopId = shopId;
+    constructor: function(oShop) {
+      this._shopId = oShop.shopId;
       this.sHostUrl = "http://192.168.20.20";
       this.sHostPort = "3000";
       this.sConnString = this.sHostUrl + ":" + this.sHostPort;
       this.sShopEntityUrl = "/GeschaeftEntitySet";
 
-      this.firebaseIdToken = fbIdToken;
+      this.firebaseIdToken = oShop.fbIdToken;
     },
 
     /**

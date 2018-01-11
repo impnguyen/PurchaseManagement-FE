@@ -70,7 +70,7 @@ sap.ui.define(
             return token;
           })
           .then(function(token) {
-            shop = new Shop(null, token);
+            shop = new Shop({fbIdToken: token});
             return shop.getShops();
           })
           .then(function(oData) {
