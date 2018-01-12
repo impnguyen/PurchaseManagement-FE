@@ -272,7 +272,7 @@ sap.ui.define(
         this.getView()
           .byId("htmlContainer")
           .setContent(
-            '<canvas id="statChartjsCanvas" width="100%" height="100%"></canvas>'
+            '<canvas id="statChartjsCanvas" width="100%" height="70%%"></canvas>'
           );
       },
 
@@ -353,9 +353,12 @@ sap.ui.define(
               {
                 label: "Monatsausgaben",
                 data: aMonthRevenues,
-                // backgroundColor: "rgba(54, 162, 235, 0.2)",
-                // borderColor: "rgba(54, 162, 235, 1)",
-                borderWidth: 1
+                backgroundColor: "rgb(251, 198, 100)",
+                borderColor: "rgb(251, 198, 100)",
+                borderWidth: 0.5,
+                hoverBackgroundColor: 'rgb(255, 140, 0)',
+                hoverBorderColor: 'rgb(255, 140, 0)',
+                hoverBorderWidth: 1
               }
             ]
           },

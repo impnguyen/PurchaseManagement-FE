@@ -1,52 +1,30 @@
-<core:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core" 
     xmlns:form="sap.ui.layout.form">
-        <Dialog
-            id="addShopDialog"
-            title="Geschäft hinzufügen">
-
-            <form:SimpleForm xmlns="sap.ui.layout"
-                id="geschaeftSf"
-                busyIndicatorDelay="0"
-                maxContainerCols="2"
-                minWidth="-1"
-                labelMinWidth="192"
-                layout="ResponsiveLayout"
-                labelSpanXL="-1"
-                labelSpanL="4"
-                labelSpanM="2"
-                labelSpanS="12"
-                adjustLabelSpan="true"
-                emptySpanXL="-1"
-                emptySpanL="0"
-                emptySpanM="0"
-                emptySpanS="0"
-                columnsXL="-1"
-                columnsL="2"
-                columnsM="1"
-                singleContainerFullSize="true"
-                breakpointXL="1440"
-                breakpointL="1024"
-                breakpointM="600"
-                backgroundDesign="Translucent">
-                    <form:content>
-                        <Label xmlns="sap.m" text="Geschäft" />
-                        <Input xmlns="sap.m" id="storeNameInput"></Input>
-
-                        <Label xmlns="sap.m" text="Stadt" />
-                        <Input xmlns="sap.m" id="cityNameInput"></Input>
-                    </form:content>
-            </form:SimpleForm>
-                <buttons>
-                    <Button xmlns="sap.m"
-                        text="anlegen"
-                        press="onAddShop">
-                    </Button>
-                    <Button xmlns="sap.m"
-                        text="abbrechen"
-                        press="onCancelShop">
-                    </Button>
-                </buttons>
-        </Dialog>
+    <Dialog id="addShopDialog" title="Geschäft hinzufügen">
+        <form:SimpleForm 
+            xmlns="sap.ui.layout" id="geschaeftSf" busyIndicatorDelay="0" maxContainerCols="2" minWidth="-1" labelMinWidth="192" layout="ResponsiveLayout" labelSpanXL="-1" labelSpanL="4" labelSpanM="2" labelSpanS="12" adjustLabelSpan="true" emptySpanXL="-1" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="-1" columnsL="2" columnsM="1" singleContainerFullSize="true" breakpointXL="1440" breakpointL="1024" breakpointM="600" backgroundDesign="Translucent">
+            <form:content>
+                <Label 
+                    xmlns="sap.m" text="Geschäft" />
+                <Input 
+                    xmlns="sap.m" id="storeNameInput">
+                </Input>
+                <Label 
+                    xmlns="sap.m" text="Stadt" />
+                <Input 
+                    xmlns="sap.m" id="cityNameInput">
+                </Input>
+            </form:content>
+        </form:SimpleForm>
+        <buttons>
+            <Button 
+                xmlns="sap.m" text="anlegen" press="onAddShop">
+            </Button>
+            <Button 
+                xmlns="sap.m" text="abbrechen" press="onCancelShop">
+            </Button>
+        </buttons>
+    </Dialog>
 </core:FragmentDefinition>
