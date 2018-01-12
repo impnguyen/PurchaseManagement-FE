@@ -118,15 +118,20 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
 		 */
     getPurchasesByShopId: function(iGesId) {
       var oThat = this;
-      var promise = new Promise(function(resolve, reject){
-        $.ajax(
-          oThat.sConnString +
-          oThat.sPurchaseEntitySetUrl +
+      var promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          url: oThat.sConnString +
+            oThat.sPurchaseEntitySetUrl +
             "/" +
             oThat.sExpandByLocation +
             "/" +
-            iGesId
-        )
+            iGesId,
+          method: "GET",
+          headers: {
+            Authorization: oThat.firebaseIdToken,
+            "Content-Type": "application/json; charset=UTF-8"
+          }
+        })
           .done(function(data, textStatus, jqXHR) {
             resolve(data);
           })

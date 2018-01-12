@@ -19,7 +19,14 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
     getShops: function() {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
-        $.ajax(oThat.sConnString + oThat.sShopEntityUrl)
+        $.ajax({
+          url: oThat.sConnString + oThat.sShopEntityUrl,
+          method: "GET",
+          headers: {
+            Authorization: oThat.firebaseIdToken,
+            "Content-Type": "application/json; charset=UTF-8"
+          }
+        })
           .done(function(data, textStatus, jqXHR) {
             resolve(data);
           })
