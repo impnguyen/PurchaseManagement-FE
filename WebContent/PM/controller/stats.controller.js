@@ -264,7 +264,7 @@ sap.ui.define(
             console.log(error);
           }
         }
-        this.createChart(aMonthRevenues);
+        this.createChart(aMonthRevenues, 'horizontalBar');
       },
 
       //create canvas element to html
@@ -306,6 +306,7 @@ sap.ui.define(
        */
       setModels: function() {
         this.getView().setModel(new JSONModel(sap.ui.Device), "device");
+        this.sInitChartType = 'horizontalBar';
       },
 
       /**
@@ -342,10 +343,10 @@ sap.ui.define(
       /**
        * create data for chart
        */
-      createChart: function(aMonthRevenues) {
+      createChart: function(aMonthRevenues, sChartType) {
         var ctx = document.getElementById("statChartjsCanvas");
         this.chartjs = new Chart(ctx, {
-          type: "horizontalBar",
+          type: sChartType,
           data: {
             labels: this.getChartLabel(),
             datasets: [
@@ -378,7 +379,19 @@ sap.ui.define(
        * on change chart type
        */
       onChangeChartType: function(){
-        //TODO: change type: http://www.chartjs.org/docs/latest/getting-started/ , http://www.chartjs.org/samples/latest/
+        var aMonthReveneus = this.chartjs.data.datasets.slice(0);
+        this.chartjs.destroy();
+
+        if ( this.sInitChartType === 'horizontalBar') {
+          //vertical
+          this.sInitChartType = 'bar';
+          this.createChart(aMonthReveneus[0].data, this.sInitChartType);
+          
+        } else {
+          //horizontal
+          this.sInitChartType = 'horizontalBar';          
+          this.createChart(aMonthReveneus[0].data, this.sInitChartType);
+        }
       }
     });
   }
