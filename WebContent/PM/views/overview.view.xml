@@ -8,21 +8,9 @@
 	<Page 
 		xmlns="sap.m" id="overviewPage" busy="false" busyIndicatorDelay="1000" visible="true" fieldGroupIds="" title="" titleLevel="Auto" showNavButton="{device>/system/phone}" showHeader="true" showSubHeader="true" navButtonText="" navButtonTooltip="" enableScrolling="true" icon="" backgroundDesign="Standard" navButtonType="Back" showFooter="true" contentOnlyBusy="false" floatingFooter="false" validateFieldGroup="" navButtonTap="" navButtonPress="onNavBack">
 		<content>
-			<Table 
-				xmlns="sap.m" id="overviewList" busyIndicatorDelay="0" visible="true" headerText="" headerDesign="Standard" footerText="" width="100%" showUnread="false" noDataText="" showNoData="true" modeAnimationOn="true" showSeparators="All" swipeDirection="Both" growing="false" growingThreshold="20" growingScrollToLoad="false" growingDirection="Downwards" rememberSelections="true" keyboardMode="Navigation" backgroundDesign="Solid" items="{Einkaeufe>/results}">
-				<items>
-					<ColumnListItem>
-						<cells>
-							<ObjectIdentifier title="{Einkaeufe>ges_name}" text=""/>
-							<Text text="{
-													path: 'Einkaeufe>eink_datum',
-													formatter: '.formatter.overviewPurchaseDateFormatter'
-												}" />
-							<ObjectNumber number="{Einkaeufe>eink_wert}" unit="€" state="Success" />
-							<Text text="{Einkaeufe>zah_alias}" />
-						</cells>
-					</ColumnListItem>
-				</items>
+			<Table height="10%" showNoData="false" 
+				xmlns="sap.m">
+				<items></items>
 				<columns>
 					<Column minScreenWidth="Phone" hAlign="Left">
 						<Text text="{i18n>overviewShopColumn}" />
@@ -38,11 +26,34 @@
 					</Column>
 				</columns>
 			</Table>
+			<ScrollContainer height="90%" vertical="true" width="100%">
+				<Table height="auto" 
+					xmlns="sap.m" id="overviewList" busyIndicatorDelay="0" visible="true" headerText="" headerDesign="Standard" footerText="" width="100%" showUnread="false" noDataText="" showNoData="true" modeAnimationOn="true" showSeparators="All" swipeDirection="Both" growing="false" growingThreshold="20" growingScrollToLoad="false" growingDirection="Downwards" rememberSelections="true" keyboardMode="Navigation" backgroundDesign="Solid" items="{Einkaeufe>/results}">
+					<items>
+						<ColumnListItem>
+							<cells>
+								<ObjectIdentifier title="{Einkaeufe>ges_name}" text=""/>
+								<Text text="{
+													path: 'Einkaeufe>eink_datum',
+													formatter: '.formatter.overviewPurchaseDateFormatter'
+												}" />
+								<ObjectNumber number="{Einkaeufe>eink_wert}" unit="€" state="Success" />
+								<Text text="{Einkaeufe>zah_alias}" />
+							</cells>
+						</ColumnListItem>
+					</items>
+					<columns>
+						<Column minScreenWidth="Phone" hAlign="Left"></Column>
+						<Column minScreenWidth="Tablet" demandPopin="true" hAlign="End"></Column>
+						<Column minScreenWidth="Phone" hAlign="Right"></Column>
+						<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Right"></Column>
+					</columns>
+				</Table>
+			</ScrollContainer>
 		</content>
 		<dependents>
 			<core:Fragment fragmentName="mpn.PM.fragments.calendar" type="XML" />
 		</dependents>
-		<customHeader></customHeader>
 		<footer>
 			<OverflowToolbar 
 				xmlns="sap.m" id="locationOftbaar" visible="true" width="" active="false" enabled="true" height="" design="Auto" press="">
@@ -60,7 +71,6 @@
 				</content>
 			</OverflowToolbar>
 		</footer>
-		<subHeader></subHeader>
 		<headerContent>
 			<Button icon="sap-icon://refresh" press="setupOverview" />
 			<Button icon="sap-icon://calendar" press="onCal" />

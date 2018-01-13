@@ -8,20 +8,8 @@
 	<Page 
 		xmlns="sap.m" id="shopPage" busy="false" busyIndicatorDelay="1000" visible="true" fieldGroupIds="" title="{i18n>shopPageTitle}" titleLevel="Auto" showNavButton="{device>/system/phone}" showHeader="true" showSubHeader="true" navButtonText="" navButtonTooltip="" enableScrolling="true" icon="" backgroundDesign="Standard" navButtonType="Back" showFooter="true" contentOnlyBusy="false" floatingFooter="false" validateFieldGroup="" navButtonTap="" navButtonPress="onNavBack">
 		<content>
-			<List 
-				xmlns="sap.m" id="shopList" busy="false" busyIndicatorDelay="10" visible="true" fieldGroupIds="" inset="false" headerText="" headerDesign="Standard" footerText="" mode="None" width="100%" includeItemInSelection="false" showUnread="false" noDataText="" showNoData="true" enableBusyIndicator="true" modeAnimationOn="true" showSeparators="All" swipeDirection="Both" growing="false" growingThreshold="20" growingTriggerText="" growingScrollToLoad="false" growingDirection="Downwards" rememberSelections="true" keyboardMode="Navigation" backgroundDesign="Solid" ariaLabelledBy="" validateFieldGroup="" select="" selectionChange="" swipe="" growingStarted="" growingFinished="" updateStarted="" updateFinished="" itemPress="" items="{path : 'Geschaefte>/results',
-							sorter : {
-								path : 'ges_besuche',
-								descending: true
-							}}">
-				<items>
-					<ColumnListItem type="Active" press="onPressShopItem">
-						<cells>
-							<ObjectIdentifier title="{Geschaefte>ges_name}" text="{Geschaefte>ges_stadt}"/>
-							<Text text="{Geschaefte>ges_besuche}" />
-						</cells>
-					</ColumnListItem>
-				</items>
+			<Table showNoData="false" height="10%">
+				<items></items>
 				<columns>
 					<Column minScreenWidth="Phone" demandPopin="true" hAlign="Left">
 						<Text text="{i18n>shopNameColumn}/{i18n>shopCityColumn}" />
@@ -30,11 +18,32 @@
 						<Text text="{i18n>shopVisits}" />
 					</Column>
 				</columns>
-				<swipeContent>
-					<Button text="{i18n>shopDelete}" type="Reject"  />
-					<!-- press="onDeleteShop" -->
-				</swipeContent>
-			</List>
+			</Table>
+			<ScrollContainer vertical="true" width="100%" height="90%">
+				<Table 
+					xmlns="sap.m" id="shopList" busy="false" busyIndicatorDelay="10" visible="true" fieldGroupIds="" inset="false" headerText="" headerDesign="Standard" footerText="" mode="None" width="100%" includeItemInSelection="false" showUnread="false" noDataText="" showNoData="true" enableBusyIndicator="true" modeAnimationOn="true" showSeparators="All" swipeDirection="Both" growing="false" growingThreshold="20" growingTriggerText="" growingScrollToLoad="false" growingDirection="Downwards" rememberSelections="true" keyboardMode="Navigation" backgroundDesign="Solid" ariaLabelledBy="" validateFieldGroup="" select="" selectionChange="" swipe="" growingStarted="" growingFinished="" updateStarted="" updateFinished="" itemPress="" items="{path : 'Geschaefte>/results',
+							sorter : {
+								path : 'ges_besuche',
+								descending: true
+							}}">
+					<items>
+						<ColumnListItem type="Active" press="onPressShopItem">
+							<cells>
+								<ObjectIdentifier title="{Geschaefte>ges_name}" text="{Geschaefte>ges_stadt}"/>
+								<Text text="{Geschaefte>ges_besuche}" />
+							</cells>
+						</ColumnListItem>
+					</items>
+					<columns>
+						<Column minScreenWidth="Phone" demandPopin="true" hAlign="Left"></Column>
+						<Column minScreenWidth="Phone" demandPopin="true" hAlign="Right"></Column>
+					</columns>
+					<swipeContent>
+						<!-- <Button text="{i18n>shopDelete}" type="Reject" /> -->
+						<!-- press="onDeleteShop" -->
+					</swipeContent>
+				</Table>
+			</ScrollContainer>
 		</content>
 		<dependents>
 			<core:Fragment fragmentName="mpn.PM.fragments.addShop" type="XML" />
