@@ -23,7 +23,7 @@
                 xmlns="sap.m" text="anlegen" press="onAddShop">
             </Button>
             <Button 
-                xmlns="sap.m" text="abbrechen" press="onCancelShop">
+                xmlns="sap.m" text="abbrechen" press="onCloseDialog">
             </Button>
         </buttons>
     </Dialog>

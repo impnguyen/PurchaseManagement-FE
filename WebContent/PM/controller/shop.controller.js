@@ -4,38 +4,34 @@
  */
 sap.ui.define(
   [
-    "sap/ui/core/mvc/Controller",
+    "mpn/PM/controller/BaseController",
     "sap/m/MessageToast",
-    "sap/ui/Device",
     "sap/ui/model/json/JSONModel",
     "mpn/PM/model/Purchase",
     "mpn/PM/js/formatter",
-    "sap/ui/model/Filter"
+    "sap/ui/model/Filter",
+    "mpn/PM/model/Shop"
   ],
   function(
-    Controller,
+    BaseController,
     MessageToast,
-    Device,
     JSONModel,
     Purchase,
     formatter,
-    Filter
+    Filter,
+    Shop
   ) {
     "use strict";
-    return Controller.extend("mpn.PM.controller.shop", {
+    return BaseController.extend("mpn.PM.controller.shop", {
       formatter: formatter,
 
       onInit: function() {
-        // set device model
-        var oDeviceModel = new JSONModel(Device);
-        this.getView().setModel(oDeviceModel, "device");
-
-        //init geschaefte entityset
-        this.getGeschaeftEntitySet();
+        this.setupModels();
       },
 
-      onAfterRendering: function() {},
-
+      /**
+       * open add location fragment
+       */
       onAddLocation: function(oEvent) {
         this.getView().byId("addShopDialog").open();
       },
@@ -45,34 +41,35 @@ sap.ui.define(
 		 */
       onAddShop: function(oEvent) {
         var oThat = this;
-        var oRequestBody = {
-          ges_id: 0,
-          ges_name: this.getView().byId("storeNameInput").getValue(),
-          ges_stadt: this.getView().byId("cityNameInput").getValue(),
-          ges_besuche: 0
+        var shop;
+        var oNewShop = {
+          shopId: 0,
+          shopName: this.getView().byId("storeNameInput").getValue(),
+          shopCity: this.getView().byId("cityNameInput").getValue(),
+          shopVisits: 0,
+          fbIdToken: ""
         };
+
         this.getView().setBusy(true);
 
-        $.ajax({
-          dataType: "json",
-          contentType: "application/json",
-          method: "POST",
-          url: "http://192.168.20.20:3000/GeschaeftEntity",
-          data: JSON.stringify(oRequestBody)
-        })
-          .done(function(data, textStatus, jqXHR) {
-            //oThat.getView().getModel("Geschaefte").oData.results.push(data.result);
-            oThat.onRefreshGeschaefte();
-
-            oThat.getView().byId("storeNameInput").setValue();
-            oThat.getView().byId("cityNameInput").setValue();
-
+        this.getFireBaseIdToken()
+          .then(function(token) {
+            return token;
+          })
+          .then(function(token) {
+            oNewShop.fbIdToken = token;
+            shop = new Shop(oNewShop);
+            return shop.createShop();
+          })
+          .then(function(oData) {
+            oThat.onRefreshShops();
+            oThat.resetAddShopForm.call(oThat);
             MessageToast.show("Das Geschäft wurde erfolgreich angelegt.");
+            oThat.getView().byId("addShopDialog").close();
+            oThat.getView().setBusy(false);
           })
-          .fail(function(jqXHR, textStatus, errorThrown) {
+          .catch(function(oError) {
             MessageToast.show("Fehler. Probiere es später aus.");
-          })
-          .always(function() {
             oThat.getView().byId("addShopDialog").close();
             oThat.getView().setBusy(false);
           });
@@ -84,116 +81,123 @@ sap.ui.define(
       onDeleteShop: function(oEvent) {
         var oList = oEvent.getSource().getParent();
         var oSwipedItem = oList.getSwipedItem();
-        var sId = this.getView()
-          .getModel("Geschaefte")
-          .getProperty(oList.getSwipedItem().oBindingContexts.Geschaefte.sPath)
-          .ges_id;
         var oThat = this;
+        var shop;
+        var oShopToDel = {
+          shopId: this.getView()
+            .getModel("Geschaefte")
+            .getProperty(
+              oList.getSwipedItem().oBindingContexts.Geschaefte.sPath
+            ).ges_id,
+          fbIdToken: ""
+        };
         this.getView().setBusy(true);
 
-        $.ajax({
-          method: "DELETE",
-          url: "http://192.168.20.20:3000/GeschaeftEntity/" + sId
-        })
-          .done(function(data, textStatus, jqXHR) {
-            // oList.removeAggregation("items", oList.getSwipedItem());
-            // oList.swipeOut();
-
-            if (data === undefined || data.errorMessage === undefined) {
-              MessageToast.show("Das Geschäft wurde erfolgreich gelöscht.");
-            } else {
-              oList.swipeOut();
-              MessageToast.show(data.errorMessage);
-            }
-            oThat.onRefreshGeschaefte();
+        this.getFireBaseIdToken()
+          .then(function(token) {
+            return token;
           })
-          .fail(function(jqXHR, textStatus, errorThrown) {
+          .then(function(token) {
+            oShopToDel.fbIdToken = token;
+            shop = new Shop(oShopToDel);
+            return shop.deleteShop();
+          })
+          .then(function(oData) {
+            MessageToast.show("Das Geschäft wurde erfolgreich gelöscht.");
+            oThat.resetAddShopForm();
+            oList.swipeOut();
+            oThat.getView().byId("addShopDialog").close();
+            oThat.getView().setBusy(false);
+          })
+          .catch(function(oError) {
             MessageToast.show("Fehler. Probiere es später aus.");
-          })
-          .always(function() {
             oThat.getView().byId("addShopDialog").close();
             oThat.getView().setBusy(false);
           });
       },
 
       /**
-		 * refresh geschaeft
+		 * refresh shop model
 		 */
-      onRefreshGeschaefte: function() {
+      onRefreshShops: function() {
         this.getView().getModel("Geschaefte").refresh(true, true);
-        this.getGeschaeftEntitySet();
+        this.setShopsToView();
       },
 
-      onCancelShop: function(oEvent) {
+      /**
+       * close add shop fragment
+       */
+      onCloseDialog: function(oEvent) {
         this.getView().byId("addShopDialog").close();
       },
 
+      /**
+       * navigate back to top master list
+       */
       onNavBack: function() {
         this.getView().oParent.oParent.backToTopMaster();
       },
 
-      getGeschaeftEntitySet: function(callback) {
+      /**
+       * set shops entities to view list
+       */
+      setShopsToView: function(callback) {
         this.getView().setBusy(true);
         var oThat = this;
+        var shop;
 
-        $.ajax("http://192.168.20.20:3000/GeschaeftEntitySet")
-          .done(function(data, textStatus, jqXHR) {
-            var oModel = new JSONModel();
-            oModel.setData(data);
-            oThat.getView().setModel(oModel, "Geschaefte");
+        this.getFireBaseIdToken()
+          .then(function(token) {
+            return token;
           })
-          .fail(function(jqXHR, textStatus, errorThrown) {
+          .then(function(token) {
+            shop = new Shop({ fbIdToken: token });
+            return shop.getShops();
+          })
+          .then(function(oData) {
+            oThat.getView().setModel(new JSONModel(oData), "Geschaefte");
+            oThat.getView().setBusy(false);
+          })
+          .catch(function(oError) {
             MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
-          })
-          .always(function() {
             oThat.getView().setBusy(false);
           });
       },
 
       /**
-		 * on press shop list item handlers;
+		 * on press shop list item handler;
 		 * open items based on selected shop
 		 */
       onPressShopItem: function(oEvent) {
-        var sSelPath = oEvent.oSource.oBindingContexts.Geschaefte.sPath;
-        var oModel = oEvent.oSource.oBindingContexts.Geschaefte.oModel;
-        var oSelObj = oModel.getProperty(sSelPath);
-        var iSelGesId = oSelObj.ges_id;
-        var oThat = this;
+        // var sSelPath = oEvent.oSource.oBindingContexts.Geschaefte.sPath;
+        // var oModel = oEvent.oSource.oBindingContexts.Geschaefte.oModel;
+        // var oSelObj = oModel.getProperty(sSelPath);
+        // var iSelGesId = oSelObj.ges_id;
+        // var oThat = this;
 
-        //get shops purchases
-        this.getView().setBusy(true);
-        var purchase = new Purchase();
-        purchase.getPurchasesByShopId()
-        .then(function(data){
-          var oModel2 = new JSONModel();
-          oModel2.setData(data.results);
-          oThat.getView().setModel(oModel2, "shopPurchases");
-          oThat.getView().setBusy(false);
-        })
-        .catch(function(error){
-          MessageToast.show(
-            "Die Einkäufe konnten nicht geladen werden. Bitte wende dich an den Entwickler."
-          );
-          oThat.getView().setBusy(false);
-        });
-        // purchase.getPurchasesByShopId(iSelGesId, function(data, error) {
-        //   if (error === undefined) {
+        // //get shops purchases
+        // this.getView().setBusy(true);
+        // var purchase = new Purchase();
+        // purchase
+        //   .getPurchasesByShopId()
+        //   .then(function(data) {
         //     var oModel2 = new JSONModel();
         //     oModel2.setData(data.results);
         //     oThat.getView().setModel(oModel2, "shopPurchases");
-        //   } else {
+        //     oThat.getView().setBusy(false);
+        //   })
+        //   .catch(function(error) {
         //     MessageToast.show(
         //       "Die Einkäufe konnten nicht geladen werden. Bitte wende dich an den Entwickler."
         //     );
-        //   }
-        // });
+        //     oThat.getView().setBusy(false);
+        //   });
 
-        this.getView().byId("purchasesFromShop").open();
+        // this.getView().byId("purchasesFromShop").open();
       },
 
       /**
-		 * on close purchases by shop dialog
+		 * close purchases list dialog
 		 */
       onClosePurchasesDialog: function(oEvent) {
         this.getView().byId("purchasesFromShop").close();
@@ -216,8 +220,8 @@ sap.ui.define(
           "ges_stadt",
           sap.ui.model.FilterOperator.Contains,
           sQuery
-		);
-		
+        );
+
         aFilters.push(filter, filter2);
 
         var oFilter = new sap.ui.model.Filter({
@@ -230,6 +234,24 @@ sap.ui.define(
         var list = this.getView().byId("shopList");
         var binding = list.getBinding("items");
         binding.filter(oFilter);
+      },
+
+      /**
+       * setup models: device; shop entities
+       */
+      setupModels: function() {
+        //setup device model
+        this.getView().setModel(new JSONModel(sap.ui.Device), "device");
+        //set geschaefte entityset
+        this.setShopsToView();
+      },
+
+      /**
+       * reset add shop dialog form elements
+       */
+      resetAddShopForm: function() {
+        this.getView().byId("storeNameInput").setValue();
+        this.getView().byId("cityNameInput").setValue();
       }
     });
   }

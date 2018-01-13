@@ -31,7 +31,8 @@
 					</Column>
 				</columns>
 				<swipeContent>
-					<Button text="{i18n>shopDelete}" type="Reject" press="onDeleteShop" />
+					<Button text="{i18n>shopDelete}" type="Reject"  />
+					<!-- press="onDeleteShop" -->
 				</swipeContent>
 			</List>
 		</content>
@@ -60,7 +61,7 @@
 			</Toolbar>
 		</subHeader>
 		<headerContent>
-			<Button icon="sap-icon://refresh" press="onRefreshGeschaefte" />
+			<Button icon="sap-icon://refresh" press="onCloseDialog" />
 		</headerContent>
 		<landmarkInfo></landmarkInfo>
 	</Page>
