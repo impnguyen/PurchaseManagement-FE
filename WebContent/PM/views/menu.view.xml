@@ -1,46 +1,48 @@
-<core:View xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:u="sap.ui.unified"
-	controllerName="mpn.PM.controller.menu" xmlns:html="http://www.w3.org/1999/xhtml">
-
-	<Page xmlns="sap.m" id="menuListPage" busy="false"
-		busyIndicatorDelay="1000" visible="true" fieldGroupIds=""
-		title="{i18n>menuPageTitle}" titleLevel="Auto" showNavButton="false"
-		showHeader="true" showSubHeader="true" navButtonText=""
-		navButtonTooltip="" enableScrolling="true" icon="" backgroundDesign="Standard"
-		navButtonType="Back" showFooter="true" contentOnlyBusy="false"
-		floatingFooter="false" validateFieldGroup="" navButtonTap=""
-		navButtonPress="">
+<core:View 
+	xmlns:l="sap.ui.layout" 
+	xmlns:core="sap.ui.core" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m" 
+	xmlns:u="sap.ui.unified" controllerName="mpn.PM.controller.menu" 
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page 
+		xmlns="sap.m" id="menuListPage" busy="false" busyIndicatorDelay="1000" visible="true" titleLevel="Auto" showNavButton="false" showHeader="true" showSubHeader="false" navButtonText="" navButtonTooltip="" enableScrolling="true" icon="" backgroundDesign="Standard" navButtonType="Back" showFooter="true" contentOnlyBusy="false" floatingFooter="false">
 		<content>
-
-			<List xmlns="sap.m" id="menuList" busy="false"
-				busyIndicatorDelay="10" visible="true" inset="false" headerText=""
-				headerDesign="Standard" footerText="" mode="SingleSelect" width="100%"
-				showUnread="false" noDataText="" showNoData="true"
-				enableBusyIndicator="true" modeAnimationOn="true" showSeparators="All"
-				swipeDirection="Both" growing="false" growingThreshold="20"
-				growingTriggerText="" growingScrollToLoad="false" growingDirection="Downwards"
-				rememberSelections="true" keyboardMode="Navigation"
-				backgroundDesign="Solid" items="{menu>/menuItems}">
-				<items> <!-- sap.m.ListItemBase -->
-					<StandardListItem xmlns="sap.m" type="Active"
-						visible="true" title="{menu>title}" description="" icon=""
-						iconInset="true" iconDensityAware="true" activeIcon="" info=""
-						infoState="None" adaptTitleSize="true" titleTextDirection="Inherit"
-						infoTextDirection="Inherit" ariaLabelledBy="" validateFieldGroup=""
-						tap="" detailTap="" press="onMenuPress" detailPress="">
+			<List 
+				xmlns="sap.m" id="menuList" busy="false" busyIndicatorDelay="10" visible="true" inset="false" headerText="" headerDesign="Standard" footerText="" mode="SingleSelect" width="100%" showUnread="false" noDataText="" showNoData="true" enableBusyIndicator="true" modeAnimationOn="true" showSeparators="All" swipeDirection="Both" growing="false" growingThreshold="20" growingTriggerText="" growingScrollToLoad="false" growingDirection="Downwards" rememberSelections="true" keyboardMode="Navigation" backgroundDesign="Solid" items="{menu>/menuItems}">
+				<items>
+					<!-- sap.m.ListItemBase -->
+					<StandardListItem 
+						xmlns="sap.m" type="Active" visible="true" title="{menu>title}" description="" icon="" iconInset="true" iconDensityAware="true" activeIcon="" info="" infoState="None" adaptTitleSize="true" titleTextDirection="Inherit" infoTextDirection="Inherit" ariaLabelledBy="" validateFieldGroup="" tap="" detailTap="" press="onMenuPress" detailPress="">
 					</StandardListItem>
 				</items>
-				<swipeContent></swipeContent> <!-- sap.ui.core.Control -->
-				<headerToolbar></headerToolbar> <!-- sap.m.Toolbar, since 1.16 -->
-				<infoToolbar></infoToolbar> <!-- sap.m.Toolbar, since 1.16 -->
+				<swipeContent></swipeContent>
+				<!-- sap.ui.core.Control -->
+				<headerToolbar></headerToolbar>
+				<!-- sap.m.Toolbar, since 1.16 -->
+				<infoToolbar></infoToolbar>
+				<!-- sap.m.Toolbar, since 1.16 -->
 			</List>
-
-		</content> <!-- sap.ui.core.Control -->
-		<customHeader></customHeader> <!-- sap.m.IBar -->
-		<footer></footer> <!-- sap.m.IBar -->
-		<subHeader></subHeader> <!-- sap.m.IBar -->
-		<headerContent></headerContent> <!-- sap.ui.core.Control -->
-		<landmarkInfo></landmarkInfo> <!-- sap.m.PageAccessibleLandmarkInfo -->
+		</content>
+		<!-- sap.ui.core.Control -->
+		<customHeader>
+			<Bar>
+				<contentLeft>
+					<button icon="http://icons.iconarchive.com/icons/tinylab/android-lollipop-apps/128/DrawIt-icon.png"></button>
+				</contentLeft>
+				<contentMiddle>
+					<Label text="{i18n>menuPageTitle}"/>
+				</contentMiddle>
+			</Bar>
+		</customHeader>
+		<!-- sap.m.IBar -->
+		<footer></footer>
+		<!-- sap.m.IBar -->
+		<subHeader></subHeader>
+		<!-- sap.m.IBar -->
+		<headerContent></headerContent>
+		<!-- sap.ui.core.Control -->
+		<landmarkInfo></landmarkInfo>
+		<!-- sap.m.PageAccessibleLandmarkInfo -->
 	</Page>
-
 </core:View>
