@@ -37,12 +37,24 @@ module.exports = function (grunt) {
 					cwd: '<%= dir.src %>',
 					src: ['**/*', '!**bower_components/**',
 						'!**/node_modules/**', '!**/bower.json',
-						'!**/Gruntfile.js', '!**/package.json'
+						'!**/Gruntfile.js', '!**/package.json', '**/!index.html'
 					], 
 					options: {
 						process: function (content, srcpath) {
 						  return content.replace('192.168.20.20', 'localhost');
 						},
+					  },
+					dest: '<%= dir.dist %>',
+					expand: true
+				},
+				ui5: {
+					cwd: '<%= dir.src %>',
+					src: ['**/index.html'
+					], 
+					options: {
+						// process: function (content, srcpath) {
+						//   return content.replace('192.168.20.20', 'localhost');
+						// },
 					  },
 					dest: '<%= dir.dist %>',
 					expand: true
@@ -241,7 +253,7 @@ module.exports = function (grunt) {
 
 	// aggregated tasks
 	grunt.registerTask('jenk_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'replace_lib', 'build_preload_js']); // 'build_preload_js'
-	grunt.registerTask('local_build', ['clean_build_dir', 'copy:local_general', 'val_js', 'val_xml', 'run_build', 'build_preload_js']); // 'build_preload_js'
+	grunt.registerTask('local_build', ['clean_build_dir', 'copy:local_general', 'copy:ui5', 'val_js', 'val_xml', 'run_build', 'build_preload_js']); // 'build_preload_js'
 	// grunt.registerTask('watch_build', ['clean_build_dir', 'copy_to_build_dir', 'val_js', 'val_xml', 'build_preload_js']);
 	grunt.registerTask('local', function () {
 		grunt.task.run('openui5_connect');

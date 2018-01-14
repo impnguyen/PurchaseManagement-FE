@@ -1,0 +1,22 @@
+{
+    "short_name": "PM",
+    "name": "Purchase Manager",
+    "icons": [
+      {
+        "src": "icons/Pm.png",
+        "type": "image/png",
+        "sizes": "128x128"
+      },
+      {
+        "src": "icons/Pm256.png",
+        "type": "image/png",
+        "sizes": "256x256"
+      }
+    ],
+    "start_url": "index.html?sap-ui-language=de",
+    "background_color": "#00bfd6",
+    "display": "standalone",
+    "orientation": "portrait",
+    "theme_color": "#00bfd6"
+
+  }
