@@ -96,7 +96,7 @@ sap.ui.define(
           })
           .then(function(token) {
             shop = new Shop({ fbIdToken: token });
-            return shop.getShops();
+            return shop.getShops({sGroupId: oThat.getSelectedGroupId()});
           })
           .then(function(oData) {
             oDefGeschaeft.resolve(oData);

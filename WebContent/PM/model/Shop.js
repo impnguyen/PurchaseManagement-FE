@@ -33,7 +33,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
     /**
      * get shops
      */
-    getShops: function() {
+    getShops: function(onConf) {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
         $.ajax({
@@ -41,7 +41,8 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
           method: "GET",
           headers: {
             Authorization: oThat.firebaseIdToken,
-            "Content-Type": "application/json; charset=UTF-8"
+            "Content-Type": "application/json; charset=UTF-8",
+            'group': onConf.sGroupId
           }
         })
           .done(function(data, textStatus, jqXHR) {

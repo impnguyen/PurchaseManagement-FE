@@ -27,6 +27,11 @@ sap.ui.define(
         });
 
         return promise;
+      }, 
+
+      //get group id
+      getSelectedGroupId: function(){
+        return this.getOwnerComponent().getModel('selectedgroup').oData.gr_id;
       }
     });
   }
