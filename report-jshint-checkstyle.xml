@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <checkstyle version="4.3">
+	<file name="build\PM\controller\split.controller.js">
+		<error line="46" column="36" severity="warning" message="&apos;arrow function syntax (=&gt;)&apos; is only available in ES6 (use &apos;esversion: 6&apos;)." source="jshint.W119" />
+	</file>
 </checkstyle>

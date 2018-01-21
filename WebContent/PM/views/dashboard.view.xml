@@ -7,16 +7,28 @@
     xmlns:html="http://www.w3.org/1999/xhtml" controllerName="mpn.PM.controller.dashboard">
     <App id="dashboardApp">
         <pages>
-            <Page title="Purchase Manager" class="sapUiContentPadding" showNavButton="false" id="dashboardPage">
-                <headerContent>
-                    <Button icon="sap-icon://action" tooltip="" press="onShowGroup" />
-                </headerContent>
+            <Page class="sapUiContentPadding" showNavButton="false" id="dashboardPage" busyIndicatorDelay="0">
+                <customHeader>
+                <Toolbar>
+                        <Button icon="http://icons.iconarchive.com/icons/tinylab/android-lollipop-apps/128/DrawIt-icon.png" tooltip="" />
+                        <ToolbarSpacer/>
+                        <Label text="Purchase Manager"></Label>
+                        <ToolbarSpacer/>
+                        <Button icon="sap-icon://refresh" tooltip="" press="onRefreshDb" />
+                    </Toolbar>
+                </customHeader>
                 <subHeader>
-                    <Toolbar></Toolbar>
+                    <Toolbar>
+                        <Button icon="" tooltip="" press="" />
+                        <ToolbarSpacer/>
+                        <Label text="Meine Gruppen"></Label>
+                        <ToolbarSpacer/>
+                        <Button icon="sap-icon://add" tooltip="hinzufügen" press="onAddGroup" />
+                    </Toolbar>
                 </subHeader>
                 <content>
-                    <TileContainer id="groupTileContainer" tileDelete="" tiles="{/TileCollection}">
-                        <StandardTile icon="{icon}" type="{type}" number="{number}" numberUnit="{numberUnit}" title="{title}" info="{info}" infoState="{infoState}" />
+                    <TileContainer id="groupTileContainer" tileDelete="" tiles="{usergroups>/results}">
+                        <StandardTile icon="{icon}" type="{type}" press="onPressTile" number="{number}" numberUnit="{numberUnit}" title="{usergroups>gr_name}" info="{usergroups>gr_beschreibung}" infoState="{infoState}" />
                     </TileContainer>
                 </content>
                 <footer></footer>
