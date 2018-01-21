@@ -11,38 +11,28 @@
 			<List 
 				xmlns="sap.m" id="menuList" busy="false" busyIndicatorDelay="10" visible="true" inset="false" headerText="" headerDesign="Standard" footerText="" mode="SingleSelect" width="100%" showUnread="false" noDataText="" showNoData="true" enableBusyIndicator="true" modeAnimationOn="true" showSeparators="All" swipeDirection="Both" growing="false" growingThreshold="20" growingTriggerText="" growingScrollToLoad="false" growingDirection="Downwards" rememberSelections="true" keyboardMode="Navigation" backgroundDesign="Solid" items="{menu>/menuItems}">
 				<items>
-					<!-- sap.m.ListItemBase -->
 					<StandardListItem 
 						xmlns="sap.m" type="Active" visible="true" title="{menu>title}" description="" icon="" iconInset="true" iconDensityAware="true" activeIcon="" info="" infoState="None" adaptTitleSize="true" titleTextDirection="Inherit" infoTextDirection="Inherit" ariaLabelledBy="" validateFieldGroup="" tap="" detailTap="" press="onMenuPress" detailPress="">
 					</StandardListItem>
 				</items>
 				<swipeContent></swipeContent>
-				<!-- sap.ui.core.Control -->
 				<headerToolbar></headerToolbar>
-				<!-- sap.m.Toolbar, since 1.16 -->
 				<infoToolbar></infoToolbar>
-				<!-- sap.m.Toolbar, since 1.16 -->
 			</List>
 		</content>
-		<!-- sap.ui.core.Control -->
-		<customHeader>
+		<!-- <customHeader>
 			<Bar>
 				<contentLeft>
-					<button icon="http://icons.iconarchive.com/icons/tinylab/android-lollipop-apps/128/DrawIt-icon.png"></button>
+					<button icon="" text="back"></button>
 				</contentLeft>
 				<contentMiddle>
 					<Label text="{i18n>menuPageTitle}"/>
 				</contentMiddle>
 			</Bar>
-		</customHeader>
-		<!-- sap.m.IBar -->
+		</customHeader> -->
 		<footer></footer>
-		<!-- sap.m.IBar -->
 		<subHeader></subHeader>
-		<!-- sap.m.IBar -->
 		<headerContent></headerContent>
-		<!-- sap.ui.core.Control -->
 		<landmarkInfo></landmarkInfo>
-		<!-- sap.m.PageAccessibleLandmarkInfo -->
 	</Page>
 </core:View>

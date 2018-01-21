@@ -5,8 +5,8 @@
 		"id": "PM",
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
-		"title": "PUrchase Management",
-		"description": "A little purchase managment tool with ui5",
+		"title": "Purchase Management",
+		"description": "A purchase managment tool",
 		"applicationVersion": {
 			"version": "0.0.1"
 		},
@@ -14,7 +14,7 @@
 			"menu_de": {
 				"uri": "model/menu_de.json",
 				"type": "JSON"
-			}, 
+			},
 			"menu_en": {
 				"uri": "model/menu_en.json",
 				"type": "JSON"
@@ -35,28 +35,33 @@
 	},
 	"sap.ui5": {
 		"_version": "1.1.0",
-		"rootView": "mpn.PM.views/split",
+		"rootView": {
+			"viewName": "mpn.PM.views.app",
+			"type" : "XML"
+		}, 
+		"contentDensities": {
+			"cozy": true,
+			"compact": true
+		},
 		"dependencies": {
-			"minUI5Version": "1.48",
+			"minUI5Version": "1.50",
 			"libs": {
 				"sap.m": {
-					
+
 				},
 				"sap.ui.layout": {
-					
+
 				},
 				"sap.ui.unified": {
-					
+
 				}
 			}
 		},
 		"resources": {
-			"css": [
-				{
-					"uri": "styles/style.css",
-					"id": "purchaseStyle"
-				}
-			]
+			"css": [{
+				"uri": "styles/style.css",
+				"id": "purchaseStyle"
+			}]
 		},
 		"models": {
 			"i18n": {
@@ -70,6 +75,39 @@
 			"menu_en": {
 				"type": "sap.ui.model.json.JSONModel",
 				"dataSource": "menu_en"
+			}
+		},
+
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "mpn.PM.views",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"clearTarget": false,
+				"transition": "flip"
+			},
+			"routes": [{
+					"pattern": "",
+					"name": "dashboard",
+					"target": "dashboard"
+				},
+				{
+					"pattern": "myGroup/{groupId}",
+					"name": "myGroup",
+					"target": ["myGroup"]
+				}
+			],
+			"targets": {
+				"dashboard": {
+					"viewName": "dashboard",
+					"viewLevel": 2
+				},
+				"myGroup": {
+					"viewName": "split",
+					"viewLevel": 1
+				}
 			}
 		}
 	}

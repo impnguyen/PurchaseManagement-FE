@@ -1,0 +1,26 @@
+<core:View 
+    xmlns:l="sap.ui.layout" 
+    xmlns:core="sap.ui.core" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns="sap.m" 
+    xmlns:u="sap.ui.unified" 
+    xmlns:html="http://www.w3.org/1999/xhtml" controllerName="mpn.PM.controller.dashboard">
+    <App id="dashboardApp">
+        <pages>
+            <Page title="Purchase Manager" class="sapUiContentPadding" showNavButton="false" id="dashboardPage">
+                <headerContent>
+                    <Button icon="sap-icon://action" tooltip="" press="onShowGroup" />
+                </headerContent>
+                <subHeader>
+                    <Toolbar></Toolbar>
+                </subHeader>
+                <content>
+                    <TileContainer id="groupTileContainer" tileDelete="" tiles="{/TileCollection}">
+                        <StandardTile icon="{icon}" type="{type}" number="{number}" numberUnit="{numberUnit}" title="{title}" info="{info}" infoState="{infoState}" />
+                    </TileContainer>
+                </content>
+                <footer></footer>
+            </Page>
+        </pages>
+    </App>
+</core:View>

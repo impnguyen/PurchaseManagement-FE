@@ -3,12 +3,12 @@
  * @author Manh Phuoc Nguyen
  */
 sap.ui.define([
-  "sap/ui/core/mvc/Controller",
+  "mpn/PM/controller/BaseController",
   "sap/m/MessageToast"
-], function (Controller, MessageToast) {
+], function (BaseController, MessageToast) {
   "use strict";
 
-  return Controller.extend("mpn.PM.controller.split", {
+  return BaseController.extend("mpn.PM.controller.split", {
 
     onInit: function () {
       //set menu model based on language
@@ -34,6 +34,10 @@ sap.ui.define([
 
       this.getView().byId("pmSplitApp").to(this.createId(sPageId));
       this.getView().byId("pmSplitApp").hideMaster();
+    }, 
+
+    onCloseGroup: function(){
+      this.getRouter().navTo("dashboard");
     }
 
   });
