@@ -26,11 +26,19 @@ sap.ui.define(
       formatter: formatter,
 
       onInit: function() {
-        
+        //handle routing
+        this.getRouter()
+          .getRoute("shop")
+          .attachMatched(this._onRouteMatched, this);
       },
 
       onAfterRendering: function(){
-        this.setupModels();
+        //this.setupModels();
+      },
+
+      _onRouteMatched: function(oEvent){
+        var oArgs = oEvent.getParameter("arguments");
+        this.setupModels(oArgs.groupId);
       },
 
       /**
@@ -139,13 +147,15 @@ sap.ui.define(
        * navigate back to top master list
        */
       onNavBack: function() {
-        this.getView().oParent.oParent.backToTopMaster();
+        this.getRouter().navTo("myGroup", {
+          groupId: this.getSelectedGroupId()
+        });
       },
 
       /**
        * set shops entities to view list
        */
-      setShopsToView: function(callback) {
+      setShopsToView: function(sGroupId) {
         this.getView().setBusy(true);
         var oThat = this;
         var shop;
@@ -156,7 +166,7 @@ sap.ui.define(
           })
           .then(function(token) {
             shop = new Shop({ fbIdToken: token });
-            return shop.getShops({sGroupId: oThat.getSelectedGroupId()});
+            return shop.getShops({sGroupId: sGroupId});//oThat.getSelectedGroupId
           })
           .then(function(oData) {
             oThat.getView().setModel(new JSONModel(oData), "Geschaefte");
@@ -245,11 +255,11 @@ sap.ui.define(
       /**
        * setup models: device; shop entities
        */
-      setupModels: function() {
+      setupModels: function(sGroupId) {
         //setup device model
         this.getView().setModel(new JSONModel(sap.ui.Device), "device");
         //set geschaefte entityset
-        this.setShopsToView();
+        this.setShopsToView(sGroupId);
       },
 
       /**

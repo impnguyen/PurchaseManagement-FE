@@ -29,7 +29,9 @@ sap.ui.define(
      * navigate back to master view
      */
       onNavBack: function() {
-        this.getView().oParent.oParent.backToTopMaster();
+        this.getRouter().navTo("myGroup", {
+          groupId: this.getSelectedGroupId()
+        });
       },
 
       setPurchaseInRange: function(sFirstDayInYear, sLastDayInYear) {

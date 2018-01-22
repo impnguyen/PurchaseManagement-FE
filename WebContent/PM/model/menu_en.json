@@ -1,28 +1,31 @@
 {
     "meta": {},
-    "menuItems": [
-        {
+    "menuItems": [{
             "title": "add purchase",
             "description": "add a new purchase to your budget",
             "pageId": "purchaseView",
+            "viewName": "purchase",
             "icon": "sap-icon://cart"
         },
         {
             "title": "overview",
             "description": "get a monthly overview",
             "pageId": "overviewView",
+            "viewName": "overview",
             "icon": "sap-icon://line-chart"
         },
         {
             "title": "shop maintenance",
             "description": "maintain your shops",
             "pageId": "shopView",
+            "viewName": "shop",
             "icon": "sap-icon://addresses"
         },
         {
             "title": "statistics",
             "description": "get a maps with your purchases, year overview, total review",
             "pageId": "statsView",
+            "viewName": "stats",
             "icon": "sap-icon://business-objects-experience"
         }
     ]

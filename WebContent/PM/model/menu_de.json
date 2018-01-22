@@ -1,28 +1,31 @@
 {
     "meta": {},
-    "menuItems": [
-        {
+    "menuItems": [{
             "title": "Einkauf hinzufügen",
             "description": "Einen Einkauf erfassen",
             "pageId": "purchaseView",
+            "viewName": "purchase",
             "icon": "sap-icon://cart"
         },
         {
             "title": "Übersicht",
             "description": "Monatsübersicht",
             "pageId": "overviewView",
+            "viewName": "overview",
             "icon": "sap-icon://line-chart"
         },
         {
             "title": "Verwaltung der Geschäfte",
             "description": "Geschäfte verwalten",
             "pageId": "shopView",
+            "viewName": "shop",
             "icon": "sap-icon://addresses"
         },
         {
             "title": "Statistik",
             "description": "Eine Karte über alle Einkäufe, Übersicht",
             "pageId": "statsView",
+            "viewName": "stats",
             "icon": "sap-icon://business-objects-experience"
         }
     ]

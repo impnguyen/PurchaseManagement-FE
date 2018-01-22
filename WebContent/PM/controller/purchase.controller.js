@@ -54,7 +54,9 @@ sap.ui.define(
 		 * on navigate back to top master
 		 */
       onNavBack: function() {
-        this.getView().oParent.oParent.backToTopMaster();
+        this.getRouter().navTo("myGroup", {
+          groupId: this.getSelectedGroupId()
+        });
       },
 
       /**

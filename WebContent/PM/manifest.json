@@ -85,8 +85,8 @@
 				"viewPath": "mpn.PM.views",
 				"controlId": "app",
 				"controlAggregation": "pages",
-				"async": "true",
-				"clearTarget": "true",
+				"async": true,
+				"clearTarget": true,
 				"transition": "flip"
 			},
 			"routes": [{
@@ -97,17 +97,59 @@
 				{
 					"pattern": "myGroup/{groupId}",
 					"name": "myGroup",
-					"target": ["myGroup"]
+					"target": "myGroup"
+				},
+				{
+					"pattern": "myGroup/{groupId}/shop",
+					"name": "shop",
+					"target": ["myGroup", "shop"]
+				},
+				{
+					"pattern": "myGroup/{groupId}/purchase",
+					"name": "purchase",
+					"target": ["myGroup", "purchase"]
+				},
+				{
+					"pattern": "myGroup/{groupId}/overview",
+					"name": "overview",
+					"target": ["myGroup", "overview"]
+				},
+				{
+					"pattern": "myGroup/{groupId}/stats",
+					"name": "stats",
+					"target": ["myGroup", "stats"]
 				}
 			],
 			"targets": {
 				"dashboard": {
 					"viewName": "dashboard",
-					"viewLevel": 2
+					"viewLevel": 2,
+					"transition": "flip"
 				},
 				"myGroup": {
 					"viewName": "split",
-					"viewLevel": 1
+					"viewLevel": 1,
+					"transition": "slide"
+				},
+				"shop": {
+					"viewName": "shop",
+					"viewLevel": 2,
+					"transition": "slide"
+				},
+				"purchase": {
+					"viewName": "purchase",
+					"viewLevel": 2,
+					"transition": "slide"
+				},
+				"overview": {
+					"viewName": "overview",
+					"viewLevel": 2,
+					"transition": "slide"
+				},
+				"stats": {
+					"viewName": "stats",
+					"viewLevel": 2,
+					"transition": "slide"
 				}
 			}
 		}

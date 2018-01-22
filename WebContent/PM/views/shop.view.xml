@@ -6,7 +6,7 @@
 	xmlns:u="sap.ui.unified" controllerName="mpn.PM.controller.shop" 
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	<Page 
-		xmlns="sap.m" id="shopPage" busy="false" busyIndicatorDelay="1000" visible="true" fieldGroupIds="" title="{i18n>shopPageTitle}" titleLevel="Auto" showNavButton="{device>/system/phone}" showHeader="true" showSubHeader="true" navButtonText="" navButtonTooltip="" enableScrolling="true" icon="" backgroundDesign="Standard" navButtonType="Back" showFooter="true" contentOnlyBusy="false" floatingFooter="false" validateFieldGroup="" navButtonTap="" navButtonPress="onNavBack">
+		xmlns="sap.m" id="shopPage" busy="false" busyIndicatorDelay="100" visible="true" title="{i18n>shopPageTitle}" titleLevel="Auto" showNavButton="{device>/system/phone}" showHeader="true" showSubHeader="true" navButtonText="back" enableScrolling="true" backgroundDesign="Standard" navButtonType="Back" showFooter="true" contentOnlyBusy="false" floatingFooter="false" navButtonPress="onNavBack">
 		<content>
 			<Table showNoData="false" height="10%">
 				<items></items>

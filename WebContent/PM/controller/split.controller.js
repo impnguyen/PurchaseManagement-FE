@@ -59,10 +59,11 @@ sap.ui.define(
       onMenuPress: function(oEvent) {
         var sPath = oEvent.oSource.oBindingContexts.menu.sPath;
         var oMenuModel = this.getView().getModel("menu");
-        var sPageId = oMenuModel.getProperty(sPath).pageId;
+        var sViewName = oMenuModel.getProperty(sPath).viewName;
 
-        this.getView().byId("pmSplitApp").to(this.createId(sPageId));
-        this.getView().byId("pmSplitApp").hideMaster();
+        this.getRouter().navTo(sViewName, {
+          groupId: this.getSelectedGroupId()
+        });
       },
 
       onCloseGroup: function() {
