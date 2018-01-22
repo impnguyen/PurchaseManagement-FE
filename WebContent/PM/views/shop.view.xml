@@ -70,7 +70,7 @@
 			</Toolbar>
 		</subHeader>
 		<headerContent>
-			<Button icon="sap-icon://refresh" press="onCloseDialog" />
+			<Button icon="sap-icon://refresh" press="onRefreshShops" />
 		</headerContent>
 		<landmarkInfo></landmarkInfo>
 	</Page>

@@ -26,6 +26,10 @@ sap.ui.define(
       formatter: formatter,
 
       onInit: function() {
+        
+      },
+
+      onAfterRendering: function(){
         this.setupModels();
       },
 
