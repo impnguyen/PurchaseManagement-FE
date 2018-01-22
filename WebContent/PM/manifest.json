@@ -37,8 +37,8 @@
 		"_version": "1.1.0",
 		"rootView": {
 			"viewName": "mpn.PM.views.app",
-			"type" : "XML"
-		}, 
+			"type": "XML"
+		},
 		"contentDensities": {
 			"cozy": true,
 			"compact": true
@@ -85,7 +85,8 @@
 				"viewPath": "mpn.PM.views",
 				"controlId": "app",
 				"controlAggregation": "pages",
-				"clearTarget": false,
+				"async": "true",
+				"clearTarget": "true",
 				"transition": "flip"
 			},
 			"routes": [{

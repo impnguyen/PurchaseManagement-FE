@@ -160,10 +160,12 @@ sap.ui.define(
           })
           .then(function(oData) {
             oThat.getView().setModel(new JSONModel(oData), "Geschaefte");
-            oThat.getView().setBusy(false);
           })
           .catch(function(oError) {
             MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
+            oThat.getView().setBusy(false);
+          })
+          .then(function(){
             oThat.getView().setBusy(false);
           });
       },
