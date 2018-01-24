@@ -108,7 +108,7 @@ sap.ui.define(
           })
           .then(function(token) {
             payer = new Payer({ fbIdToken: token });
-            return payer.getPayers();
+            return payer.getPayers({sGroupId: oThat.getSelectedGroupId()});
           })
           .then(function(oData) {
             oDefZahler.resolve(new JSONModel(oData));

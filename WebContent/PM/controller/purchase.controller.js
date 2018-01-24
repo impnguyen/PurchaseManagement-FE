@@ -102,7 +102,7 @@ sap.ui.define(
           .then(function(token) {
             //TODO: refactor contructor as object
             payer = new Payer({ fbIdToken: token });
-            return payer.getPayers();
+            return payer.getPayers({sGroupId: oThat.getSelectedGroupId()});
           })
           .then(function(oData) {
             oThat.getView().setModel(new JSONModel(oData), "Zahler");

@@ -16,14 +16,15 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
     /**
      * get payers entityset with promise
      */
-    getPayers: function() {
+    getPayers: function(onConf) {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
         $.ajax({
           method: "GET",
           url: oThat.sConnString + oThat.sPayerEntityUrl,
           headers: {
-            Authorization: oThat.firebaseIdToken
+            Authorization: oThat.firebaseIdToken,
+            'group': onConf.sGroupId
           }
         })
           .done(function(data, textStatus, jqXHR) {
