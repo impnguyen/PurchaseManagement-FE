@@ -59,7 +59,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
     /**
      * add shop
      */
-    createShop: function() {
+    createShop: function(onConf) {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
         $.ajax({
@@ -70,7 +70,8 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
           data: JSON.stringify(oThat.getShopObj()),
           headers: {
             Authorization: oThat.firebaseIdToken,
-            "Content-Type": "application/json; charset=UTF-8"
+            "Content-Type": "application/json; charset=UTF-8",
+            'group': onConf.sGroupId
           }
         })
           .done(function(data, textStatus, jqXHR) {

@@ -71,7 +71,7 @@ sap.ui.define(
           .then(function(token) {
             oNewShop.fbIdToken = token;
             shop = new Shop(oNewShop);
-            return shop.createShop();
+            return shop.createShop({sGroupId: oThat.getSelectedGroupId()});
           })
           .then(function(oData) {
             oThat.onRefreshShops();
@@ -155,7 +155,7 @@ sap.ui.define(
       /**
        * set shops entities to view list
        */
-      setShopsToView: function(sGroupId) {
+      setShopsToView: function() {
         this.getView().setBusy(true);
         var oThat = this;
         var shop;
@@ -166,7 +166,7 @@ sap.ui.define(
           })
           .then(function(token) {
             shop = new Shop({ fbIdToken: token });
-            return shop.getShops({sGroupId: sGroupId});//oThat.getSelectedGroupId
+            return shop.getShops({sGroupId: oThat.getSelectedGroupId()});//oThat.getSelectedGroupId
           })
           .then(function(oData) {
             oThat.getView().setModel(new JSONModel(oData), "Geschaefte");
@@ -255,11 +255,11 @@ sap.ui.define(
       /**
        * setup models: device; shop entities
        */
-      setupModels: function(sGroupId) {
+      setupModels: function() {
         //setup device model
         this.getView().setModel(new JSONModel(sap.ui.Device), "device");
         //set geschaefte entityset
-        this.setShopsToView(sGroupId);
+        this.setShopsToView();
       },
 
       /**
