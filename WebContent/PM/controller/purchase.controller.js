@@ -142,15 +142,15 @@ sap.ui.define(
 
           //create new purchase
           this.getFireBaseIdToken()
-            .then(function(token) {
+            .then((token)=> {
               return token;
             })
-            .then(function(token) {
+            .then((token)=> {
               //TODO: refactor contructor as object
               purchase = new Purchase(oThat.createNewPurchaseObject(token));
-              return purchase.createPurchase();
+              return purchase.createPurchase({sGroupId: this.getSelectedGroupId()});
             })
-            .then(function(oData) {
+            .then((oData) =>{
               oThat.getView().getModel("PurchaseTemp").newEink_id =
                 oData.insertedId.eink_id;
               oThat.getView().byId("successMs").setVisible(true);
@@ -158,7 +158,7 @@ sap.ui.define(
               oThat.getGeschaeftEntitySet();
               oThat.getView().setBusy(false);
             })
-            .catch(function(oError) {
+            .catch((oError) =>{
               //error handling
               MessageToast.show("Fehler. Probiere es später aus.");
               oThat.getView().setBusy(false);
@@ -183,7 +183,8 @@ sap.ui.define(
             //TODO: refactor contructor as object
             purchase = new Purchase({ fbIdToken: token });
             return purchase.deletePurchase(
-              oThat.getView().getModel("PurchaseTemp").newEink_id
+              oThat.getView().getModel("PurchaseTemp").newEink_id,
+              {sGroupId: this.getSelectedGroupId()}
             );
           })
           .then(function(oData) {
@@ -246,7 +247,8 @@ sap.ui.define(
             this.getView().byId("geschaefteCb").getSelectedKey()
           ),
           payerId: parseInt(this.getView().byId("zahlerCb").getSelectedKey()),
-          fbIdToken: sFbToken
+          fbIdToken: sFbToken, 
+          grId: this.getSelectedGroupId()
         };
       }
     });

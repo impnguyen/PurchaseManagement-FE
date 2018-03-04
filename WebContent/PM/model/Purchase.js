@@ -10,13 +10,14 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
       this._purchaseValue = oPurchase.purchaseValue;
       this._shopId = oPurchase.shopId;
       this._payerId = oPurchase.payerId;
+      this._grId = oPurchase.grId;
       this.firebaseIdToken = oPurchase.fbIdToken;
 
       this.sHostUrl = "http://192.168.20.20";
       this.sHostPort = "3000";
       this.sConnString = this.sHostUrl + ":" + this.sHostPort;
-      this.sPurchaseEntityUrl = "/EinkaufEntity";
-      this.sPurchaseEntitySetUrl = "/EinkaufEntitySet";
+      this.sPurchaseEntityUrl = "/PurchaseEntity";
+      this.sPurchaseEntitySetUrl = "/PurchaseEntitySet";
       this.sExpandByLocation = "byGeschaeft";
     },
 
@@ -29,7 +30,8 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
         eink_datum: this._purchaseDate,
         eink_wert: this._purchaseValue,
         ges_id: this._shopId,
-        zah_id: this._payerId
+        zah_id: this._payerId,
+        gr_id: this._grId
       };
     },
 
@@ -37,7 +39,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
 		  * create a new purchase
 		  * post request
 		  */
-    createPurchase: function() {
+    createPurchase: function(oConf) {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
         $.ajax({
@@ -48,7 +50,8 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
           data: JSON.stringify(oThat.getPurchaseJson()),
           headers: {
             Authorization: oThat.firebaseIdToken,
-            "Content-Type": "application/json; charset=UTF-8"
+            "Content-Type": "application/json; charset=UTF-8",
+            group: oConf.sGroupId
           }
         })
           .done(function(data, textStatus, jqXHR) {
@@ -66,7 +69,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
 		 * delete a purchase
 		 * delete request
 		 */
-    deletePurchase: function(sPurchaseId) {
+    deletePurchase: function(sPurchaseId, oConf) {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
         $.ajax({
@@ -74,7 +77,8 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
           url: oThat.sConnString + oThat.sPurchaseEntityUrl + "/" + sPurchaseId,
           headers: {
             Authorization: oThat.firebaseIdToken,
-            "Content-Type": "application/json; charset=UTF-8"
+            "Content-Type": "application/json; charset=UTF-8",
+            group: oConf.sGroupId
           }
         })
           .done(function(data, textStatus, jqXHR) {
@@ -92,14 +96,16 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
 		 * get purchases
 		 * get request
 		 */
-    getAllPurchases: function() {
+    getAllPurchases: function(oConf) {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
         $.ajax({
           method: "GET",
           url: oThat.sConnString + oThat.sPurchaseEntitySetUrl,
           headers: {
-            Authorization: oThat.firebaseIdToken
+            Authorization: oThat.firebaseIdToken,
+            "Content-Type": "application/json; charset=UTF-8",
+            group: oConf.sGroupId
           }
         })
           .done(function(data, textStatus, jqXHR) {
@@ -116,7 +122,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
     /**
 		 * get purchases by ges_id
 		 */
-    getPurchasesByShopId: function(iGesId) {
+    getPurchasesByShopId: function(iGesId, oConf) {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
         $.ajax({
@@ -129,7 +135,8 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
           method: "GET",
           headers: {
             Authorization: oThat.firebaseIdToken,
-            "Content-Type": "application/json; charset=UTF-8"
+            "Content-Type": "application/json; charset=UTF-8",
+            group: oConf.sGroupId
           }
         })
           .done(function(data, textStatus, jqXHR) {
@@ -146,7 +153,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
     /**
      * get purchases between range parameters
      */
-    getPurchasesInRange: function(oRange) {
+    getPurchasesInRange: function(oRange, oConf) {
       var oThat = this;
       var promise = new Promise(function(resolve, reject) {
         $.ajax({
@@ -158,7 +165,8 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
           dataType: "json",
           headers: {
             Authorization: oThat.firebaseIdToken,
-            "Content-Type": "application/json; charset=UTF-8"
+            "Content-Type": "application/json; charset=UTF-8",
+            group: oConf.sGroupId
           },
           url: oThat.sConnString + oThat.sPurchaseEntitySetUrl
         })

@@ -45,10 +45,15 @@ sap.ui.define(
           })
           .then(function(token) {
             purchase = new Purchase({ fbIdToken: token });
-            return purchase.getPurchasesInRange({
-              firstDayInYear: sFirstDayInYear,
-              lastDayInYear: sLastDayInYear
-            });
+            return purchase.getPurchasesInRange(
+              {
+                firstDayInYear: sFirstDayInYear,
+                lastDayInYear: sLastDayInYear
+              },
+              {
+                sGroupId: this.getSelectedGroupId()
+              }
+            );
           })
           .then(function(oData) {
             //setup chart with data
@@ -98,7 +103,7 @@ sap.ui.define(
           })
           .then(function(token) {
             shop = new Shop({ fbIdToken: token });
-            return shop.getShops({sGroupId: oThat.getSelectedGroupId()});
+            return shop.getShops({ sGroupId: oThat.getSelectedGroupId() });
           })
           .then(function(oData) {
             oDefGeschaeft.resolve(oData);
@@ -110,17 +115,19 @@ sap.ui.define(
 
         //get purchases
         this.getFireBaseIdToken()
-          .then(function(token) {
+          .then(token => {
             return token;
           })
-          .then(function(token) {
+          .then(token => {
             purchase = new Purchase({ fbIdToken: token });
-            return purchase.getAllPurchases();
+            return purchase.getAllPurchases({
+              sGroupId: this.getSelectedGroupId()
+            });
           })
-          .then(function(oData) {
+          .then(oData => {
             oDefEinkauf.resolve(oData);
           })
-          .catch(function(oError) {
+          .catch(oError => {
             MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
             oDefEinkauf.reject();
           });
@@ -266,7 +273,7 @@ sap.ui.define(
             console.log(error);
           }
         }
-        this.createChart(aMonthRevenues, 'horizontalBar');
+        this.createChart(aMonthRevenues, "horizontalBar");
       },
 
       //create canvas element to html
@@ -308,7 +315,7 @@ sap.ui.define(
        */
       setModels: function() {
         this.getView().setModel(new JSONModel(sap.ui.Device), "device");
-        this.sInitChartType = 'horizontalBar';
+        this.sInitChartType = "horizontalBar";
       },
 
       /**
@@ -358,8 +365,8 @@ sap.ui.define(
                 backgroundColor: "rgb(251, 198, 100)",
                 borderColor: "rgb(251, 198, 100)",
                 borderWidth: 0.5,
-                hoverBackgroundColor: 'rgb(255, 140, 0)',
-                hoverBorderColor: 'rgb(255, 140, 0)',
+                hoverBackgroundColor: "rgb(255, 140, 0)",
+                hoverBorderColor: "rgb(255, 140, 0)",
                 hoverBorderWidth: 1
               }
             ]
@@ -378,23 +385,22 @@ sap.ui.define(
             }
           }
         });
-      }, 
+      },
 
       /**
        * on change chart type
        */
-      onChangeChartType: function(){
+      onChangeChartType: function() {
         var aMonthReveneus = this.chartjs.data.datasets.slice(0);
         this.chartjs.destroy();
 
-        if ( this.sInitChartType === 'horizontalBar') {
+        if (this.sInitChartType === "horizontalBar") {
           //vertical
-          this.sInitChartType = 'bar';
+          this.sInitChartType = "bar";
           this.createChart(aMonthReveneus[0].data, this.sInitChartType);
-          
         } else {
           //horizontal
-          this.sInitChartType = 'horizontalBar';          
+          this.sInitChartType = "horizontalBar";
           this.createChart(aMonthReveneus[0].data, this.sInitChartType);
         }
       }

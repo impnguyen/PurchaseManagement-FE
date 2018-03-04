@@ -84,18 +84,18 @@ sap.ui.define(
 
         //get purchases
         this.getFireBaseIdToken()
-          .then(function(token) {
+          .then((token) => {
             return token;
           })
-          .then(function(token) {
+          .then((token) => {
             //TODO: refactor contructor as object
-            purchase = new Purchase({fbIdToken: token});
-            return purchase.getAllPurchases();
+            purchase = new Purchase({ fbIdToken: token });
+            return purchase.getAllPurchases({sGroupId: this.getSelectedGroupId()});
           })
-          .then(function(oData) {
+          .then((oData)=> {
             oDefEinkauf.resolve(new JSONModel(oData));
           })
-          .catch(function(oError) {
+          .catch((oError)=> {
             //error handling
             MessageToast.show("Die Einkäufe konnten nicht geladen werden.");
             oDefEinkauf.reject();
@@ -108,7 +108,7 @@ sap.ui.define(
           })
           .then(function(token) {
             payer = new Payer({ fbIdToken: token });
-            return payer.getPayers({sGroupId: oThat.getSelectedGroupId()});
+            return payer.getPayers({ sGroupId: oThat.getSelectedGroupId() });
           })
           .then(function(oData) {
             oDefZahler.resolve(new JSONModel(oData));
@@ -125,8 +125,8 @@ sap.ui.define(
             return token;
           })
           .then(function(token) {
-            shop = new Shop({fbIdToken: token});
-            return shop.getShops({sGroupId: oThat.getSelectedGroupId()});
+            shop = new Shop({ fbIdToken: token });
+            return shop.getShops({ sGroupId: oThat.getSelectedGroupId() });
           })
           .then(function(oData) {
             oDefGeschaeft.resolve(new JSONModel(oData));
