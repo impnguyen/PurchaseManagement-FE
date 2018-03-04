@@ -34,6 +34,7 @@ sap.ui.define(
 		 * @memberOf module:Overview
 		 */
       onInit: function() {
+        //TODO: integrate routing and reinit data after model change
         this.setupDeviceModel();
       },
 
