@@ -32,11 +32,11 @@ sap.ui.define(
           .attachMatched(this._onRouteMatched, this);
       },
 
-      onAfterRendering: function(){
+      onAfterRendering: function() {
         //this.setupModels();
       },
 
-      _onRouteMatched: function(oEvent){
+      _onRouteMatched: function(oEvent) {
         var oArgs = oEvent.getParameter("arguments");
         this.setupModels(oArgs.groupId);
       },
@@ -71,7 +71,7 @@ sap.ui.define(
           .then(function(token) {
             oNewShop.fbIdToken = token;
             shop = new Shop(oNewShop);
-            return shop.createShop({sGroupId: oThat.getSelectedGroupId()});
+            return shop.createShop({ sGroupId: oThat.getSelectedGroupId() });
           })
           .then(function(oData) {
             oThat.onRefreshShops();
@@ -166,7 +166,7 @@ sap.ui.define(
           })
           .then(function(token) {
             shop = new Shop({ fbIdToken: token });
-            return shop.getShops({sGroupId: oThat.getSelectedGroupId()});//oThat.getSelectedGroupId
+            return shop.getShops({ sGroupId: oThat.getSelectedGroupId() }); //oThat.getSelectedGroupId
           })
           .then(function(oData) {
             oThat.getView().setModel(new JSONModel(oData), "Geschaefte");
@@ -175,7 +175,7 @@ sap.ui.define(
             MessageToast.show("Die Geschäfte konnten nicht geladen werden.");
             oThat.getView().setBusy(false);
           })
-          .then(function(){
+          .then(function() {
             oThat.getView().setBusy(false);
           });
       },
@@ -185,31 +185,41 @@ sap.ui.define(
 		 * open items based on selected shop
 		 */
       onPressShopItem: function(oEvent) {
-        // var sSelPath = oEvent.oSource.oBindingContexts.Geschaefte.sPath;
-        // var oModel = oEvent.oSource.oBindingContexts.Geschaefte.oModel;
-        // var oSelObj = oModel.getProperty(sSelPath);
-        // var iSelGesId = oSelObj.ges_id;
-        // var oThat = this;
+        var sSelPath = oEvent.oSource.oBindingContexts.Geschaefte.sPath;
+        var oModel = oEvent.oSource.oBindingContexts.Geschaefte.oModel;
+        var oSelObj = oModel.getProperty(sSelPath);
+        var iSelGesId = oSelObj.ges_id;
+        var purchase;
 
-        // //get shops purchases
-        // this.getView().setBusy(true);
-        // var purchase = new Purchase();
-        // purchase
-        //   .getPurchasesByShopId()
-        //   .then(function(data) {
-        //     var oModel2 = new JSONModel();
-        //     oModel2.setData(data.results);
-        //     oThat.getView().setModel(oModel2, "shopPurchases");
-        //     oThat.getView().setBusy(false);
-        //   })
-        //   .catch(function(error) {
-        //     MessageToast.show(
-        //       "Die Einkäufe konnten nicht geladen werden. Bitte wende dich an den Entwickler."
-        //     );
-        //     oThat.getView().setBusy(false);
-        //   });
+        //get shop purchases
+        this.getView().setBusy(true);
+        
 
-        // this.getView().byId("purchasesFromShop").open();
+        this.getFireBaseIdToken()
+          .then(token => {
+            return token;
+          })
+          .then(token => {
+            purchase = new Purchase({ fbIdToken: token });
+            return purchase.getPurchasesByShopId(iSelGesId, {
+              sGroupId: this.getSelectedGroupId()
+            });
+          })
+          .then(oData => {
+            this
+              .getView()
+              .setModel(new JSONModel(oData.results), "shopPurchases");
+          })
+          .catch(oError => {
+            //error handling
+            MessageToast.show(
+              "Die Einkäufe zumm ausgewählten Laden konnten nicht geladen werden. "
+            );
+          })
+          .then(() => {
+            this.getView().byId("purchasesFromShop").open();
+            this.getView().setBusy(false);
+          });
       },
 
       /**

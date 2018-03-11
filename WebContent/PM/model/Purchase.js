@@ -18,7 +18,7 @@ sap.ui.define(["sap/ui/base/Object", "sap/ui/model/json/JSONModel"], function(
       this.sConnString = this.sHostUrl + ":" + this.sHostPort;
       this.sPurchaseEntityUrl = "/PurchaseEntity";
       this.sPurchaseEntitySetUrl = "/PurchaseEntitySet";
-      this.sExpandByLocation = "byGeschaeft";
+      this.sExpandByLocation = "byShop";
     },
 
     /**

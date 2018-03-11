@@ -51,7 +51,7 @@ sap.ui.define(
                 lastDayInYear: sLastDayInYear
               },
               {
-                sGroupId: this.getSelectedGroupId()
+                sGroupId: oThat.getSelectedGroupId()
               }
             );
           })
